@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="mainColor">#3F51B5</color>
+    <color name="white">#FFFFFF</color>
+    <color name="orange">#F5A623</color>
+    <color name="red">#ffff0000</color>
+    <color name="green">#7ed321</color>
+    <color name="gray">#888888</color>
+    <color name="gray_light">#bbbbbb</color>
+    <color name="gray_light_bg">#F3F3F3</color>
+    <color name="blue_light">#caeaf8</color>
+    <color name="blue">#015ac9</color>
+    <color name="black">#333</color>
+    <!--主题下默认的背景色-->
+    <color name="bac">@color/background_material_light</color>
+
+
+</resources>
