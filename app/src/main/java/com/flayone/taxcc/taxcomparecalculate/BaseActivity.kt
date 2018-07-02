@@ -1,8 +1,8 @@
 package com.flayone.taxcc.taxcomparecalculate
 
 import android.annotation.SuppressLint
-import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.os.IBinder
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AppCompatActivity
@@ -49,8 +49,7 @@ class BaseActivity : AppCompatActivity() {
     open fun initView(){}
 
     fun startAct(cls: Class<*>) {
-        intent.component = ComponentName(this, cls)
-        startActivity(intent)
+        startActivity(Intent(this, cls))
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

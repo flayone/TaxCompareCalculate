@@ -48,7 +48,7 @@ open class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (getPreference(this,"SETTING","LOAD_MODE",false)){
+        if (!getPreference(this,"SETTING","LOAD_MODE",false)){
             setContentView(R.layout.activity_main)
         }else{
             setContentView(R.layout.activity_main_section_two)
