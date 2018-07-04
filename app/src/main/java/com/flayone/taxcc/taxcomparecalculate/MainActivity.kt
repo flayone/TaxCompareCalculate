@@ -50,8 +50,10 @@ open class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         if (!getPreference(this,"SETTING","LOAD_MODE",false)){
             setContentView(R.layout.activity_main)
+            Coloring.get().setViewRipple(calculate,90f)
         }else{
             setContentView(R.layout.activity_main_section_two)
+            Coloring.get().setViewRipple(calculate,5f)
         }
     }
 

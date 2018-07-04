@@ -35,7 +35,7 @@ class BaseActivity : AppCompatActivity() {
     private fun preInit(){
         try {
             //设置默认的toolbar
-            toolbar = findViewById(R.id.toolbar)
+            toolbar = findViewById(R.id.in_toolbar)
             setSupportActionBar(toolbar)
             supportActionBar!!.setHomeButtonEnabled(true)
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)

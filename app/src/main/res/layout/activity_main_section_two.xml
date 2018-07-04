@@ -29,7 +29,10 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/include_toolbar" />
+            layout="@layout/include_toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/til_salary"
@@ -76,13 +79,19 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/gray_light_bg"
+            app:layout_constraintTop_toBottomOf="@+id/til_welfare" />
+
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/calculate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/mainl_button"
+            android:background="@drawable/ripple_main_button"
             android:padding="10dp"
             android:text="开始计算"
             android:textColor="@color/white"
@@ -91,11 +100,6 @@
             app:layout_constraintRight_toRightOf="@id/guideline_right"
             app:layout_constraintTop_toBottomOf="@+id/til_welfare" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/gray_light_bg"
-            app:layout_constraintTop_toBottomOf="@+id/til_welfare" />
 
         <TextView
             android:id="@+id/calculate_tips"
@@ -123,7 +127,7 @@
             android:layout_height="150dp"
             android:layout_marginTop="32dp"
             android:background="@color/gray_light"
-            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+            app:layout_constraintLeft_toRightOf="@+id/text3"
             app:layout_constraintRight_toRightOf="@id/guideline_right"
             app:layout_constraintTop_toBottomOf="@id/calculate" />
 
@@ -134,17 +138,17 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="35dp"
-            android:background="@color/orange"
+            android:background="@drawable/bottom_line_bg"
             android:gravity="center"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
             android:text="5000起征"
-            android:textColor="@color/white"
+            android:textColor="@color/orange"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@id/mid_line"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintStart_toEndOf="@+id/text3"
             app:layout_constraintTop_toBottomOf="@id/calculate" />
 
         <TextView
@@ -154,7 +158,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="35dp"
-            android:background="@drawable/input_bg"
             android:gravity="center"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
@@ -166,34 +169,32 @@
             app:layout_constraintStart_toEndOf="@id/mid_line"
             app:layout_constraintTop_toBottomOf="@id/calculate" />
 
-        <LinearLayout
-            android:id="@+id/result_line1"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:text="个税缴费："
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/text1" />
+
+        <TextView
+            android:id="@+id/text5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
             android:orientation="horizontal"
+            android:text="111"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/text3"
             app:layout_constraintEnd_toStartOf="@id/mid_line"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/text1">
-
-            <TextView
-                android:id="@+id/text3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="个税缴费："
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/text5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="111"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-        </LinearLayout>
+            app:layout_constraintStart_toEndOf="@+id/text3"
+            app:layout_constraintTop_toBottomOf="@id/text1"
+            app:layout_constraintTop_toTopOf="@id/text3" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -211,63 +212,64 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:text="个税缴费："
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/text6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:paddingLeft="10dp"
                 android:text="111"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/text7"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:orientation="horizontal"
+            android:text="实发工资："
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/text3" />
+
+        <TextView
+            android:id="@+id/real_salary_new"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:text="111"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/text7"
             app:layout_constraintEnd_toStartOf="@id/mid_line"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/result_line1">
-
-            <TextView
-                android:id="@+id/text7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="实发工资："
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/real_salary_new"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="111"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-        </LinearLayout>
+            app:layout_constraintStart_toEndOf="@+id/text3"
+            app:layout_constraintTop_toBottomOf="@id/text3"
+            app:layout_constraintTop_toTopOf="@id/text7" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
+            android:paddingLeft="10dp"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/mid_line"
-            app:layout_constraintTop_toBottomOf="@id/result_line1">
+            app:layout_constraintTop_toBottomOf="@id/text3">
 
             <TextView
                 android:id="@+id/text8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
                 android:text="实发工资："
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/real_salary_old"
