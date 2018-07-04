@@ -6,4 +6,4 @@
 本app提供了根据输入的工资数，在个税改革前后不同起征点下，缴纳个税数额的多少变化。
 
 页面展示
-![image](http://github.com/flayone/TaxCompareCalculate/tree/master/images/1.png)
+![TaxCompareCalculate](https://github.com/flayone/TaxCompareCalculate/blob/master/images/1.png)
