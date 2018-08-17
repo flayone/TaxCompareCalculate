@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/round_button"
-            android:padding="10dp"
+            android:padding="8dp"
             android:text="计算"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -107,15 +107,16 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
-            android:background="@color/gray_light_bg"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/profit"
             app:layout_constraintTop_toBottomOf="@id/calculate" />
 
         <View
             android:id="@+id/mid_line"
             android:layout_width="0.5dp"
-            android:layout_height="170dp"
+            android:layout_height="190dp"
             android:layout_marginTop="25dp"
+            android:visibility="invisible"
             android:background="@color/gray_light"
             app:layout_constraintLeft_toLeftOf="@id/guideline_left"
             app:layout_constraintRight_toRightOf="@id/guideline_right"
@@ -123,7 +124,7 @@
 
         <TextView
             android:id="@+id/text1"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:background="@drawable/input_bg"
@@ -139,11 +140,12 @@
 
         <TextView
             android:id="@+id/text2"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:gravity="center"
             android:padding="8dp"
+            android:background="@color/gray_light_bg"
             android:text="3500起征"
             android:textColor="@color/gray"
             android:textSize="16sp"
@@ -159,7 +161,7 @@
             android:layout_marginTop="10dp"
             android:paddingLeft="5dp"
             android:text="个税缴费："
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@id/mid_line"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="1"
@@ -174,6 +176,7 @@
             android:paddingLeft="5dp"
             android:text="个税缴费："
             android:textSize="16sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/mid_line"
@@ -181,13 +184,15 @@
 
         <TextView
             android:id="@+id/text5"
-            android:layout_width="0dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:minHeight="40dp"
             android:layout_marginTop="6dp"
+            android:background="@drawable/green_radius_bg"
             android:gravity="center"
-            android:text=""
-            android:textColor="@color/green"
-            android:textSize="24sp"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/mid_line"
             app:layout_constraintHorizontal_chainStyle="spread"
@@ -197,13 +202,14 @@
 
         <TextView
             android:id="@+id/text6"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
             android:layout_marginTop="6dp"
             android:gravity="center"
-            android:text=""
+            android:minHeight="40dp"
+            android:text="0"
             android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintHorizontal_weight="1"
@@ -217,7 +223,7 @@
             android:layout_marginTop="10dp"
             android:paddingLeft="5dp"
             android:text="实发工资："
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@id/mid_line"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="1"
@@ -231,6 +237,7 @@
             android:layout_marginTop="10dp"
             android:paddingLeft="5dp"
             android:text="实发工资："
+            android:visibility="gone"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintHorizontal_weight="1"
@@ -240,12 +247,14 @@
 
         <TextView
             android:id="@+id/real_salary_new"
-            android:layout_width="0dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:minHeight="40dp"
             android:layout_marginTop="6dp"
+            android:background="@drawable/red_redius_bg"
             android:gravity="center"
-            android:text=""
-            android:textColor="@color/red"
+            android:text="0"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/mid_line"
@@ -256,11 +265,12 @@
 
         <TextView
             android:id="@+id/real_salary_old"
-            android:layout_width="0dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:minHeight="40dp"
             android:layout_marginTop="6dp"
             android:gravity="center"
-            android:text=""
+            android:text="0"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -274,11 +284,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:paddingBottom="15dp"
             android:text=""
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:paddingBottom="15dp"
             app:layout_constraintLeft_toLeftOf="@id/guideline_left"
             app:layout_constraintRight_toRightOf="@id/guideline_right"
             app:layout_constraintTop_toBottomOf="@+id/mid_line" />
@@ -292,18 +302,19 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/calculate" />
+
         <TextView
             android:id="@+id/mode_change"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="8dp"
             android:text="不喜欢这个布局？点此更换"
             android:textColor="@color/gray"
-            android:padding="8dp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/profit"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/guideline_left"
             app:layout_constraintRight_toRightOf="@id/guideline_right"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/profit" />
     </android.support.constraint.ConstraintLayout>
 
 
