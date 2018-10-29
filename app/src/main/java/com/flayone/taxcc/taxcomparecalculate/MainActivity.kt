@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AlertDialog.Builder
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -40,65 +37,64 @@ open class MainActivity : BaseActivity() {
 
 
     private val missCount = "0"//修正参数
-    private var builder: Builder? = null
-    private var etThreshold: TextInputEditText? = null
-    private var dialog: AlertDialog? = null
-    private var dialogView: View? = null
-    private val calculateTips = "计税金额：c1 - c2 = "
+    private lateinit var builder: Builder
+    private lateinit var etThreshold: TextInputEditText
+    private lateinit var dialog: AlertDialog
+    private lateinit var dialogView: View
+    private val calculateTips = "计税金额计算方式：c1 - c2 -c3"
+    private var plusNumber = ""
+    private var newCalculateVal = ""
+    private var isMain = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!getPreference(this,"SETTING","LOAD_MODE",false)){
+        if (!getPreference(this, "SETTING", "LOAD_MODE", false)) {
+            isMain = true
             setContentView(R.layout.activity_main)
-            Coloring.get().setViewRipple(calculate,90f)
-        }else{
+            Coloring.get().setViewRipple(calculate, 90f)
+        } else {
+            isMain = false
             setContentView(R.layout.activity_main_section_two)
-            Coloring.get().setViewRipple(calculate,5f)
+            Coloring.get().setViewRipple(calculate, 5f)
         }
     }
 
     override fun initView() {
         til_welfare.visibility = View.GONE
         calculate_tips.visibility = View.GONE
+        til_expend.visibility = View.GONE
         showResultLayout(false)
 
         keepEditTwoPoint(et_salary)
         keepEditTwoPoint(et_welfare)
-        et_salary.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!s.toString().isEmpty()) {
-                    value = s.toString().toDoubleOrNull()
-                    salaryVal = s.toString()
+        et_salary.addTextChangedListener(MyTextWatcher(object : BaseEnsureListener {
+            override fun ensure(s: String) {
+                if (!s.isEmpty()) {
+                    value = s.toDoubleOrNull()
+                    salaryVal = s
                     welfareVal = calculateWelfare(salaryVal)
                     calculateVal = subtract(salaryVal, welfareVal)
 
                     et_welfare.setText(welfareVal)
-                    calculate_tips.text = (calculateTips + calculateVal)
                     til_welfare.visibility = View.VISIBLE
+                    til_expend.visibility = View.VISIBLE
                     calculate_tips.visibility = View.VISIBLE
                 }
             }
-        })
-        et_welfare.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                welfareVal = s.toString()
+        }))
+        et_welfare.addTextChangedListener(MyTextWatcher(object : BaseEnsureListener {
+            override fun ensure(s: String) {
+                welfareVal = s
                 calculateVal = subtract(salaryVal, welfareVal)
-                calculate_tips.text = (calculateTips + calculateVal)
             }
 
-        })
+        }))
+        et_expend.addTextChangedListener(MyTextWatcher(object : BaseEnsureListener {
+            override fun ensure(s: String) {
+                plusNumber = s
+            }
+        }))
+
         calculate.onClick {
             if (salaryVal.isEmpty()) {
                 toast("还没输入工资呢~")
@@ -113,43 +109,28 @@ open class MainActivity : BaseActivity() {
             }
             calculateAfterTax()
         }
-        initDialog()
+
         text1.onClick {
-            dialog!!.show()
-            etThreshold!!.setText(newTaxThreshold)
-            dialog!!.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener({
-                dialog!!.dismiss()
-                newTaxThreshold = etThreshold!!.text.toString()
-                text1.text = "$newTaxThreshold 起征点"
-                calculateAfterTax()
-            }
-            )
+            showDialog(this@MainActivity, "修改起征点",newTaxThreshold, object : BaseEnsureListener {
+                override fun ensure(s: String) {
+                    newTaxThreshold = s
+                    text1.text = "$newTaxThreshold 起征"
+                    calculateAfterTax()
+                }
+            })
         }
         mode_change.onClick {
-            setPreferences(this@MainActivity,"SETTING","LOAD_MODE",!getPreference(this@MainActivity,"SETTING","LOAD_MODE",false))
+            setPreferences(this@MainActivity, "SETTING", "LOAD_MODE", !getPreference(this@MainActivity, "SETTING", "LOAD_MODE", false))
             startAct(SectionTwoActivity::class.java)
             finish()
         }
     }
 
-    private fun initDialog() {
-        builder = Builder(this)
-        dialogView = LayoutInflater.from(this).inflate(R.layout.input_dialog, null, false)
-        etThreshold = dialogView!!.findViewById(R.id.et_threshold)
-        keepEditTwoPoint(editText = etThreshold!!)
-
-        builder!!.setView(dialogView)
-                .setTitle("修改起征点")
-                .setPositiveButton("确定", null)
-                .setNegativeButton("取消", null)
-        dialog = builder!!.create()
-
-    }
-
     private fun calculateAfterTax() {
+        newCalculateVal = subtract(calculateVal, plusNumber)
         showResultLayout(true)
         taxOld = calculateTax(subtract(calculateVal, odlTaxThreshold).toDouble(), 0)
-        taxNew = calculateTax(subtract(calculateVal, newTaxThreshold).toDouble(), 1)
+        taxNew = calculateTax(subtract(newCalculateVal, newTaxThreshold).toDouble(), 1)
 
         val savePercent = ((100 * subtract(taxOld, taxNew).toDouble()) / taxOld.toDouble()).toInt()
         text5.text = taxNew
@@ -166,22 +147,14 @@ open class MainActivity : BaseActivity() {
         } else {
             View.GONE
         }
-//        result_bg.visibility = visibility
-//        mid_line.visibility = visibility
-//        text1.visibility = visibility
-//        text2.visibility = visibility
-//        text3.visibility = visibility
-//        text4.visibility = visibility
-//        text5.visibility = visibility
-//        text6.visibility = visibility
-//        text7.visibility = visibility
-//        text8.visibility = visibility
-//        real_salary_new.visibility = visibility
-//        real_salary_old.visibility = visibility
-//        profit.visibility = visibility
+        calculate_tips.text = calculateTips
+        if (isMain){
+            text3.text = "个税：(计税金额 $newCalculateVal)"
+            text4.text = "个税：(计税金额 $calculateVal)"
+        }
     }
 
-    private fun calculateTax(value: Double, flag: Int): String {
+    private fun calculateTax(calculateVal: Double, flag: Int): String {
         val levelList = mutableListOf<Int>()//月应纳税所得额（元）的集合
         val taxRateList = mutableListOf<String>()//税率的集合
         val quickDeductionList = mutableListOf<Int>()//速算扣除数的集合
@@ -202,7 +175,7 @@ open class MainActivity : BaseActivity() {
             }
         }
         //计算收入在不同区间的税额
-        return when (value) {
+        return when (calculateVal) {
             in levelList[0] until levelList[1] -> calculateTax(taxRateList[0], quickDeductionList[0], flag)
             in levelList[1] until levelList[2] -> calculateTax(taxRateList[1], quickDeductionList[1], flag)
             in levelList[2] until levelList[3] -> calculateTax(taxRateList[2], quickDeductionList[2], flag)
@@ -218,7 +191,7 @@ open class MainActivity : BaseActivity() {
     private fun calculateTax(taxRate: String, quickDeduction: Int, flag: Int): String {
         return when (flag) {
             0 -> subtract(multiply(subtract(calculateVal, odlTaxThreshold), taxRate, 2), quickDeduction.toString())
-            1 -> subtract(multiply(subtract(calculateVal, newTaxThreshold), taxRate, 2), quickDeduction.toString())
+            1 -> subtract(multiply(subtract(newCalculateVal, newTaxThreshold), taxRate, 2), quickDeduction.toString())
             else -> ""
         }
     }

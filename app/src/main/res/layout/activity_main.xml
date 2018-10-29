@@ -40,16 +40,16 @@
             app:layout_constraintRight_toRightOf="@id/guideline_right"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <android.support.design.widget.TextInputEditText
+            <com.flayone.taxcc.taxcomparecalculate.ClearInputEditText
                 android:id="@+id/et_salary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
                 android:gravity="center_vertical"
-                android:hint="请输入税前工资：c1"
+                android:hint="@string/hint_c1"
                 android:inputType="number"
                 android:text=""
-                android:textSize="32sp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
         </android.support.design.widget.TextInputLayout>
@@ -62,18 +62,37 @@
             app:layout_constraintRight_toRightOf="@id/guideline_right"
             app:layout_constraintTop_toBottomOf="@id/til_salary">
 
-            <android.support.design.widget.TextInputEditText
+            <com.flayone.taxcc.taxcomparecalculate.ClearInputEditText
                 android:id="@+id/et_welfare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:hint="预计五险一金等扣除金额：c2（可根据具体情况修改）"
+                android:hint="@string/hint_c2"
                 android:inputType="number"
                 android:text=""
-                android:textSize="16sp" />
+                android:textSize="15sp" />
 
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_expend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+            app:layout_constraintRight_toRightOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/til_welfare">
+
+            <com.flayone.taxcc.taxcomparecalculate.ClearInputEditText
+                android:id="@+id/et_expend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:hint="@string/hint_c3"
+                android:inputType="number"
+                android:text=""
+                android:textSize="15sp" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/calculate"
@@ -82,11 +101,11 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/round_button"
             android:padding="8dp"
-            android:text="计算"
+            android:text="@string/btn_cal"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintRight_toRightOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@+id/til_welfare" />
+            app:layout_constraintTop_toBottomOf="@+id/til_expend" />
 
 
         <TextView
@@ -116,8 +135,8 @@
             android:layout_width="0.5dp"
             android:layout_height="190dp"
             android:layout_marginTop="25dp"
-            android:visibility="invisible"
             android:background="@color/gray_light"
+            android:visibility="invisible"
             app:layout_constraintLeft_toLeftOf="@id/guideline_left"
             app:layout_constraintRight_toRightOf="@id/guideline_right"
             app:layout_constraintTop_toBottomOf="@id/calculate" />
@@ -131,7 +150,7 @@
             android:gravity="center"
             android:padding="8dp"
             android:text="5000起征"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@id/mid_line"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="1"
@@ -143,12 +162,12 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
+            android:background="@color/gray_light_bg"
             android:gravity="center"
             android:padding="8dp"
-            android:background="@color/gray_light_bg"
             android:text="3500起征"
             android:textColor="@color/gray"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/mid_line"
@@ -160,23 +179,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:paddingLeft="5dp"
-            android:text="个税缴费："
-            android:textSize="14sp"
+            android:text="个税："
+            android:textSize="13sp"
             app:layout_constraintEnd_toStartOf="@id/mid_line"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@id/text1" />
-
         <TextView
             android:id="@+id/text4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:paddingLeft="5dp"
-            android:text="个税缴费："
+            android:text="个税："
             android:textSize="16sp"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@id/mid_line"
@@ -186,10 +203,10 @@
             android:id="@+id/text5"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:minHeight="40dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/green_radius_bg"
             android:gravity="center"
+            android:minHeight="40dp"
             android:text="0"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -204,7 +221,7 @@
             android:id="@+id/text6"
             android:layout_width="120dp"
             android:layout_height="35dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:minHeight="40dp"
             android:text="0"
@@ -222,26 +239,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:paddingLeft="5dp"
-            android:text="实发工资："
-            android:textSize="14sp"
+            android:text="实发："
+            android:textSize="13sp"
             app:layout_constraintEnd_toStartOf="@id/mid_line"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/text5" />
-
-        <TextView
-            android:id="@+id/text8"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="5dp"
-            android:text="实发工资："
-            android:visibility="gone"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/mid_line"
             app:layout_constraintTop_toBottomOf="@id/text5" />
 
 
@@ -249,10 +252,10 @@
             android:id="@+id/real_salary_new"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:minHeight="40dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/red_redius_bg"
             android:gravity="center"
+            android:minHeight="40dp"
             android:text="0"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -267,9 +270,9 @@
             android:id="@+id/real_salary_old"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:minHeight="40dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
+            android:minHeight="40dp"
             android:text="0"
             android:textColor="@color/black"
             android:textSize="20sp"

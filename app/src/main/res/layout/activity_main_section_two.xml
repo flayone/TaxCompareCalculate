@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
                 android:gravity="center_vertical"
-                android:hint="请输入税前工资：c1"
+                android:hint="@string/hint_c1"
                 android:inputType="number"
                 android:text=""
                 android:textSize="32sp"
@@ -72,19 +72,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:hint="预计五险一金等扣除金额：c2（可根据具体情况修改）"
+                android:hint="@string/hint_c2"
                 android:inputType="number"
                 android:text=""
-                android:textSize="26sp" />
+                android:textSize="20sp" />
 
         </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_expend"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+            app:layout_constraintRight_toRightOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/til_welfare">
 
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_expend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:hint="@string/hint_c3"
+                android:inputType="number"
+                android:text=""
+                android:textSize="15sp" />
+
+        </android.support.design.widget.TextInputLayout>
         <View
+            android:id="@+id/btn_bg"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="130dp"
             android:background="@color/gray_light_bg"
-            app:layout_constraintTop_toBottomOf="@+id/til_welfare" />
-
+            app:layout_constraintTop_toBottomOf="@+id/til_expend" />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/calculate"
@@ -93,25 +111,24 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/ripple_main_button"
             android:padding="10dp"
-            android:text="开始计算"
+            android:text="@string/btn_cal"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintLeft_toLeftOf="@id/guideline_left"
             app:layout_constraintRight_toRightOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@+id/til_welfare" />
+            app:layout_constraintTop_toBottomOf="@+id/calculate_tips" />
 
 
         <TextView
             android:id="@+id/calculate_tips"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:text=""
+            android:layout_marginTop="20dp"
+            android:text="11111111"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/calculate"
+            app:layout_constraintTop_toTopOf="@+id/btn_bg"
             app:layout_constraintLeft_toLeftOf="@id/guideline_left"
-            app:layout_constraintRight_toLeftOf="@+id/calculate"
-            app:layout_constraintTop_toTopOf="@+id/calculate" />
+            app:layout_constraintRight_toLeftOf="@+id/guideline_right" />
 
         <View
             android:id="@+id/result_bg"
@@ -174,7 +191,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="个税缴费："
+            android:text="个税："
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@id/text1" />
@@ -231,7 +248,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="实发工资："
+            android:text="实发："
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@id/text3" />

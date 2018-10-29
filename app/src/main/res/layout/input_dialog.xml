@@ -4,24 +4,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="标题"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/lay1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
         app:layout_constraintLeft_toLeftOf="@id/guideline_left"
         app:layout_constraintRight_toRightOf="@id/guideline_right"
-        app:layout_constraintTop_toBottomOf="@id/til_salary">
+        app:layout_constraintTop_toBottomOf="@+id/dialog_title">
 
-        <android.support.design.widget.TextInputEditText
+        <com.flayone.taxcc.taxcomparecalculate.ClearInputEditText
             android:id="@+id/et_threshold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:hint="请输入自定义的起征数"
+            android:hint="请输入自定义数额"
             android:inputType="number"
-            android:textSize="24sp"
-            android:text="" />
+            android:text=""
+            android:textSize="24sp" />
 
     </android.support.design.widget.TextInputLayout>
 
+    <Button
+        android:id="@+id/ok_btn"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/mainColor"
+        android:text="@android:string/ok"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lay1" />
+
+    <Button
+        android:id="@+id/cancel_btn"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/mainColor"
+        android:text="@android:string/cancel"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/ok_btn"
+        app:layout_constraintRight_toLeftOf="@+id/ok_btn" />
 </android.support.constraint.ConstraintLayout>
