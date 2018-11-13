@@ -1,5 +1,8 @@
 package com.flayone.taxcc.taxcomparecalculate
 
+import com.alibaba.fastjson.JSON
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -26,6 +29,34 @@ class ExampleUnitTest {
             }
         }
         println("速算扣除数计算公式验证 =="+quickDeductionList)
+
+        val jsonString = "{\"l1\":\"demo\",\"l2\":2}"
+        val jsonArrayString = "[{\"l1\":\"demo\",\"l2\":1},{\"l1\":\"demo\",\"l2\":2}]"
+//        println("fastJSON = " +JSON.toJSONString(jsonArrayString))
+
+        var a:A1 = JSON.parseObject(jsonString,A1::class.java)
+//        var b:MutableList<A1> = JSON.parseObject(jsonString,A1::class.java)
+        val s = JSON.toJSONString(a)
+        val re = jsonString.toObject<A1>()
+        val rl = jsonArrayString.toList<A1>()
+
+        val mNewsSortList = Gson().fromJson<MutableList<A1>>(jsonArrayString, object : TypeToken<List<A1>>() {}.type)
+        println("a == ${a.l1} + ${a.l2}  s= $s re = $re rl = $rl  mNewsSortList = $mNewsSortList")
+
+        val divA = "2000.00"
+        val divB = "17"
+
+        println("result === ${div(divA,divB,2)}")
+
+
         assertEquals(4, 2 + 2)
+    }
+    data class A1(
+            val l1: String? ,
+            val l2: Int?
+    ):JSONConvertable
+
+    class L1:JSONConvertable{
+        val l1: List<A1> = arrayListOf()
     }
 }

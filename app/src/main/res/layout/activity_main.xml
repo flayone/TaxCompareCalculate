@@ -1,324 +1,343 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.flayone.taxcc.taxcomparecalculate.MainActivity">
+    android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        tools:context="com.flayone.taxcc.taxcomparecalculate.MainActivity">
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/con_content_guide_line_width" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/con_content_guide_line_width" />
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/include_toolbar" />
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/til_salary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:counterEnabled="true"
-            app:counterMaxLength="10"
-            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
-            app:layout_constraintRight_toRightOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-            <com.flayone.taxcc.taxcomparecalculate.ClearInputEditText
-                android:id="@+id/et_salary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="4dp"
-                android:gravity="center_vertical"
-                android:hint="@string/hint_c1"
-                android:inputType="number"
-                android:text=""
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/til_welfare"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
-            app:layout_constraintRight_toRightOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/til_salary">
-
-            <com.flayone.taxcc.taxcomparecalculate.ClearInputEditText
-                android:id="@+id/et_welfare"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:hint="@string/hint_c2"
-                android:inputType="number"
-                android:text=""
-                android:textSize="15sp" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/til_expend"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
-            app:layout_constraintRight_toRightOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/til_welfare">
-
-            <com.flayone.taxcc.taxcomparecalculate.ClearInputEditText
-                android:id="@+id/et_expend"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:hint="@string/hint_c3"
-                android:inputType="number"
-                android:text=""
-                android:textSize="15sp" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/calculate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/round_button"
-            android:padding="8dp"
-            android:text="@string/btn_cal"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintRight_toRightOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@+id/til_expend" />
-
-
-        <TextView
-            android:id="@+id/calculate_tips"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:gravity="right"
-            android:text=""
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/calculate"
-            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
-            app:layout_constraintRight_toLeftOf="@+id/calculate"
-            app:layout_constraintTop_toTopOf="@+id/calculate" />
-
-        <View
-            android:id="@+id/result_bg"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/profit"
-            app:layout_constraintTop_toBottomOf="@id/calculate" />
-
-        <View
-            android:id="@+id/mid_line"
-            android:layout_width="0.5dp"
-            android:layout_height="190dp"
-            android:layout_marginTop="25dp"
-            android:background="@color/gray_light"
-            android:visibility="invisible"
-            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
-            app:layout_constraintRight_toRightOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/calculate" />
-
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/input_bg"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="5000起征"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@id/mid_line"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/calculate" />
+            android:paddingBottom="50dp">
 
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:background="@color/gray_light_bg"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="3500起征"
-            android:textColor="@color/gray"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/mid_line"
-            app:layout_constraintTop_toBottomOf="@id/calculate" />
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/con_content_guide_line_width" />
 
-        <TextView
-            android:id="@+id/text3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="5dp"
-            android:text="个税："
-            android:textSize="13sp"
-            app:layout_constraintEnd_toStartOf="@id/mid_line"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/text1" />
-        <TextView
-            android:id="@+id/text4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="5dp"
-            android:text="个税："
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/mid_line"
-            app:layout_constraintTop_toBottomOf="@id/text1" />
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/con_content_guide_line_width" />
 
-        <TextView
-            android:id="@+id/text5"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/green_radius_bg"
-            android:gravity="center"
-            android:minHeight="40dp"
-            android:text="0"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/mid_line"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/text3" />
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/include_toolbar" />
 
-        <TextView
-            android:id="@+id/text6"
-            android:layout_width="120dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:minHeight="40dp"
-            android:text="0"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/mid_line"
-            app:layout_constraintTop_toBottomOf="@id/text3" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_salary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:counterEnabled="true"
+                app:counterMaxLength="10"
+                app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+                app:layout_constraintRight_toRightOf="@id/guideline_right"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-        <TextView
-            android:id="@+id/text7"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="5dp"
-            android:text="实发："
-            android:textSize="13sp"
-            app:layout_constraintEnd_toStartOf="@id/mid_line"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/text5" />
+                <com.flayone.taxcc.taxcomparecalculate.ClearInputEditText
+                    android:id="@+id/et_salary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    android:hint="@string/hint_c1"
+                    android:inputType="number"
+                    android:text=""
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_welfare"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+                app:layout_constraintRight_toRightOf="@id/guideline_right"
+                app:layout_constraintTop_toBottomOf="@id/til_salary">
+
+                <com.flayone.taxcc.taxcomparecalculate.ClearInputEditText
+                    android:id="@+id/et_welfare"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:hint="@string/hint_c2"
+                    android:inputType="number"
+                    android:text=""
+                    android:textSize="15sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_expend"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+                app:layout_constraintRight_toRightOf="@id/guideline_right"
+                app:layout_constraintTop_toBottomOf="@id/til_welfare">
+
+                <com.flayone.taxcc.taxcomparecalculate.ClearInputEditText
+                    android:id="@+id/et_expend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:hint="@string/hint_c3"
+                    android:inputType="number"
+                    android:text=""
+                    android:textSize="15sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/calculate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/round_button"
+                android:padding="8dp"
+                android:text="@string/btn_cal"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintRight_toRightOf="@id/guideline_right"
+                app:layout_constraintTop_toBottomOf="@+id/til_expend" />
 
 
-        <TextView
-            android:id="@+id/real_salary_new"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/red_redius_bg"
-            android:gravity="center"
-            android:minHeight="40dp"
-            android:text="0"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/mid_line"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/text7" />
+            <TextView
+                android:id="@+id/calculate_tips"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:gravity="right"
+                android:text=""
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/calculate"
+                app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+                app:layout_constraintRight_toLeftOf="@+id/calculate"
+                app:layout_constraintTop_toTopOf="@+id/calculate" />
 
-        <TextView
-            android:id="@+id/real_salary_old"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:minHeight="40dp"
-            android:text="0"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/mid_line"
-            app:layout_constraintTop_toBottomOf="@id/text7" />
+            <View
+                android:id="@+id/result_bg"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/profit"
+                app:layout_constraintTop_toBottomOf="@id/calculate" />
 
-        <TextView
-            android:id="@+id/profit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:paddingBottom="15dp"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
-            app:layout_constraintRight_toRightOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@+id/mid_line" />
+            <View
+                android:id="@+id/mid_line"
+                android:layout_width="0.5dp"
+                android:layout_height="190dp"
+                android:layout_marginTop="25dp"
+                android:background="@color/gray_light"
+                android:visibility="invisible"
+                app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+                app:layout_constraintRight_toRightOf="@id/guideline_right"
+                app:layout_constraintTop_toBottomOf="@id/calculate" />
 
-        <View
-            android:id="@+id/result_hide_bg"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/bac"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/calculate" />
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/input_bg"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="5000起征"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@id/mid_line"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="@id/guideline_left"
+                app:layout_constraintTop_toBottomOf="@id/calculate" />
 
-        <TextView
-            android:id="@+id/mode_change"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="8dp"
-            android:text="不喜欢这个布局？点此更换"
-            android:textColor="@color/gray"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@id/guideline_left"
-            app:layout_constraintRight_toRightOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@+id/profit" />
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:background="@color/gray_light_bg"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="3500起征"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_right"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/mid_line"
+                app:layout_constraintTop_toBottomOf="@id/calculate" />
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:text="个税："
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@id/mid_line"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="@id/guideline_left"
+                app:layout_constraintTop_toBottomOf="@id/text1" />
+
+            <TextView
+                android:id="@+id/text4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:text="个税："
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_right"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/mid_line"
+                app:layout_constraintTop_toBottomOf="@id/text1" />
+
+            <TextView
+                android:id="@+id/text5"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/green_radius_bg"
+                android:gravity="center"
+                android:minHeight="40dp"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/mid_line"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="@id/guideline_left"
+                app:layout_constraintTop_toBottomOf="@id/text3" />
+
+            <TextView
+                android:id="@+id/text6"
+                android:layout_width="120dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:minHeight="40dp"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/guideline_right"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/mid_line"
+                app:layout_constraintTop_toBottomOf="@id/text3" />
+
+            <TextView
+                android:id="@+id/text7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="5dp"
+                android:text="实发："
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@id/mid_line"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="@id/guideline_left"
+                app:layout_constraintTop_toBottomOf="@id/text5" />
 
 
-</android.support.v4.widget.NestedScrollView>
+            <TextView
+                android:id="@+id/real_salary_new"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/red_redius_bg"
+                android:gravity="center"
+                android:minHeight="40dp"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/mid_line"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="@id/guideline_left"
+                app:layout_constraintTop_toBottomOf="@id/text7" />
+
+            <TextView
+                android:id="@+id/real_salary_old"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:minHeight="40dp"
+                android:text="0"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/guideline_right"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/mid_line"
+                app:layout_constraintTop_toBottomOf="@id/text7" />
+
+            <TextView
+                android:id="@+id/profit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:paddingBottom="35dp"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+                app:layout_constraintRight_toRightOf="@id/guideline_right"
+                app:layout_constraintTop_toBottomOf="@+id/mid_line" />
+
+            <View
+                android:id="@+id/result_hide_bg"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/bac"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/calculate" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_history"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:visibility="visible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/calculate" />
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/mode_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/main_button"
+        android:padding="5dp"
+        android:text="不喜欢这个布局？点此更换"
+        android:textColor="@color/white" />
+
+</RelativeLayout>

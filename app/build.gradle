@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt' // required for Kotlin
+
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
@@ -43,7 +45,7 @@ android {
         }
     }
 }
-
+def dbflow_version = "5.0.0-alpha1" // reference the releases tab on Github for latest versions
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 //    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
@@ -62,4 +64,15 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 //    androidTestImplementation 'com.android.support.test:runner:1.0.2'
 //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    // Use if Kotlin user.
+    kapt "com.github.agrosner.dbflow:processor:${dbflow_version}"
+
+    // core set of libraries
+    implementation "com.github.agrosner.dbflow:core:${dbflow_version}"
+    implementation "com.github.agrosner.dbflow:lib:${dbflow_version}"
+    //fastjson
+    implementation 'com.alibaba:fastjson:1.1.70.android'
+    api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    implementation 'com.google.code.gson:gson:2.8.5'
 }

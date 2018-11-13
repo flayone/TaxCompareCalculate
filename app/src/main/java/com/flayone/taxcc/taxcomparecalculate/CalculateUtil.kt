@@ -168,8 +168,16 @@ fun div(v1: String, v2: String, scale: Int): String {
         b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).toString()
     } catch (e: Exception) {
         e.printStackTrace()
-
         "0"
     }
+}
 
+fun shortMoney(ori :String):String{
+    if (ori.toDouble() <= 9999.99){
+        return ori
+    }
+    if (ori.toDouble() <= 9999999.99) {
+        return "${div(ori, "1000", 1)} K"
+    }
+    return "${div(ori, "1000000", 1)} M"
 }

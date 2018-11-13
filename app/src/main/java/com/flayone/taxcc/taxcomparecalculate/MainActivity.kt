@@ -1,10 +1,12 @@
 package com.flayone.taxcc.taxcomparecalculate
 
 import android.os.Bundle
-import android.support.design.widget.TextInputEditText
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AlertDialog.Builder
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import com.dbflow5.config.FlowManager.context
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
@@ -35,16 +37,24 @@ open class MainActivity : BaseActivity() {
     private val levelListNew = arrayListOf(0, 3000, 12000, 25000, 35000, 55000, 80000)
     private val taxRateListNew = arrayListOf("0.03", "0.10", "0.20", "0.25", "0.30", "0.35", "0.45")
 
-
     private val missCount = "0"//修正参数
-    private lateinit var builder: Builder
-    private lateinit var etThreshold: TextInputEditText
-    private lateinit var dialog: AlertDialog
-    private lateinit var dialogView: View
     private val calculateTips = "计税金额计算方式：c1 - c2 -c3"
-    private var plusNumber = ""
-    private var newCalculateVal = ""
+    private var plusNumber = "0" //新个税附加扣除数
+    private var newCalculateVal = "0" //新个税计税金额
     private var isMain = true
+
+    private var historyList = HistoryListModel() //历史查询数据
+    private var adapter = HistoryItem(historyList.list, object : BasePositionListener {
+        override fun onClick(i: Int) {
+            ToastUtil.showToast(this@MainActivity, "pos=$i")
+            val model = historyList.list[i]
+            et_salary.setText(model.baseSalary)
+            et_expend.setText(model.expend)
+            et_welfare.setText(model.welfare)
+
+            calculate.callOnClick()
+        }
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,13 +70,11 @@ open class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
-        til_welfare.visibility = View.GONE
-        calculate_tips.visibility = View.GONE
-        til_expend.visibility = View.GONE
-        showResultLayout(false)
+        initLayout()
 
         keepEditTwoPoint(et_salary)
         keepEditTwoPoint(et_welfare)
+        keepEditTwoPoint(et_expend)
         et_salary.addTextChangedListener(MyTextWatcher(object : BaseEnsureListener {
             override fun ensure(s: String) {
                 if (!s.isEmpty()) {
@@ -79,6 +87,8 @@ open class MainActivity : BaseActivity() {
                     til_welfare.visibility = View.VISIBLE
                     til_expend.visibility = View.VISIBLE
                     calculate_tips.visibility = View.VISIBLE
+                } else {
+                    initLayout()
                 }
             }
         }))
@@ -111,7 +121,7 @@ open class MainActivity : BaseActivity() {
         }
 
         text1.onClick {
-            showDialog(this@MainActivity, "修改起征点",newTaxThreshold, object : BaseEnsureListener {
+            showDialog(this@MainActivity, "修改起征点", newTaxThreshold, object : BaseEnsureListener {
                 override fun ensure(s: String) {
                     newTaxThreshold = s
                     text1.text = "$newTaxThreshold 起征"
@@ -124,10 +134,51 @@ open class MainActivity : BaseActivity() {
             startAct(SectionTwoActivity::class.java)
             finish()
         }
+
+        val layoutManager = object : LinearLayoutManager(context) {
+            override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
+                return RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT)
+            }
+        }
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+
+        list_history.layoutManager = layoutManager
+        list_history.adapter = adapter
+        list_history.isNestedScrollingEnabled = false
+    }
+
+    private fun getHistory() {
+        try {
+//            historyList = getObjectPreference(this, LOCAL_Data, HISTORY_TAG).toObject()
+//            adapter.data = historyList.list
+//
+            historyList = getObject(this, LOCAL_Data, HISTORY_TAG_A) as HistoryListModel
+            adapter.data = historyList.list
+
+            adapter.notifyDataSetChanged()
+            list_history.visibility = View.VISIBLE
+            Log.d(HISTORY_TAG, historyList.toString() + "-----historyList=====${historyList.list.size}")
+        } catch (e: Exception) {
+            println(e)
+        }
+    }
+
+    private fun initLayout() {
+        til_welfare.visibility = View.GONE
+        calculate_tips.visibility = View.GONE
+        til_expend.visibility = View.GONE
+        showResultLayout(false)
+        getHistory()
     }
 
     private fun calculateAfterTax() {
         newCalculateVal = subtract(calculateVal, plusNumber)
+        calculate_tips.text = calculateTips
+        if (isMain) {
+            text3.text = "个税：(计税金额 $newCalculateVal)"
+            text4.text = "个税：(计税金额 $calculateVal)"
+        }
         showResultLayout(true)
         taxOld = calculateTax(subtract(calculateVal, odlTaxThreshold).toDouble(), 0)
         taxNew = calculateTax(subtract(newCalculateVal, newTaxThreshold).toDouble(), 1)
@@ -139,6 +190,38 @@ open class MainActivity : BaseActivity() {
         real_salary_new.text = subtract(calculateVal, taxNew)
         real_salary_old.text = subtract(calculateVal, taxOld)
         profit.text = ("纳税降幅$savePercent%，可省：￥ " + subtract(taxOld, taxNew))
+
+        val result = CalculateHistoryModel()
+        result.afterTex = subtract(calculateVal, taxNew)
+        result.baseSalary = salaryVal
+        result.taxThreshold = newTaxThreshold
+        result.welfare = welfareVal
+        result.tax = taxNew
+        result.expend = plusNumber
+        val size = historyList.list.size
+
+        var isSame = false
+        if (size >= 1) {
+            for (i in 0..(size - 1)) {
+                if (result == historyList.list[i]) {
+                    isSame = true
+                    Log.d("", "result isSame")
+                    break
+                } else {
+                    Log.d("", "result notSame")
+                }
+            }
+        }
+        if (size >= 10) {
+            historyList.list.removeAt(0)
+        }
+        if (!isSame) {
+            historyList.list.add(result)
+        }
+        adapter.data = historyList.list
+        adapter.notifyDataSetChanged()
+//        setObjectPreferences(this, LOCAL_Data, HISTORY_TAG, historyList)
+        saveObject(this, LOCAL_Data, HISTORY_TAG_A, historyList)
     }
 
     private fun showResultLayout(isShow: Boolean) {
@@ -147,11 +230,12 @@ open class MainActivity : BaseActivity() {
         } else {
             View.GONE
         }
-        calculate_tips.text = calculateTips
-        if (isMain){
-            text3.text = "个税：(计税金额 $newCalculateVal)"
-            text4.text = "个税：(计税金额 $calculateVal)"
+        list_history.visibility = if (isShow) {
+            View.GONE
+        } else {
+            View.VISIBLE
         }
+
     }
 
     private fun calculateTax(calculateVal: Double, flag: Int): String {
