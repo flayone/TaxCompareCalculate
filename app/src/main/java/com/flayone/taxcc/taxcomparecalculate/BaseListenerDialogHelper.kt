@@ -27,7 +27,6 @@ class BaseListenerDialogHelper(context: Context) : BaseDialogHelper(context) {
 
     private fun View.setClickListener(func: (() -> Unit)?) = setOnClickListener {
         func?.invoke()
-//        dialog?.dismiss()
     }
 
 }
