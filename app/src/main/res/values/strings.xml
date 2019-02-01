@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">新个税计算器</string>
-    <string name="hint_c1">请输入税前工资：c1</string>
-    <string name="hint_c2">请输入五险一金等：c2（默认上海市）</string>
-    <string name="hint_c3">请输入附加扣除数：c3（适用于新个税）</string>
+    <string name="hint_c1">税前工资：c1</string>
+    <string name="hint_c2">五险一金等：c2</string>
+    <string name="hint_c3">附加扣除数：c3</string>
     <string name="btn_cal">计算</string>
 </resources>

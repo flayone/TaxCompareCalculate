@@ -1,4 +1,4 @@
-package com.flayone.taxcc.taxcomparecalculate
+package com.flayone.taxcc.taxcomparecalculate.data
 
 import com.dbflow5.annotation.Column
 import com.dbflow5.annotation.Database

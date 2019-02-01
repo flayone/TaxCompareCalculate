@@ -7,13 +7,16 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.dbflow5.config.FlowManager.context
+import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
+import com.flayone.taxcc.taxcomparecalculate.items.HistoryItem
+import com.flayone.taxcc.taxcomparecalculate.utils.*
+import com.flayone.taxcc.taxcomparecalculate.widget.Coloring
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
 
 
 open class MainActivity : BaseActivity() {
-    var value: Double? = null
     var salaryVal = ""
     var welfareVal = ""
     var calculateVal = ""
@@ -22,14 +25,7 @@ open class MainActivity : BaseActivity() {
     private var newTaxThreshold = "5000"//新个税起征点
     private var odlTaxThreshold = "3500"//旧个税起征点
 
-    //(以上海为例)公积金下限基数 2190 社保下限基数 4279
-    private val minSocialSafety = 4279
-    private val maxSocialSafety = 21396
-    private val socialSafetyPercent = "0.105"
 
-    private val minPublicMoney = 2190
-    private val maxPublicMoney = 19512
-    private val publicMoneyPercent = "0.07"
 
     private val levelListOld = arrayListOf(0, 1500, 4500, 9000, 35000, 55000, 80000)
     private val taxRateListOld = arrayListOf("0.03", "0.10", "0.20", "0.25", "0.30", "0.35", "0.45")
@@ -37,11 +33,12 @@ open class MainActivity : BaseActivity() {
     private val levelListNew = arrayListOf(0, 3000, 12000, 25000, 35000, 55000, 80000)
     private val taxRateListNew = arrayListOf("0.03", "0.10", "0.20", "0.25", "0.30", "0.35", "0.45")
 
-    private val missCount = "0"//修正参数
     private val calculateTips = "计税金额计算方式：c1 - c2 -c3"
     private var plusNumber = "0" //新个税附加扣除数
     private var newCalculateVal = "0" //新个税计税金额
     private var isMain = true
+
+    private val hisLimit = 20 //历史记录列表个数限制
 
     private var historyList = HistoryListModel() //历史查询数据
     private var adapter = HistoryItem(historyList.list, object : BasePositionListener {
@@ -67,6 +64,7 @@ open class MainActivity : BaseActivity() {
             setContentView(R.layout.activity_main_section_two)
             Coloring.get().setViewRipple(calculate, 5f)
         }
+        setTitle("个税计算器（月均算法）")
     }
 
     override fun initView() {
@@ -78,7 +76,6 @@ open class MainActivity : BaseActivity() {
         et_salary.addTextChangedListener(MyTextWatcher(object : BaseEnsureListener {
             override fun ensure(s: String) {
                 if (!s.isEmpty()) {
-                    value = s.toDoubleOrNull()
                     salaryVal = s
                     welfareVal = calculateWelfare(salaryVal)
                     calculateVal = subtract(salaryVal, welfareVal)
@@ -212,7 +209,7 @@ open class MainActivity : BaseActivity() {
                 }
             }
         }
-        if (size >= 10) {
+        if (size >= hisLimit) {
             historyList.list.removeAt(0)
         }
         if (!isSame) {
@@ -241,7 +238,7 @@ open class MainActivity : BaseActivity() {
     private fun calculateTax(calculateVal: Double, flag: Int): String {
         val levelList = mutableListOf<Int>()//月应纳税所得额（元）的集合
         val taxRateList = mutableListOf<String>()//税率的集合
-        val quickDeductionList = mutableListOf<Int>()//速算扣除数的集合
+        var quickDeductionList = mutableListOf<Int>()//速算扣除数的集合
 
         if (flag == 0) {
             levelList.addAll(levelListOld)
@@ -250,14 +247,7 @@ open class MainActivity : BaseActivity() {
             levelList.addAll(levelListNew)
             taxRateList.addAll(taxRateListNew)
         }
-        //速算扣除数的计算公式是： 本级速算扣除额=上一级最高应纳税所得额×（本级税率-上一级税率）+上一级速算扣除数
-        for (i in 1..levelList.size) {
-            if (i == 1) {
-                quickDeductionList.add(0)
-            } else {
-                quickDeductionList.add((levelList[i - 1] * (subtract(taxRateList[i - 1], taxRateList[i - 2]).toDouble())).toInt() + quickDeductionList[i - 2])
-            }
-        }
+        quickDeductionList = getQuickDeductionList(levelList,taxRateList)
         //计算收入在不同区间的税额
         return when (calculateVal) {
             in levelList[0] until levelList[1] -> calculateTax(taxRateList[0], quickDeductionList[0], flag)
@@ -280,20 +270,5 @@ open class MainActivity : BaseActivity() {
         }
     }
 
-    private fun calculateWelfare(salaryVal: String): String {
-        return when (salaryVal.toDouble()) {
-            in 0..minPublicMoney -> //公积金下限、社保下限以下。
-                add(multiply(minPublicMoney.toString(), publicMoneyPercent, 2), multiply(minSocialSafety.toString(), socialSafetyPercent, 2), missCount)
-            in minPublicMoney..minSocialSafety -> //公积金7%、社保下限
-                add(multiply(salaryVal, publicMoneyPercent, 2), multiply(minSocialSafety.toString(), socialSafetyPercent, 2), missCount)
-            in minSocialSafety..maxPublicMoney -> //公积金7%,社保10.5%
-                add(multiply(salaryVal, publicMoneyPercent, 2), multiply(salaryVal, socialSafetyPercent, 2), missCount)
-            in maxPublicMoney..maxSocialSafety -> //公积金上限,社保10.5%
-                add(multiply(maxPublicMoney.toString(), publicMoneyPercent, 2), multiply(salaryVal, socialSafetyPercent, 2), missCount)
-            in maxSocialSafety..Int.MAX_VALUE -> {//公积金上限,社保上限
-                add(multiply(maxPublicMoney.toString(), publicMoneyPercent, 2), multiply(maxSocialSafety.toString(), socialSafetyPercent, 2), missCount)
-            }
-            else -> "0"
-        }
-    }
+
 }

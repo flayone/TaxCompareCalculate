@@ -1,4 +1,4 @@
-package com.flayone.taxcc.taxcomparecalculate;
+package com.flayone.taxcc.taxcomparecalculate.widget;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;

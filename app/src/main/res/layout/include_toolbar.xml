@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/in_toolbar"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    app:title="@string/app_name"
-    app:titleTextColor="@color/white"
-    app:theme="@style/OverFlowMenuTheme"
-    app:popupTheme="@style/AppTheme"
     android:background="@color/colorPrimary"
     app:layout_scrollFlags="scroll|enterAlways"
-    tools:ignore="NamespaceTypo" />
+    app:popupTheme="@style/AppTheme"
+    app:theme="@style/OverFlowMenuTheme"
+    app:title="@string/app_name"
+    app:titleTextColor="@color/white"
+    tools:ignore="NamespaceTypo">
+
+    <TextView
+        android:id="@+id/mode_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:padding="8dp"
+        android:text="切换"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"
+        android:textColor="@color/blue_light"
+        android:textSize="18sp" />
+</android.support.v7.widget.Toolbar>

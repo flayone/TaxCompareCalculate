@@ -1,4 +1,4 @@
-package com.flayone.taxcc.taxcomparecalculate
+package com.flayone.taxcc.taxcomparecalculate.utils
 
 interface BaseEnsureListener{
     fun ensure(s:String)

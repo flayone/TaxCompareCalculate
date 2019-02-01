@@ -1,9 +1,10 @@
-package com.flayone.taxcc.taxcomparecalculate
+package com.flayone.taxcc.taxcomparecalculate.dialog
 
 import android.content.Context
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
+import com.flayone.taxcc.taxcomparecalculate.R
 import kotlinx.android.synthetic.main.input_dialog.view.*
 
 class BaseListenerDialogHelper(context: Context) : BaseDialogHelper(context) {

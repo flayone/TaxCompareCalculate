@@ -1,4 +1,4 @@
-package com.flayone.taxcc.taxcomparecalculate
+package com.flayone.taxcc.taxcomparecalculate.utils
 
 import android.content.Context
 import android.graphics.Bitmap

@@ -1,9 +1,11 @@
-package com.flayone.taxcc.taxcomparecalculate
+package com.flayone.taxcc.taxcomparecalculate.items
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import com.flayone.taxcc.taxcomparecalculate.R
+import com.flayone.taxcc.taxcomparecalculate.utils.*
 import kotlinx.android.synthetic.main.item_history.view.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
