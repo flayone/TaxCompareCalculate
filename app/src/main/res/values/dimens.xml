@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--con布局guide_line左右宽度-->
-    <dimen name="con_content_guide_line_width">20dp</dimen>
+    <dimen name="con_content_guide_line_width">16dp</dimen>
 </resources>

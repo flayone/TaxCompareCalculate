@@ -117,6 +117,10 @@ abstract class BaseRecycleListAdapter(open var list: List<Any>, @LayoutRes priva
 
     // 如果想要每次都调用onBindViewHolder()刷新item数据，就要重写getItemViewType()，让其返回position，否则很容易产生数据错乱的现象。
     override fun getItemViewType(position: Int): Int = position
+
+    fun toast(S:String){
+        ToastUtil.showToast(context,"toast=$S")
+    }
 }
 
 fun initRecycleLayoutManger(context: Context): LinearLayoutManager {
@@ -130,8 +134,10 @@ fun initRecycleLayoutManger(context: Context): LinearLayoutManager {
 }
 
 const val HISTORY_TAG = "historyList"
-const val HISTORY_TAG_A = "historyListA"
+const val HISTORY_TAG_A = "historyListA"//月均算法历史数据
+const val HISTORY_TAG_YEAR = "historyListYear"//年累计算法历史数据
 const val LOCAL_Data = "LocalData"
+const val hisLimit = 20 //历史记录列表个数限制
 
 
 //(以上海为例)公积金下限基数 2190 社保下限基数 4279

@@ -37,21 +37,45 @@ class CalculateHistoryModel : BaseModel() {
     }
 }
 
+//月度历史记录列表
 class HistoryListModel : BaseModel() {
     var list = mutableListOf<CalculateHistoryModel>()
 }
 
+//年度计算结果列表
 class ResultListModel : BaseModel() {
     var list = mutableListOf<CalculateResult>()
 }
 
-//年累计计算历史记录用
-class YearHistorySearchModel : BaseModel() {
-    var baseSalary = "0" //本月税前工资、后续可定制
-    var nowThreshold = "0" //本月起征额、后续可定制
-    var nowWelfareVal = "0" //本月险金等税前扣除数、后续可定制
-    var nowPlusNumber = "0" //本月附加扣除数、后续可定制
+//年度历史记录列表
+class YearHistoryListModel: BaseModel() {
+    var list = mutableListOf<YearHistoryModel>()
 }
+
+class YearHistoryModel : BaseModel() {
+    //历史记录列表展示用
+    var yearSalary = "0" //年度税前工资、
+    var yearWelfare = "0" //年度险金福利
+    var yearExpend = "0" //年度附加扣除
+    var yearAfterTax = "0" //年度税后
+    var yearTax = "0" //年度个税
+
+    //记录输入参数
+    var inputSalary = "0" //税前工资
+    var inputWelfare = "0"  //五险一金
+    var inputExpend = "0"  //附加扣除数
+
+    //    十二个月的详细数据，点击历史记录重新计算用
+    var hisList = mutableListOf<CalculateHistoryModel>()
+}
+
+//年累计计算历史记录用,单月的详细数据
+//class YearHistorySearchModel : BaseModel() {
+//    var baseSalary = "0" //本月税前工资、后续可定制
+//    var nowThreshold = "0" //本月起征额、后续可定制
+//    var nowWelfareVal = "0" //本月险金等税前扣除数、后续可定制
+//    var nowPlusNumber = "0" //本月附加扣除数、后续可定制
+//}
 
 //年累计计算结果model
 class CalculateResult : BaseModel() {

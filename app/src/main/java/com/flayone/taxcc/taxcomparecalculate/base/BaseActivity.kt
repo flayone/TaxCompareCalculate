@@ -18,6 +18,7 @@ import com.flayone.taxcc.taxcomparecalculate.HomeActivity
 import com.flayone.taxcc.taxcomparecalculate.R
 import com.flayone.taxcc.taxcomparecalculate.utils.MyLogger
 import com.flayone.taxcc.taxcomparecalculate.utils.ToastUtil
+import com.flayone.taxcc.taxcomparecalculate.widget.RippleEffect
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.lang.Exception
 
@@ -125,5 +126,9 @@ class BaseActivity : AppCompatActivity(), MyLogger {
             val im = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS)
         }
+    }
+
+    protected fun ripple(View: View, cornerRadius: Float) {
+        RippleEffect().get().setViewRipple(View, cornerRadius)
     }
 }

@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.flayone.taxcc.taxcomparecalculate.R
+import com.flayone.taxcc.taxcomparecalculate.utils.LogUtil
 
 class ClearInputEditText : TextInputEditText, TextWatcher, View.OnFocusChangeListener {
     private var clBg: Int = 0
@@ -39,8 +40,10 @@ class ClearInputEditText : TextInputEditText, TextWatcher, View.OnFocusChangeLis
         } finally {
             ta!!.recycle()
         }
-        mClearDrawable!!.setBounds(0, 0, mClearDrawable!!.intrinsicWidth, mClearDrawable!!.intrinsicHeight)
+        //使图标大小根据字体大小来适应
+        mClearDrawable!!.setBounds(0, 0, textSize.toInt(), textSize.toInt())
 
+        LogUtil.d("drawable ==="+mClearDrawable!!.intrinsicWidth+ mClearDrawable!!.intrinsicHeight+"textSize==="+textSize)
         //默认设置隐藏图标
         setClearIconVisible(false)
         //设置焦点改变的监听

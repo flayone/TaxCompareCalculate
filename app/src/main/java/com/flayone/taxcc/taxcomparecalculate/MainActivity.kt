@@ -10,7 +10,6 @@ import com.dbflow5.config.FlowManager.context
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import com.flayone.taxcc.taxcomparecalculate.items.HistoryItem
 import com.flayone.taxcc.taxcomparecalculate.utils.*
-import com.flayone.taxcc.taxcomparecalculate.widget.Coloring
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
@@ -38,7 +37,6 @@ open class MainActivity : BaseActivity() {
     private var newCalculateVal = "0" //新个税计税金额
     private var isMain = true
 
-    private val hisLimit = 20 //历史记录列表个数限制
 
     private var historyList = HistoryListModel() //历史查询数据
     private var adapter = HistoryItem(historyList.list, object : BasePositionListener {
@@ -58,11 +56,11 @@ open class MainActivity : BaseActivity() {
         if (!getPreference(this, "SETTING", "LOAD_MODE", false)) {
             isMain = true
             setContentView(R.layout.activity_main)
-            Coloring.get().setViewRipple(calculate, 90f)
+            ripple(calculate, 90f)
         } else {
             isMain = false
             setContentView(R.layout.activity_main_section_two)
-            Coloring.get().setViewRipple(calculate, 5f)
+            ripple(calculate, 5f)
         }
         setTitle("个税计算器（月均算法）")
     }
@@ -155,7 +153,6 @@ open class MainActivity : BaseActivity() {
 
             adapter.notifyDataSetChanged()
             list_history.visibility = View.VISIBLE
-            Log.d(HISTORY_TAG, historyList.toString() + "-----historyList=====${historyList.list.size}")
         } catch (e: Exception) {
             println(e)
         }
@@ -209,10 +206,10 @@ open class MainActivity : BaseActivity() {
                 }
             }
         }
-        if (size >= hisLimit) {
-            historyList.list.removeAt(0)
-        }
         if (!isSame) {
+            if (size >= hisLimit) {
+                historyList.list.removeAt(0)
+            }
             historyList.list.add(result)
         }
         adapter.data = historyList.list

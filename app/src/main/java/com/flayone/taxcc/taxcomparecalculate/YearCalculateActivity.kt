@@ -3,9 +3,9 @@ package com.flayone.taxcc.taxcomparecalculate
 import android.os.Bundle
 import android.view.View
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
+import com.flayone.taxcc.taxcomparecalculate.items.YearHistoryItem
 import com.flayone.taxcc.taxcomparecalculate.items.YearResultItem
 import com.flayone.taxcc.taxcomparecalculate.utils.*
-import com.flayone.taxcc.taxcomparecalculate.widget.Coloring
 import kotlinx.android.synthetic.main.activity_year_calculate.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
@@ -22,15 +22,17 @@ class YearCalculateActivity : BaseActivity() {
     private var cumulativetax = "" //年累计个税
     private var salaryList = arrayListOf<String>() //12个月的月薪基数集合
     private val resultData = ResultListModel()
-    //记录当前输入的一些不固定参数
-    private val inputData = arrayListOf<YearHistorySearchModel>()
+    //记录当前输入的参数,可自定义值来完善计算结果
+    private var inputData = mutableListOf<CalculateHistoryModel>()
     private val quickDeductionList = getQuickDeductionList(yearLevelList, taxRateList)
-
+    private var historyList = YearHistoryListModel()
+    private val mHistoryModel = YearHistoryModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_year_calculate)
         setTitle("个税计算器（年累计算法）")
-        Coloring.get().setViewRipple(calculate, 90f)
+        ripple(calculate, 90f)
+        calculate_tips.text = "单击列表项可修改该月收入情况"
     }
 
     override fun initView() {
@@ -38,6 +40,9 @@ class YearCalculateActivity : BaseActivity() {
         keepEditTwoPoint(et_salary)
         keepEditTwoPoint(et_welfare)
         keepEditTwoPoint(et_expend)
+        list_result.isNestedScrollingEnabled = false
+        list_result.layoutManager = initRecycleLayoutManger(this)
+
         initLayout()
         salaryList = arrayListOf()
         resultData.list = arrayListOf()
@@ -86,12 +91,37 @@ class YearCalculateActivity : BaseActivity() {
             preCalculate()
             calculateTax()
         }
+
     }
 
+    //页面显示相关的初始化
     private fun initLayout() {
         til_welfare.visibility = View.GONE
         til_expend.visibility = View.GONE
         calculate_tips.visibility = View.GONE
+        initHistory()
+    }
+
+    //历史数据初始化
+    private fun initHistory() {
+        try {
+            historyList = getObject(this, LOCAL_Data, HISTORY_TAG_YEAR) as YearHistoryListModel
+
+            list_result.adapter = YearHistoryItem(historyList.list, object : BasePositionListener {
+                override fun onClick(i: Int) {
+                    val item = historyList.list[i]
+                    et_salary.setText(item.inputSalary)
+                    et_welfare.setText(item.inputWelfare)
+                    et_expend.setText(item.inputExpend)
+                    inputData = item.hisList
+                    calculateTax()
+                }
+            })
+
+            list_result.visibility = View.VISIBLE
+        } catch (e: Exception) {
+            println(e)
+        }
     }
 
     //准备每一个月的基础数据，方便后续可定制计划
@@ -99,26 +129,33 @@ class YearCalculateActivity : BaseActivity() {
         inputData.clear()
         resultData.list.clear()
         for (i in 0 until 12) {
-            val historyModel = YearHistorySearchModel()
+            val historyModel = CalculateHistoryModel()
             //输入参数赋值
             historyModel.run {
                 baseSalary = salaryVal
-                nowPlusNumber = plusNumber
-                nowThreshold = threshold
-                nowWelfareVal = welfareVal
+                expend = plusNumber
+                taxThreshold = threshold
+                welfare = welfareVal
             }
             inputData.add(historyModel)
             resultData.list.add(CalculateResult())
+            mHistoryModel.run {
+                inputSalary = salaryVal
+                inputExpend = plusNumber
+                inputWelfare = welfareVal
+            }
         }
     }
 
     // 计算税额并列出所有月份的结果
     private fun calculateTax() {
+        calculate_tips.visibility = View.VISIBLE
+
         for (i in 0 until 12) {
             val list = resultData.list[i]
-            val inputList = inputData[i]
-//            calculateVal是了计算累计预扣预缴的总额，最终用来计算个人所得税
-            list.calculateVal = subtract(salaryVal, inputList.nowWelfareVal, inputList.nowThreshold, inputList.nowPlusNumber)
+            val inputItem = inputData[i]
+//            calculateVal是计算当月预扣预缴的总额，最终用来计算个人所得税
+            list.calculateVal = subtract(inputItem.baseSalary, inputItem.welfare, inputItem.taxThreshold, inputItem.expend)
             var lastCumulativeCalculateVal = "0"
             var lastcumulativetax = "0"
             if (i > 0) {
@@ -132,12 +169,15 @@ class YearCalculateActivity : BaseActivity() {
             list.cumulativetax = cumulativetax
             list.tax = subtract(list.cumulativetax, lastcumulativetax)
             //税后薪资计算
-            list.afterTaxSalary = subtract(salaryVal, inputList.nowWelfareVal, list.tax)
+            list.afterTaxSalary = subtract(salaryVal, inputItem.welfare, list.tax)
         }
         d("resultData = ${resultData.list.size}")
-        list_result.isNestedScrollingEnabled = false
-        list_result.layoutManager = initRecycleLayoutManger(this)
+
         list_result.adapter = YearResultItem(resultData.list)
+
+//        将此次计算归入历史记录
+        mHistoryModel.hisList = inputData
+        historyList
     }
 
     // 根据当月年化累计预扣预缴税额来计算个税数：
@@ -156,4 +196,5 @@ class YearCalculateActivity : BaseActivity() {
 
     //根据当月年化累计预扣预缴税额、税率区间和速算扣除数来计算 个税金额
     private fun calculateTax(cumulativeCalculateVal: String, taxRate: String, quickDeduction: Int) = subtract(multiply(cumulativeCalculateVal, taxRate, 2), quickDeduction.toString())
+
 }

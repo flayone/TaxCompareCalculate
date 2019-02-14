@@ -4,4 +4,20 @@
     <string name="hint_c2">五险一金等：c2</string>
     <string name="hint_c3">附加扣除数：c3</string>
     <string name="btn_cal">计算</string>
+
+    <string name="January">&#xe774;</string>
+    <string name="February">&#xe76c;</string>
+    <string name="March">&#xe770;</string>
+    <string name="April">&#xe772;</string>
+    <string name="May">&#xe773;</string>
+    <string name="June">&#xe76e;</string>
+    <string name="July">&#xe76f;</string>
+    <string name="August">&#xe76b;</string>
+    <string name="September">&#xe76d;</string>
+    <string name="October">&#xe771;</string>
+    <string name="November">&#xe771;&#xe774;</string>
+    <string name="December">&#xe771;&#xe76c;</string>
+    <string name="month">&#xe775;</string>
+
+
 </resources>

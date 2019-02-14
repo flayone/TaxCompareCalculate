@@ -12,7 +12,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".HomeActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".YearCalculateActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,9 +27,6 @@
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".SectionTwoActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
-        <activity
-            android:name=".YearCalculateActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
     </application>
 
