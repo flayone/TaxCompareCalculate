@@ -257,6 +257,8 @@
             <TextView
                 android:id="@+id/real_salary_new"
                 style="@style/RedButton"
+                android:layout_width="120dp"
+                android:gravity="center"
                 app:layout_constraintEnd_toStartOf="@id/mid_line"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintHorizontal_weight="1"

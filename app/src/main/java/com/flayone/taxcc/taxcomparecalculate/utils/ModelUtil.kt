@@ -67,6 +67,33 @@ class YearHistoryModel : BaseModel() {
 
     //    十二个月的详细数据，点击历史记录重新计算用
     var hisList = mutableListOf<CalculateHistoryModel>()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true   //若指向同一个对象，直接返回true
+        val flag = other is YearHistoryModel    //判断obj是否属于User这个类
+        return if (flag) {
+            val model = other as YearHistoryModel
+            //如果输入参数、年度税前税后收入、年度税都相同代表是同一条数据
+            model.yearSalary == this.yearSalary && model.yearAfterTax == this.yearAfterTax && model.yearTax == this.yearTax
+                    && model.inputSalary == this.inputSalary && model.inputWelfare == this.inputWelfare && model.inputExpend == this.inputExpend
+
+        } else {
+            false
+        }
+    }
+
+    override fun hashCode(): Int {
+        var result = yearSalary.hashCode()
+        result = 31 * result + yearWelfare.hashCode()
+        result = 31 * result + yearExpend.hashCode()
+        result = 31 * result + yearAfterTax.hashCode()
+        result = 31 * result + yearTax.hashCode()
+        result = 31 * result + inputSalary.hashCode()
+        result = 31 * result + inputWelfare.hashCode()
+        result = 31 * result + inputExpend.hashCode()
+        result = 31 * result + hisList.hashCode()
+        return result
+    }
 }
 
 //年累计计算历史记录用,单月的详细数据
@@ -92,5 +119,5 @@ interface JSONConvertable {
 
 inline fun <reified T : JSONConvertable> String.toObject(): T = Gson().fromJson(this, T::class.java)
 
-inline fun <reified T : JSONConvertable> String.toList(): MutableList<T> = Gson().fromJson(this, object : TypeToken<List<T>>() {}.type)
+inline fun <reified T : JSONConvertable> String.toMutList(): MutableList<T> = Gson().fromJson(this, object : TypeToken<List<T>>() {}.type)
 

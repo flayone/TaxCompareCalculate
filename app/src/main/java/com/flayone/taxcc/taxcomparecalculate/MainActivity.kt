@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import com.dbflow5.config.FlowManager.context
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import com.flayone.taxcc.taxcomparecalculate.items.HistoryItem
 import com.flayone.taxcc.taxcomparecalculate.utils.*
@@ -130,7 +129,7 @@ open class MainActivity : BaseActivity() {
             finish()
         }
 
-        val layoutManager = object : LinearLayoutManager(context) {
+        val layoutManager = object : LinearLayoutManager(this@MainActivity) {
             override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
                 return RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -235,7 +234,7 @@ open class MainActivity : BaseActivity() {
     private fun calculateTax(calculateVal: Double, flag: Int): String {
         val levelList = mutableListOf<Int>()//月应纳税所得额（元）的集合
         val taxRateList = mutableListOf<String>()//税率的集合
-        var quickDeductionList = mutableListOf<Int>()//速算扣除数的集合
+        val quickDeductionList: MutableList<Int>//速算扣除数的集合
 
         if (flag == 0) {
             levelList.addAll(levelListOld)

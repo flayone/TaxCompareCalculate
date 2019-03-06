@@ -5,6 +5,7 @@ import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
 import com.flayone.taxcc.taxcomparecalculate.utils.BaseRecycleListAdapter
 import com.flayone.taxcc.taxcomparecalculate.utils.CalculateResult
 import com.flayone.taxcc.taxcomparecalculate.utils.MyViewHolder
+import com.flayone.taxcc.taxcomparecalculate.utils.calculateYearTaxRate
 import kotlinx.android.synthetic.main.item_result.view.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
@@ -14,9 +15,10 @@ class YearResultItem(override var list: List<Any>) : BaseRecycleListAdapter(list
 
         tx_salary.text = data.afterTaxSalary
         tx_calculate.text = "计税金额:" + data.calculateVal
-        tx_tax.text = "税:" + data.tax
-        tx_total_tax.text = "累计:" + data.cumulativetax
-        tx_total_calculate.text = data.cumulativeCalculateVal
+        tx_tax.text = "个税:" + data.tax
+        tx_total_tax.text = "个税累计:" + data.cumulativetax
+        tx_total_calculate.text = "计税金额累计:" + data.cumulativeCalculateVal
+        tx_tax_rate.text = "税率: ${calculateYearTaxRate(data.cumulativeCalculateVal)}"
 
         tx_month.text = getMonthPicUniCode(position)
 

@@ -31,10 +31,11 @@ fun keepEditTwoPoint(editText: EditText) {
                 return@InputFilter ""
             }
         }
-        //相当于maxLength = 9
-        if (newString.length > 9) {
-            ""
-        } else null
+        //相当于maxLength
+//        if (newString.length > 10) {
+//            ""
+//        } else null
+        return@InputFilter null
     })
 }
 
@@ -187,11 +188,35 @@ fun div(v1: String, v2: String, scale: Int): String {
 }
 
 fun shortMoney(ori: String): String {
+    if (ori.toDouble() <= 999.99) {
+        return ori
+    }
+    if (ori.toDouble() <= 999999.99) {
+        return "${div(ori, "1000", 1)}K"
+    }
+    return "${div(ori, "1000000", 1)}M"
+}
+fun shortYearMoney(ori: String): String{
     if (ori.toDouble() <= 9999.99) {
         return ori
     }
-    if (ori.toDouble() <= 9999999.99) {
-        return "${div(ori, "1000", 1)} K"
+    if (ori.toDouble() <= 999999.99) {
+        return "${div(ori, "10000", 1)}W"
     }
-    return "${div(ori, "1000000", 1)} M"
+    return "${div(ori, "1000000", 1)}M"
+}
+fun calculateYearTaxRate(s: String): String {
+    val result = when (s.toDouble()) {
+        in yearLevelList[0] until yearLevelList[1] -> taxRateList[0]
+        in yearLevelList[1] until yearLevelList[2] -> taxRateList[1]
+        in yearLevelList[2] until yearLevelList[3] -> taxRateList[2]
+        in yearLevelList[3] until yearLevelList[4] -> taxRateList[3]
+        in yearLevelList[4] until yearLevelList[5] -> taxRateList[4]
+        in yearLevelList[5] until yearLevelList[6] -> taxRateList[5]
+        in yearLevelList[6] until Int.MAX_VALUE -> taxRateList[6]
+        else -> {
+            ""
+        }
+    }
+    return "${multiply(result, "100")}%"
 }

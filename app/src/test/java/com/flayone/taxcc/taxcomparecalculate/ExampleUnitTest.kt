@@ -1,10 +1,12 @@
 package com.flayone.taxcc.taxcomparecalculate
 
 import com.alibaba.fastjson.JSON
+import com.flayone.taxcc.taxcomparecalculate.utils.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.util.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -32,20 +34,21 @@ class ExampleUnitTest {
             }
         }
 
+        println("levelList *12 ==$levelList")
+        println("速算扣除数计算公式验证 ==$quickDeductionList")
+        val forS = String.format(Locale.getDefault(),"%s %d%%","正在下载",12)
 
-
-        println("levelList *12 ==" + levelList)
-        println("速算扣除数计算公式验证 ==" + quickDeductionList)
+        println("String.format  forS ==$forS")
 
         val jsonString = "{\"l1\":\"demo\",\"l2\":2}"
         val jsonArrayString = "[{\"l1\":\"demo\",\"l2\":1},{\"l1\":\"demo\",\"l2\":2}]"
 //        println("fastJSON = " +JSON.toJSONString(jsonArrayString))
 
-        var a: A1 = JSON.parseObject(jsonString, A1::class.java)
+        val a: A1 = JSON.parseObject(jsonString, A1::class.java)
 //        var b:MutableList<A1> = JSON.parseObject(jsonString,A1::class.java)
         val s = JSON.toJSONString(a)
         val re = jsonString.toObject<A1>()
-        val rl = jsonArrayString.toList<A1>()
+        val rl = jsonArrayString.toMutList<A1>()
 
         val mNewsSortList = Gson().fromJson<MutableList<A1>>(jsonArrayString, object : TypeToken<List<A1>>() {}.type)
         println("a == ${a.l1} + ${a.l2}  s= $s re = $re rl = $rl  mNewsSortList = $mNewsSortList")
@@ -54,7 +57,6 @@ class ExampleUnitTest {
         val divB = "17"
 
         println("result === ${div(divA, divB, 2)}")
-
 
         assertEquals(4, 2 + 2)
     }

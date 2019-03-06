@@ -25,8 +25,8 @@ class YearHistoryItem(override var list: List<Any>, private val listener: BasePo
             title.visibility = View.GONE
         }
         val pos = data.size - (position + 1)
-        tx_salary.text = shortMoney(data[pos].yearAfterTax)
-        tx_detail.text = "税前:${shortMoney(data[pos].yearSalary)}，险金:${shortMoney(data[pos].yearWelfare)}，税:${shortMoney(data[pos].yearTax)}，附加数:${shortMoney(data[pos].yearExpend)}"
+        tx_salary.text = shortYearMoney(data[pos].yearAfterTax)
+        tx_detail.text = "税前:${shortYearMoney(data[pos].yearSalary)}(月均：${shortMoney(div(data[pos].yearSalary,"12",2))})，税:${shortMoney(data[pos].yearTax)}，月均收入:${shortMoney(div(data[pos].yearAfterTax,"12",2))}"
         cons_parent.onClick {
             listener.onClick(pos)
         }

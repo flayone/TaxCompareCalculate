@@ -17,25 +17,25 @@
 
     <com.flayone.taxcc.taxcomparecalculate.widget.IconFontTextView
         android:id="@+id/tx_month"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:text=""
         android:gravity="center"
-        android:textSize="33dp"
+        android:text="&#xe774;"
         android:textColor="@color/trans_gray"
+        android:textSize="33dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.75" />
+
     <TextView
         android:id="@+id/tx_salary"
         style="@style/RedButton"
         android:background="@null"
+        android:minHeight="0dp"
         android:text="123456789.00"
         android:textColor="@color/red"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/tx_tax"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,40 +43,65 @@
     <TextView
         android:id="@+id/tx_tax"
         style="@style/ItemText"
-        android:text="税：123456789.00"
-        app:layout_constraintHorizontal_weight="1"
+        android:layout_marginLeft="20dp"
+        android:text="个税：123456789.00"
+        android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@id/tx_salary"
-        app:layout_constraintRight_toLeftOf="@+id/tx_total_tax"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tx_total_tax"
-        style="@style/ItemText"
-        android:text="累计：123456789.00"
-        app:layout_constraintHorizontal_weight="1.2"
-        app:layout_constraintLeft_toRightOf="@id/tx_tax"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tx_calculate"
         style="@style/ItemText"
-        android:layout_marginTop="5dp"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:text="计税额:123456789.00"
-        android:paddingBottom="8dp"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintLeft_toRightOf="@id/tx_salary"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tx_salary" />
+
+
+    <TextView
+        android:id="@+id/tx_total_tax"
+        style="@style/ItemText"
+        android:text="个税累计：123456789.00"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tx_total_tax" />
+        app:layout_constraintTop_toBottomOf="@id/tx_calculate" />
+
 
     <TextView
         android:id="@+id/tx_total_calculate"
         style="@style/ItemText"
-        android:layout_width="0dp"
-        android:text="累计税额:123456789.00"
-        android:visibility="gone"
-        app:layout_constraintLeft_toRightOf="@id/tx_salary"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tx_calculate" />
+        android:layout_width="wrap_content"
+        android:text="计税额累计:123456789.00"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tx_total_tax" />
+
+    <TextView
+        android:id="@+id/tx_tax_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="税率:10%"
+        app:layout_constraintBottom_toBottomOf="@id/tx_total_calculate"
+        app:layout_constraintLeft_toRightOf="@id/tx_total_calculate"
+        app:layout_constraintTop_toTopOf="@id/tx_total_calculate" />
+
+    <TextView
+        android:id="@+id/tx_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/btn_edit_bg"
+        android:text="自定义"
+        android:textColor="@color/mainColor"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>

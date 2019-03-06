@@ -11,15 +11,12 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 
 class YearCalculateActivity : BaseActivity() {
 
-    private val yearLevelList = arrayListOf(0, 36000, 144000, 300000, 420000, 660000, 960000)
-    private val taxRateList = arrayListOf("0.03", "0.10", "0.20", "0.25", "0.30", "0.35", "0.45")
-
     private val threshold = "5000" //起征点
     private var salaryVal = "" //输入的税前薪水
     private var welfareVal = "" //五险一金对应的值
     private var plusNumber = "0" //新个税附加扣除数
-    private var cumulativeCalculateVal = "0" //当月累计预扣预缴税额
-    private var cumulativetax = "" //年累计个税
+    private var cumulativeCalculateVal = "0" //当前年累计预扣预缴税额
+    private var cumulativetax = "" //当前年累计个税
     private var salaryList = arrayListOf<String>() //12个月的月薪基数集合
     private val resultData = ResultListModel()
     //记录当前输入的参数,可自定义值来完善计算结果
@@ -32,7 +29,7 @@ class YearCalculateActivity : BaseActivity() {
         setContentView(R.layout.activity_year_calculate)
         setTitle("个税计算器（年累计算法）")
         ripple(calculate, 90f)
-        calculate_tips.text = "单击列表项可修改该月收入情况"
+//        calculate_tips.text = "单击列表项可修改该月收入情况"
     }
 
     override fun initView() {
@@ -117,8 +114,7 @@ class YearCalculateActivity : BaseActivity() {
                     calculateTax()
                 }
             })
-
-            list_result.visibility = View.VISIBLE
+            list_result.adapter.notifyDataSetChanged()
         } catch (e: Exception) {
             println(e)
         }
@@ -174,10 +170,27 @@ class YearCalculateActivity : BaseActivity() {
         d("resultData = ${resultData.list.size}")
 
         list_result.adapter = YearResultItem(resultData.list)
-
 //        将此次计算归入历史记录
         mHistoryModel.hisList = inputData
-        historyList
+        mHistoryModel.yearSalary = calculateYearSalaryBeforeTax()
+        mHistoryModel.yearAfterTax = calculateYearSalaryAfterTax()
+        mHistoryModel.yearTax = cumulativetax
+        calculate_tips.text = "年税前:${shortYearMoney(mHistoryModel.yearSalary)}, 税:${shortMoney(mHistoryModel.yearTax)}, 到手:${shortYearMoney(mHistoryModel.yearAfterTax)}"
+
+        val hisCount = historyList.list.size
+        //判断是否同一条记录，是的话直接跳过，不是则执行保存操作
+        if (hisCount > 0) {
+            for (i in 0 until hisCount) {
+                if (mHistoryModel == historyList.list[i]) {
+                    return
+                }
+            }
+        }
+        historyList.list.add(mHistoryModel)
+        if (hisCount > hisLimit) {
+            historyList.list.removeAt(0)
+        }
+        saveObject(this, LOCAL_Data, HISTORY_TAG_YEAR, historyList)
     }
 
     // 根据当月年化累计预扣预缴税额来计算个税数：
@@ -197,4 +210,19 @@ class YearCalculateActivity : BaseActivity() {
     //根据当月年化累计预扣预缴税额、税率区间和速算扣除数来计算 个税金额
     private fun calculateTax(cumulativeCalculateVal: String, taxRate: String, quickDeduction: Int) = subtract(multiply(cumulativeCalculateVal, taxRate, 2), quickDeduction.toString())
 
+    private fun calculateYearSalaryBeforeTax(): String {
+        var result = ""
+        inputData.forEach {
+            result = add(result, it.baseSalary)
+        }
+        return result
+    }
+
+    private fun calculateYearSalaryAfterTax(): String {
+        var result = ""
+        resultData.list.forEach {
+            result = add(result, it.afterTaxSalary)
+        }
+        return result
+    }
 }
