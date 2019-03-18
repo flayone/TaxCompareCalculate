@@ -35,8 +35,9 @@ class ExampleUnitTest {
         }
 
         println("levelList *12 ==$levelList")
+//        [0, 2520, 16920, 31920, 52920, 85920, 181920]
         println("速算扣除数计算公式验证 ==$quickDeductionList")
-        val forS = String.format(Locale.getDefault(),"%s %d%%","正在下载",12)
+        val forS = String.format(Locale.getDefault(), "%s %d%%", "正在下载", 12)
 
         println("String.format  forS ==$forS")
 

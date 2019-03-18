@@ -2,14 +2,11 @@ package com.flayone.taxcc.taxcomparecalculate.items
 
 import com.flayone.taxcc.taxcomparecalculate.R
 import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
-import com.flayone.taxcc.taxcomparecalculate.utils.BaseRecycleListAdapter
-import com.flayone.taxcc.taxcomparecalculate.utils.CalculateResult
-import com.flayone.taxcc.taxcomparecalculate.utils.MyViewHolder
-import com.flayone.taxcc.taxcomparecalculate.utils.calculateYearTaxRate
+import com.flayone.taxcc.taxcomparecalculate.utils.*
 import kotlinx.android.synthetic.main.item_result.view.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
-class YearResultItem(override var list: List<Any>) : BaseRecycleListAdapter(list, R.layout.item_result) {
+class YearResultItem(override var list: List<Any>, private val listener: BasePositionListener) : BaseRecycleListAdapter(list, R.layout.item_result) {
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) = with(holder.itemView) {
         val data = list[position] as CalculateResult
 
@@ -22,9 +19,10 @@ class YearResultItem(override var list: List<Any>) : BaseRecycleListAdapter(list
 
         tx_month.text = getMonthPicUniCode(position)
 
-        item_bg.onClick {
-            toast("点击了item")
-            tx_month.init(BaseApp.instance)
+        tx_edit.onClick { listener.onClick(position) }
+        //自定义数值
+        if (data.beforeTaxSalary != data.inputSalary) {
+            tx_edit.text = "自定义\n(${shortMoney(data.inputSalary)})"
         }
     }
 

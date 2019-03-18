@@ -3,6 +3,8 @@ package com.flayone.taxcc.taxcomparecalculate
 import android.os.Bundle
 import android.view.View
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
+import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
+import com.flayone.taxcc.taxcomparecalculate.dialog.CustomParametersDialog
 import com.flayone.taxcc.taxcomparecalculate.items.YearHistoryItem
 import com.flayone.taxcc.taxcomparecalculate.items.YearResultItem
 import com.flayone.taxcc.taxcomparecalculate.utils.*
@@ -11,25 +13,25 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 
 class YearCalculateActivity : BaseActivity() {
 
-    private val threshold = "5000" //起征点
-    private var salaryVal = "" //输入的税前薪水
-    private var welfareVal = "" //五险一金对应的值
+    private var salaryVal = "0" //输入的税前薪水
+    private var welfareVal = "0" //五险一金对应的值
     private var plusNumber = "0" //新个税附加扣除数
     private var cumulativeCalculateVal = "0" //当前年累计预扣预缴税额
-    private var cumulativetax = "" //当前年累计个税
+    private var cumulativeTax = "0" //当前年累计个税
     private var salaryList = arrayListOf<String>() //12个月的月薪基数集合
     private val resultData = ResultListModel()
     //记录当前输入的参数,可自定义值来完善计算结果
-    private var inputData = mutableListOf<CalculateHistoryModel>()
+    private var inputData = mutableListOf<BaseCalculateModel>()
     private val quickDeductionList = getQuickDeductionList(yearLevelList, taxRateList)
     private var historyList = YearHistoryListModel()
     private val mHistoryModel = YearHistoryModel()
+    private val isCustomParameters = false //是否用户自定义了各个月份的参数
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_year_calculate)
         setTitle("个税计算器（年累计算法）")
         ripple(calculate, 90f)
-//        calculate_tips.text = "单击列表项可修改该月收入情况"
     }
 
     override fun initView() {
@@ -45,16 +47,15 @@ class YearCalculateActivity : BaseActivity() {
         resultData.list = arrayListOf()
         et_salary.addTextChangedListener(MyTextWatcher(object : BaseEnsureListener {
             override fun ensure(s: String) {
-                if (s.isEmpty()) {
+                salaryVal = s
+                if (salaryVal.isEmpty()) {
                     initLayout()
                 } else {
-                    salaryVal = s
                     welfareVal = calculateWelfare(salaryVal)
                     //初始化每个月的薪资
                     for (i in 0 until 12) {
                         salaryList.add(salaryVal)
                     }
-
                     et_welfare.setText(welfareVal)
                     til_welfare.visibility = View.VISIBLE
                     til_expend.visibility = View.VISIBLE
@@ -113,6 +114,18 @@ class YearCalculateActivity : BaseActivity() {
                     inputData = item.hisList
                     calculateTax()
                 }
+            }, object : BasePositionListener {
+                override fun onClick(i: Int) {//单个删除
+                    historyList.list.removeAt(i)
+                    list_result.adapter.notifyDataSetChanged()
+                    saveObject(this@YearCalculateActivity, LOCAL_Data, HISTORY_TAG_YEAR, historyList)
+                }
+            }, object : BaseListener {
+                override fun call() {//全部删除
+                    historyList.list.clear()
+                    list_result.adapter.notifyDataSetChanged()
+                    saveObject(BaseApp.instance, LOCAL_Data, HISTORY_TAG_YEAR, historyList)
+                }
             })
             list_result.adapter.notifyDataSetChanged()
         } catch (e: Exception) {
@@ -120,12 +133,11 @@ class YearCalculateActivity : BaseActivity() {
         }
     }
 
-    //准备每一个月的基础数据，方便后续可定制计划
+    //这里是普通计算时候装载12个月的输入参数初始数据为顶部部输入值，所以如果是从历史列表来的不走这一步
     private fun preCalculate() {
         inputData.clear()
-        resultData.list.clear()
         for (i in 0 until 12) {
-            val historyModel = CalculateHistoryModel()
+            val historyModel = BaseCalculateModel()
             //输入参数赋值
             historyModel.run {
                 baseSalary = salaryVal
@@ -134,47 +146,74 @@ class YearCalculateActivity : BaseActivity() {
                 welfare = welfareVal
             }
             inputData.add(historyModel)
-            resultData.list.add(CalculateResult())
-            mHistoryModel.run {
-                inputSalary = salaryVal
-                inputExpend = plusNumber
-                inputWelfare = welfareVal
-            }
         }
     }
 
     // 计算税额并列出所有月份的结果
     private fun calculateTax() {
         calculate_tips.visibility = View.VISIBLE
-
+        mHistoryModel.run {
+            inputSalary = salaryVal
+            inputExpend = plusNumber
+            inputWelfare = welfareVal
+        }
+        val baseInputData = BaseCalculateModel()
+        //当前页面输入的基本参数，用来对自定义参数不需要同步的数据初始化
+        baseInputData.run {
+            baseSalary = salaryVal
+            welfare = welfareVal
+            expend = plusNumber
+        }
+        resultData.list.clear()
+        for (i in 0 until 12) {
+            resultData.list.add(CalculateResult())
+        }
         for (i in 0 until 12) {
             val list = resultData.list[i]
             val inputItem = inputData[i]
-//            calculateVal是计算当月预扣预缴的总额，最终用来计算个人所得税
+//            calculateVal是计算当月预扣预缴的总额，最终用来计算个人所得税, 低收入者该值为负，手动置0
             list.calculateVal = subtract(inputItem.baseSalary, inputItem.welfare, inputItem.taxThreshold, inputItem.expend)
+            if (list.calculateVal.toDouble() < 0) {
+                list.calculateVal = "0"
+            }
             var lastCumulativeCalculateVal = "0"
-            var lastcumulativetax = "0"
+            var lastCumulativeTax = "0"
             if (i > 0) {
                 lastCumulativeCalculateVal = resultData.list[i - 1].cumulativeCalculateVal
-                lastcumulativetax = resultData.list[i - 1].cumulativetax
+                lastCumulativeTax = resultData.list[i - 1].cumulativetax
             }
             cumulativeCalculateVal = add(list.calculateVal, lastCumulativeCalculateVal)
             list.cumulativeCalculateVal = cumulativeCalculateVal
 
-            cumulativetax = calculateTax(cumulativeCalculateVal)
-            list.cumulativetax = cumulativetax
-            list.tax = subtract(list.cumulativetax, lastcumulativetax)
+            cumulativeTax = calculateTax(cumulativeCalculateVal)
+            list.cumulativetax = cumulativeTax
+            list.tax = subtract(list.cumulativetax, lastCumulativeTax)
             //税后薪资计算
-            list.afterTaxSalary = subtract(salaryVal, inputItem.welfare, list.tax)
+            list.afterTaxSalary = subtract(inputItem.baseSalary, inputItem.welfare, list.tax)
+            list.beforeTaxSalary = salaryVal
+            list.inputSalary = inputItem.baseSalary
         }
-        d("resultData = ${resultData.list.size}")
 
-        list_result.adapter = YearResultItem(resultData.list)
+        list_result.adapter = YearResultItem(resultData.list, object : BasePositionListener {
+            override fun onClick(i: Int) {
+                //展示自定义参数对话框，回返一些自定义的参数，赋值inputData 重新计算薪资
+                CustomParametersDialog(this@YearCalculateActivity, "自定义${i + 1}月收入", inputData[i]) {
+                    //单击确定后将自定义的数据赋值，重新计算税后
+                    if (needHistorySynchronized) {
+                        inputData[i] = this
+                    } else {
+                        inputData[i] = baseInputData
+                    }
+                    calculateTax()
+                }.show()
+
+            }
+        })
 //        将此次计算归入历史记录
         mHistoryModel.hisList = inputData
         mHistoryModel.yearSalary = calculateYearSalaryBeforeTax()
         mHistoryModel.yearAfterTax = calculateYearSalaryAfterTax()
-        mHistoryModel.yearTax = cumulativetax
+        mHistoryModel.yearTax = cumulativeTax
         calculate_tips.text = "年税前:${shortYearMoney(mHistoryModel.yearSalary)}, 税:${shortMoney(mHistoryModel.yearTax)}, 到手:${shortYearMoney(mHistoryModel.yearAfterTax)}"
 
         val hisCount = historyList.list.size
@@ -203,7 +242,7 @@ class YearCalculateActivity : BaseActivity() {
         in yearLevelList[5] until yearLevelList[6] -> calculateTax(s, taxRateList[5], quickDeductionList[5])
         in yearLevelList[6] until Int.MAX_VALUE -> calculateTax(s, taxRateList[6], quickDeductionList[6])
         else -> {
-            ""
+            "0"
         }
     }
 

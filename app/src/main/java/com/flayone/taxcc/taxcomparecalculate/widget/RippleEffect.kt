@@ -10,6 +10,7 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.view.View
+import org.jetbrains.anko.backgroundDrawable
 
 class RippleEffect {
     private val BOUNDS = 1500
@@ -28,6 +29,9 @@ class RippleEffect {
         mInstance = null
     }
 
+    companion object {
+        fun newInstance():RippleEffect = RippleEffect()
+    }
     /**
      * Returns the singleton factory object.
      *
@@ -422,34 +426,42 @@ class RippleEffect {
     fun setViewRipple(View: View, cornerRadius: Float) {
         //先做初始化，如果可以获取到
         rad = cornerRadius
-        var nowColor = 0
+        var nowColor = Color.TRANSPARENT
         //不同布局可能产生不同drawable，original代表原始drawable
         var original: Drawable = ColorDrawable(nowColor)
         //        if (View.getBackground()!=null){
         try {
-            val bg = View.background.mutate()
-            if (bg is ColorDrawable) {
-                nowColor = bg.color
-                original = bg
-            } else if (bg is GradientDrawable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                nowColor = bg.color!!.defaultColor
-                rad = bg.cornerRadius
-                original = bg
-            } else {
-                nowColor = Color.TRANSPARENT
-                original = bg
+            if (View.background == null){
+                nowColor = Color.WHITE
+                original = ColorDrawable(nowColor)
+            }else {
+                val bg = View.background.mutate()
+                if (bg is ColorDrawable) {
+                    nowColor = if (bg.color == Color.TRANSPARENT) {
+                        Color.WHITE
+                    } else {
+                        bg.color
+                    }
+                    original = ColorDrawable(nowColor)
+                } else if (bg is GradientDrawable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    nowColor = bg.color!!.defaultColor
+                    rad = bg.cornerRadius
+                    original = bg
+                } else {
+                    nowColor = Color.TRANSPARENT
+                    original = bg
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            nowColor = Color.TRANSPARENT
         }
 
-        if (nowColor != 0) {
+        if (nowColor != Color.TRANSPARENT) {
             setViewRipple(View, nowColor, original)
         } else {
             //防止出现点击无涟漪反应的现象
             View.isClickable = true
-            setViewRipple(View, Color.TRANSPARENT, original)
+            setViewRipple(View, Color.TRANSPARENT, ColorDrawable(Color.TRANSPARENT))
         }
     }
 
@@ -457,8 +469,12 @@ class RippleEffect {
      * Fetch the button color for you and create drawable
      * If transparent, then set ripple or clicked state color to grey
      */
-    fun setViewRipple(viewRipple: View?, color: Int, original: Drawable) {
-        viewRipple?.setBackgroundDrawable(getColorDrawable(viewRipple, color, original))
+    fun setViewRipple(viewRipple: View, color: Int, original: Drawable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            viewRipple.background = getColorDrawable(viewRipple, color, original)
+        } else {
+            viewRipple.backgroundDrawable = getColorDrawable(viewRipple, color, original)
+        }
     }
 
     fun setViewRipple(viewRipple: View?, colorString: String, original: Drawable) {

@@ -6,3 +6,11 @@ interface BaseEnsureListener{
 interface BasePositionListener{
     fun onClick(i :Int)
 }
+
+interface CustomSalaryListener{
+    fun ensure(da:BaseCalculateModel)
+}
+
+interface BaseListener{
+    fun call()
+}

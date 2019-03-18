@@ -50,4 +50,13 @@
         <item name="android:paddingLeft">5dp</item>
         <item name="android:paddingRight">5dp</item>
     </style>
+
+    <style name="BottomSectionButton">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">46dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginBottom">6dp</item>
+        <item name="android:layout_marginRight">6dp</item>
+    </style>
 </resources>

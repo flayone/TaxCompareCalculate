@@ -14,8 +14,8 @@ android {
         applicationId "com.flayone.taxcc.taxcomparecalculate"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 2
-        versionName "1.1.0"
+        versionCode 3
+        versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -37,10 +37,10 @@ android {
             signingConfig signingConfigs.liyayu
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            shrinkResources true // 移除无用的resource文件
-            zipAlignEnabled true // Zipalign优化
+            zipAlignEnabled false // Zipalign优化
             signingConfig signingConfigs.liyayu
         }
     }

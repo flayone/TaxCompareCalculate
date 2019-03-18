@@ -107,9 +107,9 @@ class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
 //基础的recycleView的adapter封装
 abstract class BaseRecycleListAdapter(open var list: List<Any>, @LayoutRes private val resourceId: Int) : RecyclerView.Adapter<MyViewHolder>() {
-    open var context: Context? = null
+    lateinit var mContext: Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        context = parent.context
+        mContext = parent.context
         return MyViewHolder(View.inflate(parent.context, resourceId, null))
     }
 
@@ -119,7 +119,7 @@ abstract class BaseRecycleListAdapter(open var list: List<Any>, @LayoutRes priva
     override fun getItemViewType(position: Int): Int = position
 
     fun toast(S:String){
-        ToastUtil.showToast(context,"toast=$S")
+        ToastUtil.showToast(mContext,"toast=$S")
     }
 }
 
@@ -133,11 +133,6 @@ fun initRecycleLayoutManger(context: Context): LinearLayoutManager {
     return layoutManager
 }
 
-const val HISTORY_TAG = "historyList"
-const val HISTORY_TAG_A = "historyListA"//月均算法历史数据
-const val HISTORY_TAG_YEAR = "historyListYear"//年累计算法历史数据
-const val LOCAL_Data = "LocalData"
-const val hisLimit = 20 //历史记录列表个数限制
 
 
 //(以上海为例)公积金下限基数 2190 社保下限基数 4279

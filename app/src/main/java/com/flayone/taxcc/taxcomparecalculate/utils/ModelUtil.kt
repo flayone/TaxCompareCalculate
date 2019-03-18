@@ -6,13 +6,17 @@ import java.io.Serializable
 
 
 open class BaseModel : Serializable, JSONConvertable
-class CalculateHistoryModel : BaseModel() {
+
+open class BaseCalculateModel :BaseModel(){
     var baseSalary = "0" //税前工资
     var welfare = "0"  //五险一金
     var expend = "0"  //附加扣除数
+    var taxThreshold = threshold  //自定义起征数
+    var needHistorySynchronized = true  //是否同步到历史数据
+}
+class CalculateHistoryModel : BaseCalculateModel(){
     var afterTex = "0"  //税后
     var tax = "0"  //个税
-    var taxThreshold = "0"  //自定义起征数
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true   //若指向同一个对象，直接返回true
@@ -66,7 +70,7 @@ class YearHistoryModel : BaseModel() {
     var inputExpend = "0"  //附加扣除数
 
     //    十二个月的详细数据，点击历史记录重新计算用
-    var hisList = mutableListOf<CalculateHistoryModel>()
+    var hisList = mutableListOf<BaseCalculateModel>()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true   //若指向同一个对象，直接返回true
@@ -106,6 +110,8 @@ class YearHistoryModel : BaseModel() {
 
 //年累计计算结果model
 class CalculateResult : BaseModel() {
+    var inputSalary = "0" //自定义输入的税前工资
+    var beforeTaxSalary = "0" //顶部输入的税前工资
     var afterTaxSalary = "0" //税后工资
     var calculateVal = "0" //当月预扣预缴税额
     var cumulativeCalculateVal = "" //本月累计预扣预缴税额

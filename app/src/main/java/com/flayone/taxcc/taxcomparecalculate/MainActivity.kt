@@ -40,7 +40,7 @@ open class MainActivity : BaseActivity() {
     private var historyList = HistoryListModel() //历史查询数据
     private var adapter = HistoryItem(historyList.list, object : BasePositionListener {
         override fun onClick(i: Int) {
-            ToastUtil.showToast(this@MainActivity, "pos=$i")
+//            ToastUtil.showToast(this@MainActivity, "pos=$i")
             val model = historyList.list[i]
             et_salary.setText(model.baseSalary)
             et_expend.setText(model.expend)

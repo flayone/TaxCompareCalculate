@@ -31,13 +31,8 @@ class BaseActivity : AppCompatActivity(), MyLogger {
     var toolbar: Toolbar? = null
     var switchButton: TextView? = null
 
-    override fun setContentView(layoutResID: Int) {
-        super.setContentView(layoutResID)
-        preInit()
-    }
-
-    override fun setContentView(view: View?) {
-        super.setContentView(view)
+    override fun onContentChanged() {
+        super.onContentChanged()
         preInit()
     }
 
