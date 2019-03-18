@@ -15,6 +15,13 @@
     <color name="blue_light">#caeaf8</color>
     <color name="blue">#015ac9</color>
     <color name="black">#333</color>
+    <color name="y_bg">#d9534f</color>
+    <color name="m_bg">#96ceb4</color>
+    <color name="item_bg">#ffeead</color>
+    <color name="milk_white">#f5f4e8</color>
+    <color name="trans_gray">#55888888</color>
+    <color name="trans_milk_white">#aaf5f4e8</color>
+
     <!--主题下默认的背景色-->
     <color name="bac">@color/background_material_light</color>
 

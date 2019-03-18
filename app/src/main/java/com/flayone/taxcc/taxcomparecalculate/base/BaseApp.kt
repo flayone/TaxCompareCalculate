@@ -1,4 +1,4 @@
-package com.flayone.taxcc.taxcomparecalculate
+package com.flayone.taxcc.taxcomparecalculate.base
 
 import android.app.Application
 import com.dbflow5.config.FlowConfig

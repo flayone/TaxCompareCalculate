@@ -1,4 +1,4 @@
-package com.flayone.taxcc.taxcomparecalculate
+package com.flayone.taxcc.taxcomparecalculate.utils
 
 import android.text.InputFilter
 import android.text.InputType
@@ -31,10 +31,11 @@ fun keepEditTwoPoint(editText: EditText) {
                 return@InputFilter ""
             }
         }
-        //相当于maxLength = 9
-        if (newString.length > 9) {
-            ""
-        } else null
+        //相当于maxLength
+//        if (newString.length > 10) {
+//            ""
+//        } else null
+        return@InputFilter null
     })
 }
 
@@ -66,7 +67,21 @@ fun add(vararg v1: String): String {
         e.printStackTrace()
         "0"
     }
+}
 
+fun subtract(vararg ss: String): String {
+    return try {
+        var a1 = BigDecimal(if (ss[0].isEmpty()) "0" else ss[0])
+        var b1: BigDecimal
+        for (i in 1 until ss.size) {
+            b1 = BigDecimal(if (ss[i].isEmpty()) "0" else ss[i])
+            a1 = a1.subtract(b1)
+        }
+        a1.toString()
+    } catch (e: Exception) {
+        e.printStackTrace()
+        "0"
+    }
 }
 
 // - 减法
@@ -172,12 +187,36 @@ fun div(v1: String, v2: String, scale: Int): String {
     }
 }
 
-fun shortMoney(ori :String):String{
-    if (ori.toDouble() <= 9999.99){
+fun shortMoney(ori: String): String {
+    if (ori.toDouble() <= 999.99) {
         return ori
     }
-    if (ori.toDouble() <= 9999999.99) {
-        return "${div(ori, "1000", 1)} K"
+    if (ori.toDouble() <= 999999.99) {
+        return "${div(ori, "1000", 1)}K"
     }
-    return "${div(ori, "1000000", 1)} M"
+    return "${div(ori, "1000000", 1)}M"
+}
+fun shortYearMoney(ori: String): String{
+    if (ori.toDouble() <= 9999.99) {
+        return ori
+    }
+    if (ori.toDouble() <= 999999.99) {
+        return "${div(ori, "10000", 1)}W"
+    }
+    return "${div(ori, "1000000", 1)}M"
+}
+fun calculateYearTaxRate(s: String): String {
+    val result = when (s.toDouble()) {
+        in yearLevelList[0] until yearLevelList[1] -> taxRateList[0]
+        in yearLevelList[1] until yearLevelList[2] -> taxRateList[1]
+        in yearLevelList[2] until yearLevelList[3] -> taxRateList[2]
+        in yearLevelList[3] until yearLevelList[4] -> taxRateList[3]
+        in yearLevelList[4] until yearLevelList[5] -> taxRateList[4]
+        in yearLevelList[5] until yearLevelList[6] -> taxRateList[5]
+        in yearLevelList[6] until Int.MAX_VALUE -> taxRateList[6]
+        else -> {
+            ""
+        }
+    }
+    return "${multiply(result, "100")}%"
 }

@@ -45,7 +45,7 @@
                 app:layout_constraintRight_toRightOf="@id/guideline_right"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-                <com.flayone.taxcc.taxcomparecalculate.ClearInputEditText
+                <com.flayone.taxcc.taxcomparecalculate.widget.ClearInputEditText
                     android:id="@+id/et_salary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                 app:layout_constraintRight_toRightOf="@id/guideline_right"
                 app:layout_constraintTop_toBottomOf="@id/til_salary">
 
-                <com.flayone.taxcc.taxcomparecalculate.ClearInputEditText
+                <com.flayone.taxcc.taxcomparecalculate.widget.ClearInputEditText
                     android:id="@+id/et_welfare"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                 app:layout_constraintRight_toRightOf="@id/guideline_right"
                 app:layout_constraintTop_toBottomOf="@id/til_welfare">
 
-                <com.flayone.taxcc.taxcomparecalculate.ClearInputEditText
+                <com.flayone.taxcc.taxcomparecalculate.widget.ClearInputEditText
                     android:id="@+id/et_expend"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -256,16 +256,9 @@
 
             <TextView
                 android:id="@+id/real_salary_new"
+                style="@style/RedButton"
                 android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/red_redius_bg"
                 android:gravity="center"
-                android:minHeight="40dp"
-                android:text="0"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@id/mid_line"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintHorizontal_weight="1"

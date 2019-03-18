@@ -1,4 +1,4 @@
-package com.flayone.taxcc.taxcomparecalculate
+package com.flayone.taxcc.taxcomparecalculate.utils
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -96,7 +96,7 @@ fun saveObject(context: Context, preference: String, key: String, data: Any) {
         oos.writeObject(data)
         val putString = String(android.util.Base64.encodeToString(ba.toByteArray(), android.util.Base64.DEFAULT).toCharArray())
         editor.putString(key, putString)
-        editor.commit()
+        editor.apply()
     } catch (e: Exception) {
         e.printStackTrace()
     }

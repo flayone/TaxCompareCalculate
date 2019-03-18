@@ -13,7 +13,9 @@
         android:layout_marginRight="10dp"
         android:text="清除所有记录"
         android:textSize="15sp"
-        android:visibility="gone"
+        android:visibility="visible"
+        android:background="@null"
+        android:textColor="@color/mainColor"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

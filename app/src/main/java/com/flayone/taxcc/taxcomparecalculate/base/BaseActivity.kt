@@ -1,6 +1,7 @@
-package com.flayone.taxcc.taxcomparecalculate
+package com.flayone.taxcc.taxcomparecalculate.base
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
@@ -12,6 +13,13 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
+import com.flayone.taxcc.taxcomparecalculate.HomeActivity
+import com.flayone.taxcc.taxcomparecalculate.R
+import com.flayone.taxcc.taxcomparecalculate.utils.MyLogger
+import com.flayone.taxcc.taxcomparecalculate.utils.ToastUtil
+import com.flayone.taxcc.taxcomparecalculate.widget.RippleEffect
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.lang.Exception
 
 @SuppressLint("Registered")
@@ -19,23 +27,20 @@ open
 /**
  * Created by liyayu on 2018/6/22.
  */
-class BaseActivity : AppCompatActivity() {
+class BaseActivity : AppCompatActivity(), MyLogger {
     var toolbar: Toolbar? = null
+    var switchButton: TextView? = null
 
-    override fun setContentView(layoutResID: Int) {
-        super.setContentView(layoutResID)
+    override fun onContentChanged() {
+        super.onContentChanged()
         preInit()
     }
 
-    override fun setContentView(view: View?) {
-        super.setContentView(view)
-        preInit()
-    }
-
-    private fun preInit(){
+    private fun preInit() {
         try {
             //设置默认的toolbar
             toolbar = findViewById(R.id.in_toolbar)
+            switchButton = findViewById(R.id.mode_change)
             setSupportActionBar(toolbar)
             supportActionBar!!.setHomeButtonEnabled(true)
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -45,8 +50,24 @@ class BaseActivity : AppCompatActivity() {
         initView()
     }
 
+    fun setTitle(s: String) {
+        toolbar?.title = s
+        switchButton?.visibility = View.VISIBLE
+        switchButton?.onClick {
+            startAct(HomeActivity())
+        }
+    }
 
-    open fun initView(){}
+
+    open fun initView() {}
+
+    fun showToast(s: String) {
+        ToastUtil.showToast(this, s)
+    }
+
+    fun startAct(activity: Activity) {
+        startAct(activity::class.java)
+    }
 
     fun startAct(cls: Class<*>) {
         startActivity(Intent(this, cls))
@@ -76,7 +97,7 @@ class BaseActivity : AppCompatActivity() {
      * @return
      */
     private fun isShouldHideKeyboard(v: View?, event: MotionEvent): Boolean {
-        if (v != null && (v is EditText||v is TextInputEditText)) {
+        if (v != null && (v is EditText || v is TextInputEditText)) {
             val l = intArrayOf(0, 0)
             v.getLocationInWindow(l)
             val left = l[0]
@@ -100,5 +121,9 @@ class BaseActivity : AppCompatActivity() {
             val im = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS)
         }
+    }
+
+    protected fun ripple(View: View, cornerRadius: Float) {
+        RippleEffect().get().setViewRipple(View, cornerRadius)
     }
 }
