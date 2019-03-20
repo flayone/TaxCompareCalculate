@@ -77,9 +77,8 @@ class YearHistoryModel : BaseModel() {
         val flag = other is YearHistoryModel    //判断obj是否属于User这个类
         return if (flag) {
             val model = other as YearHistoryModel
-            //如果输入参数、年度税前税后收入、年度税都相同代表是同一条数据
-            model.yearSalary == this.yearSalary && model.yearAfterTax == this.yearAfterTax && model.yearTax == this.yearTax
-                    && model.inputSalary == this.inputSalary && model.inputWelfare == this.inputWelfare && model.inputExpend == this.inputExpend
+            //如果输入参数 相同代表是同一条数据
+            model.inputSalary == this.inputSalary && model.inputWelfare == this.inputWelfare && model.inputExpend == this.inputExpend
 
         } else {
             false

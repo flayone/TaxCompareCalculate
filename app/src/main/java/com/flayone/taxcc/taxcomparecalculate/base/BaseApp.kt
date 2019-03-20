@@ -3,6 +3,9 @@ package com.flayone.taxcc.taxcomparecalculate.base
 import android.app.Application
 import com.dbflow5.config.FlowConfig
 import com.dbflow5.config.FlowManager
+import com.orhanobut.logger.AndroidLogAdapter
+import com.orhanobut.logger.Logger
+import com.orhanobut.logger.PrettyFormatStrategy
 
 class BaseApp :Application(){
     companion object {
@@ -13,5 +16,8 @@ class BaseApp :Application(){
         super.onCreate()
         instance = this
         FlowManager.init(FlowConfig.builder(this).build())
+
+        val formatStrategy = PrettyFormatStrategy.newBuilder().tag("lyy").build()
+        Logger.addLogAdapter(AndroidLogAdapter(formatStrategy))
     }
 }

@@ -8,6 +8,7 @@ import com.flayone.taxcc.taxcomparecalculate.dialog.CustomParametersDialog
 import com.flayone.taxcc.taxcomparecalculate.items.YearHistoryItem
 import com.flayone.taxcc.taxcomparecalculate.items.YearResultItem
 import com.flayone.taxcc.taxcomparecalculate.utils.*
+import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_year_calculate.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
@@ -24,8 +25,8 @@ class YearCalculateActivity : BaseActivity() {
     private var inputData = mutableListOf<BaseCalculateModel>()
     private val quickDeductionList = getQuickDeductionList(yearLevelList, taxRateList)
     private var historyList = YearHistoryListModel()
-    private val mHistoryModel = YearHistoryModel()
-    private val isCustomParameters = false //是否用户自定义了各个月份的参数
+    private var mHistoryModel = YearHistoryModel()
+//    private val isCustomParameters = false //是否用户自定义了各个月份的参数
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,7 +105,7 @@ class YearCalculateActivity : BaseActivity() {
     private fun initHistory() {
         try {
             historyList = getObject(this, LOCAL_Data, HISTORY_TAG_YEAR) as YearHistoryListModel
-
+            Logger.json(historyList.toJSON())
             list_result.adapter = YearHistoryItem(historyList.list, object : BasePositionListener {
                 override fun onClick(i: Int) {
                     val item = historyList.list[i]
@@ -151,6 +152,7 @@ class YearCalculateActivity : BaseActivity() {
 
     // 计算税额并列出所有月份的结果
     private fun calculateTax() {
+        mHistoryModel = YearHistoryModel()
         calculate_tips.visibility = View.VISIBLE
         mHistoryModel.run {
             inputSalary = salaryVal
@@ -198,6 +200,7 @@ class YearCalculateActivity : BaseActivity() {
             override fun onClick(i: Int) {
                 //展示自定义参数对话框，回返一些自定义的参数，赋值inputData 重新计算薪资
                 CustomParametersDialog(this@YearCalculateActivity, "自定义${i + 1}月收入", inputData[i]) {
+
                     //单击确定后将自定义的数据赋值，重新计算税后
                     if (needHistorySynchronized) {
                         inputData[i] = this
@@ -217,19 +220,24 @@ class YearCalculateActivity : BaseActivity() {
         calculate_tips.text = "年税前:${shortYearMoney(mHistoryModel.yearSalary)}, 税:${shortMoney(mHistoryModel.yearTax)}, 到手:${shortYearMoney(mHistoryModel.yearAfterTax)}"
 
         val hisCount = historyList.list.size
-        //判断是否同一条记录，是的话直接跳过，不是则执行保存操作
+        //判断是否同一条记录，是的话需要将旧的替换为新的记录，因为在当前页自定义月工资时mHistoryModel指向的还是同一个对象，但mHistoryModel.hisList数据是变化了的，需要更新数据，不是同一条记录则执行保存操作
+        var isTheSameRequest = false
         if (hisCount > 0) {
             for (i in 0 until hisCount) {
                 if (mHistoryModel == historyList.list[i]) {
-                    return
+                    isTheSameRequest = true
+                    historyList.list[i] = mHistoryModel
                 }
             }
         }
-        historyList.list.add(mHistoryModel)
-        if (hisCount > hisLimit) {
-            historyList.list.removeAt(0)
+        if (!isTheSameRequest){
+            if (hisCount > hisLimit) {
+                historyList.list.removeAt(0)
+            }
+            historyList.list.add(mHistoryModel)
         }
         saveObject(this, LOCAL_Data, HISTORY_TAG_YEAR, historyList)
+        Logger.json(historyList.toJSON())
     }
 
     // 根据当月年化累计预扣预缴税额来计算个税数：
