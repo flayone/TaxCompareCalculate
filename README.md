@@ -9,8 +9,8 @@ apk下载体验：https://www.pgyer.com/GCrL<br>
 
 页面预览
 
-<img src="images/201901.jpeg" width="32%" /><img src="images/201902.jpeg" width="32%" /><img src="images/201903.jpeg" width="32%" />
-<img src="images/201904.jpeg" width="32%" /><img src="images/201905.jpeg" width="32%" />
+<img src="images/201901.jpeg" width="32%" />  <img src="images/201902.jpeg" width="32%" />  <img src="images/201903.jpeg" width="32%" />
+<img src="images/201904.jpeg" width="32%" />  <img src="images/201905.jpeg" width="32%" />
 
 ## CHANGE LIST
 v2.0<br>
