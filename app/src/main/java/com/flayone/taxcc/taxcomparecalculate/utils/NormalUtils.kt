@@ -135,13 +135,20 @@ fun initRecycleLayoutManger(context: Context): LinearLayoutManager {
 
 
 
-//(以上海为例)公积金下限基数 2190 社保下限基数 4279
-private const val minSocialSafety = 4279
-private const val maxSocialSafety = 21396
+//(以上海为例)2018年度公积金下限基数 2190 ,2018年度社保下限基数 4279
+//本市(上海)2019年度职工社会保险缴费基数上、下限分别调整为 23496 元和 4699 元,
+//
+//private const val minSocialSafety = 4279
+//private const val maxSocialSafety = 21396
+private const val minSocialSafety = 4699
+private const val maxSocialSafety = 23496
 private const val socialSafetyPercent = "0.105"
 
-private const val minPublicMoney = 2190
-private const val maxPublicMoney = 19512
+//private const val minPublicMoney = 2190
+//private const val maxPublicMoney = 19512
+//2019年上海公积金7%比例上下限分别为 3290、334.上限对应工资基数：23496，下限对应工资基数：2385.71
+private const val minPublicMoney = 2386
+private const val maxPublicMoney = maxSocialSafety
 private const val publicMoneyPercent = "0.07"
 
 private const val missCount = "0"//修正参数
