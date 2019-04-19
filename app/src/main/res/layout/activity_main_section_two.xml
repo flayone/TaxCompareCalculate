@@ -362,7 +362,7 @@
     </android.support.v4.widget.NestedScrollView>
 
     <TextView
-        android:id="@+id/mode_change"
+        android:id="@+id/tv_mode_change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

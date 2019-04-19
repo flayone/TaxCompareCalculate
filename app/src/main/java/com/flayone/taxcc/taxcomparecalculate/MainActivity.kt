@@ -61,11 +61,11 @@ open class MainActivity : BaseActivity() {
             setContentView(R.layout.activity_main_section_two)
             ripple(calculate, 5f)
         }
-        setTitle("个税计算器（月均算法）")
     }
 
     override fun initView() {
         initLayout()
+        setTitle("个税计算器（月均算法）")
 
         keepEditTwoPoint(et_salary)
         keepEditTwoPoint(et_welfare)
@@ -123,7 +123,7 @@ open class MainActivity : BaseActivity() {
                 }
             })
         }
-        mode_change.onClick {
+        tv_mode_change.onClick {
             setPreferences(this@MainActivity, "SETTING", "LOAD_MODE", !getPreference(this@MainActivity, "SETTING", "LOAD_MODE", false))
             startAct(SectionTwoActivity::class.java)
             finish()
@@ -198,6 +198,9 @@ open class MainActivity : BaseActivity() {
             for (i in 0..(size - 1)) {
                 if (result == historyList.list[i]) {
                     isSame = true
+                    //相同记录重置顶
+                    historyList.list.removeAt(i)
+                    historyList.list.add(result)
                     Log.d("", "result isSame")
                     break
                 } else {

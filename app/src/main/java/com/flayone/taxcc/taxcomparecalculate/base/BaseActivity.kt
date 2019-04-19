@@ -39,11 +39,12 @@ class BaseActivity : AppCompatActivity(), MyLogger {
     private fun preInit() {
         try {
             //设置默认的toolbar
-            toolbar = findViewById(R.id.in_toolbar)
+            toolbar = findViewById(R.id.toolbar)
             switchButton = findViewById(R.id.mode_change)
             setSupportActionBar(toolbar)
-            supportActionBar!!.setHomeButtonEnabled(true)
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setHomeButtonEnabled(false)
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            supportActionBar?.setDisplayShowHomeEnabled(false)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -51,9 +52,10 @@ class BaseActivity : AppCompatActivity(), MyLogger {
     }
 
     fun setTitle(s: String) {
-        toolbar?.title = s
+        supportActionBar?.title = s
         switchButton?.visibility = View.VISIBLE
         switchButton?.onClick {
+            finish()
             startAct(HomeActivity())
         }
     }

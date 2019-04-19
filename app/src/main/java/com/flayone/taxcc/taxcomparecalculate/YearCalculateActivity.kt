@@ -31,12 +31,12 @@ class YearCalculateActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_year_calculate)
-        setTitle("个税计算器（年累计算法）")
         ripple(calculate, 90f)
     }
 
     override fun initView() {
         super.initView()
+        setTitle("新个税计算器(2019.1.1后)")
         keepEditTwoPoint(et_salary)
         keepEditTwoPoint(et_welfare)
         keepEditTwoPoint(et_expend)
@@ -226,7 +226,11 @@ class YearCalculateActivity : BaseActivity() {
             for (i in 0 until hisCount) {
                 if (mHistoryModel == historyList.list[i]) {
                     isTheSameRequest = true
-                    historyList.list[i] = mHistoryModel
+//                    historyList.list[i] = mHistoryModel
+
+                    //相同记录重置顶,保证时间顺序
+                    historyList.list.removeAt(i)
+                    historyList.list.add(mHistoryModel)
                 }
             }
         }
