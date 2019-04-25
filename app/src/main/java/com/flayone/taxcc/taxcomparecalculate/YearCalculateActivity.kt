@@ -1,7 +1,10 @@
 package com.flayone.taxcc.taxcomparecalculate
 
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.view.View
+import android.view.ViewGroup
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
 import com.flayone.taxcc.taxcomparecalculate.dialog.CustomParametersDialog
@@ -23,7 +26,6 @@ class YearCalculateActivity : BaseActivity() {
     private val resultData = ResultListModel()
     //记录当前输入的参数,可自定义值来完善计算结果
     private var inputData = mutableListOf<BaseCalculateModel>()
-    private val quickDeductionList = getQuickDeductionList(yearLevelList, taxRateList)
     private var historyList = YearHistoryListModel()
     private var mHistoryModel = YearHistoryModel()
 //    private val isCustomParameters = false //是否用户自定义了各个月份的参数
@@ -90,7 +92,28 @@ class YearCalculateActivity : BaseActivity() {
             preCalculate()
             calculateTax()
         }
+        var mLeft = getScreenW() - dp2px(76f)
+        var mTop = getScreenHWithOutBar() - dp2px(88f)
 
+        val lp = tv_pop_section.layoutParams as ViewGroup.MarginLayoutParams
+        lp.setMargins(mLeft, mTop, 0, 0)
+        tv_pop_section.layoutParams = lp
+        //年终奖
+        tv_pop_section.setOnTouchListener(OnDragListener(true, object : OnDraggableClickListener {
+            override fun onDragged(v: View, left: Int, top: Int) {
+                mLeft = left
+                mTop = top
+            }
+
+            @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+            override fun onClick(v: View) {
+                startActDrop(tv_pop_bg, mLeft + (dragWidth / 2), mTop + (dragHeight / 2), dragWidth.toFloat(), getScreenH().toFloat()) {
+//                    showToast("年终奖")
+                    startAnimAct(YearTaxActivity())
+                }
+            }
+
+        }))
     }
 
     //页面显示相关的初始化
@@ -234,7 +257,7 @@ class YearCalculateActivity : BaseActivity() {
                 }
             }
         }
-        if (!isTheSameRequest){
+        if (!isTheSameRequest) {
             if (hisCount > hisLimit) {
                 historyList.list.removeAt(0)
             }
@@ -244,22 +267,7 @@ class YearCalculateActivity : BaseActivity() {
         Logger.json(historyList.toJSON())
     }
 
-    // 根据当月年化累计预扣预缴税额来计算个税数：
-    private fun calculateTax(s: String): String = when (s.toDouble()) {
-        in yearLevelList[0] until yearLevelList[1] -> calculateTax(s, taxRateList[0], quickDeductionList[0])
-        in yearLevelList[1] until yearLevelList[2] -> calculateTax(s, taxRateList[1], quickDeductionList[1])
-        in yearLevelList[2] until yearLevelList[3] -> calculateTax(s, taxRateList[2], quickDeductionList[2])
-        in yearLevelList[3] until yearLevelList[4] -> calculateTax(s, taxRateList[3], quickDeductionList[3])
-        in yearLevelList[4] until yearLevelList[5] -> calculateTax(s, taxRateList[4], quickDeductionList[4])
-        in yearLevelList[5] until yearLevelList[6] -> calculateTax(s, taxRateList[5], quickDeductionList[5])
-        in yearLevelList[6] until Int.MAX_VALUE -> calculateTax(s, taxRateList[6], quickDeductionList[6])
-        else -> {
-            "0"
-        }
-    }
 
-    //根据当月年化累计预扣预缴税额、税率区间和速算扣除数来计算 个税金额
-    private fun calculateTax(cumulativeCalculateVal: String, taxRate: String, quickDeduction: Int) = subtract(multiply(cumulativeCalculateVal, taxRate, 2), quickDeduction.toString())
 
     private fun calculateYearSalaryBeforeTax(): String {
         var result = ""
@@ -275,5 +283,17 @@ class YearCalculateActivity : BaseActivity() {
             result = add(result, it.afterTaxSalary)
         }
         return result
+    }
+
+
+    var dragHeight = 0
+    var dragWidth = 0
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            dragHeight = tv_pop_section.height
+            dragWidth = tv_pop_section.width
+        }
     }
 }

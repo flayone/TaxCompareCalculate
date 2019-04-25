@@ -196,7 +196,8 @@ fun shortMoney(ori: String): String {
     }
     return "${div(ori, "1000000", 1)}M"
 }
-fun shortYearMoney(ori: String): String{
+
+fun shortYearMoney(ori: String): String {
     if (ori.toDouble() <= 9999.99) {
         return ori
     }
@@ -205,18 +206,50 @@ fun shortYearMoney(ori: String): String{
     }
     return "${div(ori, "1000000", 1)}M"
 }
-fun calculateYearTaxRate(s: String): String {
-    val result = when (s.toDouble()) {
-        in yearLevelList[0] until yearLevelList[1] -> taxRateList[0]
-        in yearLevelList[1] until yearLevelList[2] -> taxRateList[1]
-        in yearLevelList[2] until yearLevelList[3] -> taxRateList[2]
-        in yearLevelList[3] until yearLevelList[4] -> taxRateList[3]
-        in yearLevelList[4] until yearLevelList[5] -> taxRateList[4]
-        in yearLevelList[5] until yearLevelList[6] -> taxRateList[5]
-        in yearLevelList[6] until Int.MAX_VALUE -> taxRateList[6]
-        else -> {
-            ""
-        }
+
+fun calculateYearTaxPosition(s: String): Int? = when (s.toDouble()) {
+    in yearLevelList[0] until yearLevelList[1] -> 0
+    in yearLevelList[1] until yearLevelList[2] -> 1
+    in yearLevelList[2] until yearLevelList[3] -> 2
+    in yearLevelList[3] until yearLevelList[4] -> 3
+    in yearLevelList[4] until yearLevelList[5] -> 4
+    in yearLevelList[5] until yearLevelList[6] -> 5
+    in yearLevelList[6] until Int.MAX_VALUE -> 6
+    else -> {
+        null
     }
-    return "${multiply(result, "100")}%"
+}
+
+fun calculateYearTaxRate(s: String): String {
+    val pos = calculateYearTaxPosition(s)
+    return if (pos != null)
+        "${multiply(taxRateList[pos], "100")}%"
+    else ""
+}
+
+
+private val quickDeductionList = getQuickDeductionList(yearLevelList, taxRateList)
+
+// 根据当月年化累计预扣预缴税额来计算个税数：
+fun calculateTax(s: String): String = when (s.toDouble()) {
+    in yearLevelList[0] until yearLevelList[1] -> calculateTax(s, taxRateList[0], quickDeductionList[0])
+    in yearLevelList[1] until yearLevelList[2] -> calculateTax(s, taxRateList[1], quickDeductionList[1])
+    in yearLevelList[2] until yearLevelList[3] -> calculateTax(s, taxRateList[2], quickDeductionList[2])
+    in yearLevelList[3] until yearLevelList[4] -> calculateTax(s, taxRateList[3], quickDeductionList[3])
+    in yearLevelList[4] until yearLevelList[5] -> calculateTax(s, taxRateList[4], quickDeductionList[4])
+    in yearLevelList[5] until yearLevelList[6] -> calculateTax(s, taxRateList[5], quickDeductionList[5])
+    in yearLevelList[6] until Int.MAX_VALUE -> calculateTax(s, taxRateList[6], quickDeductionList[6])
+    else -> {
+        "0"
+    }
+}
+
+//根据当月年化累计预扣预缴税额、税率区间和速算扣除数来计算 个税金额
+fun calculateTax(cumulativeCalculateVal: String, taxRate: String, quickDeduction: Int) = subtract(multiply(cumulativeCalculateVal, taxRate, 2), quickDeduction.toString())
+
+fun calculateQuickDeduction(s: String): String {
+    val pos = calculateYearTaxPosition(s)
+    return if (pos != null)
+        quickDeductionList[pos].toString()
+    else ""
 }

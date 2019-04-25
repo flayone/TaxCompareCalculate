@@ -1,22 +1,33 @@
 package com.flayone.taxcc.taxcomparecalculate.utils
 
+import android.animation.Animator
 import android.app.Activity
 import android.app.Dialog
 import android.app.Fragment
 import android.content.Context
+import android.graphics.Point
+import android.graphics.drawable.Drawable
 import android.os.Build
+import android.support.annotation.ColorRes
+import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
+import android.support.annotation.RequiresApi
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewAnimationUtils
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
+import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
 import com.flayone.taxcc.taxcomparecalculate.dialog.BaseListenerDialogHelper
+import org.jetbrains.anko.windowManager
 
 
 object ToastUtil {
@@ -118,8 +129,8 @@ abstract class BaseRecycleListAdapter(open var list: List<Any>, @LayoutRes priva
     // 如果想要每次都调用onBindViewHolder()刷新item数据，就要重写getItemViewType()，让其返回position，否则很容易产生数据错乱的现象。
     override fun getItemViewType(position: Int): Int = position
 
-    fun toast(S:String){
-        ToastUtil.showToast(mContext,"toast=$S")
+    fun toast(S: String) {
+        ToastUtil.showToast(mContext, "toast=$S")
     }
 }
 
@@ -132,7 +143,6 @@ fun initRecycleLayoutManger(context: Context): LinearLayoutManager {
     layoutManager.orientation = LinearLayoutManager.VERTICAL
     return layoutManager
 }
-
 
 
 //(以上海为例)2018年度公积金下限基数 2190 ,2018年度社保下限基数 4279
@@ -190,3 +200,76 @@ fun getQuickDeductionList(levelList: MutableList<Int>, taxRateList: MutableList<
 }
 
 
+/**
+ * 幕布动画效果
+ */
+@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+fun startActDrop(view: View, centerX: Int, centerY: Int, startRadius: Float, endRadius: Float, duration: Long = 600, endAnim: (() -> Unit)) {
+
+    view.visibility = View.VISIBLE
+    val animator = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius)
+    animator.duration = duration
+    animator.interpolator = AccelerateInterpolator()
+    animator.start()
+    animator.addListener(object : Animator.AnimatorListener {
+        override fun onAnimationRepeat(p0: Animator?) {
+        }
+
+        override fun onAnimationStart(p0: Animator?) {
+
+        }
+
+        override fun onAnimationCancel(p0: Animator?) {
+        }
+
+        override fun onAnimationEnd(p0: Animator?) {
+            view.visibility = View.GONE
+
+            endAnim.invoke()
+        }
+    })
+}
+
+/**
+ * 控件拖拽监听器
+ */
+interface OnDraggableClickListener {
+
+    /**
+     * 当控件拖拽完后回调
+     *
+     * @param v    拖拽控件
+     * @param left 控件左边距
+     * @param top  控件右边距
+     */
+    fun onDragged(v: View, left: Int, top: Int)
+
+    /**
+     * 当可拖拽控件被点击时回调
+     *
+     * @param v 拖拽控件
+     */
+    fun onClick(v: View)
+}
+
+fun dp2px(f: Float) = (f * BaseApp.instance.resources.displayMetrics.density + 0.5f).toInt()
+
+@Synchronized
+fun getScreenSize(): Point {
+    val screenSize = Point()
+    BaseApp.instance.windowManager.defaultDisplay.getSize(screenSize)
+    return screenSize
+}
+
+@Synchronized
+fun getBarHeight(): Int {
+    val resourceId = BaseApp.instance.resources.getIdentifier("status_bar_height", "dimen", "android")
+    return BaseApp.instance.resources.getDimensionPixelSize(resourceId)
+}
+
+fun getScreenW() = getScreenSize().x
+fun getScreenH() = getScreenSize().y
+fun getScreenHWithOutBar() = getScreenSize().y - getBarHeight()
+
+fun getColorRes(@ColorRes colorRes: Int): Int = ContextCompat.getColor(BaseApp.instance, colorRes)
+fun getDrawableRes(@DrawableRes res:Int ) : Drawable = ContextCompat.getDrawable(BaseApp.instance, res)

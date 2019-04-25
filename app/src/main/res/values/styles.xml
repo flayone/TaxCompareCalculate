@@ -59,4 +59,10 @@
         <item name="android:layout_marginBottom">6dp</item>
         <item name="android:layout_marginRight">6dp</item>
     </style>
+
+    <style name="CustomInputLayout" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/y_bg</item>
+
+    </style>
+
 </resources>

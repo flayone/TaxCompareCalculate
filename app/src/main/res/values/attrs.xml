@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="CEditText">
+    <declare-styleable name="ClearInputEditText">
         <attr name="clear_background" format="reference"/>
+        <attr name="clear_background_tint" format="color"/>
     </declare-styleable>
 
 </resources>

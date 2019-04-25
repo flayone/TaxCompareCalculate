@@ -3,17 +3,20 @@ package com.flayone.taxcc.taxcomparecalculate.widget
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
-import android.support.design.widget.TextInputEditText
+import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.widget.EditText
 import com.flayone.taxcc.taxcomparecalculate.R
+import com.flayone.taxcc.taxcomparecalculate.utils.BaseListener
 import com.flayone.taxcc.taxcomparecalculate.utils.LogUtil
+import com.flayone.taxcc.taxcomparecalculate.utils.getColorRes
 
-class ClearInputEditText : TextInputEditText, TextWatcher, View.OnFocusChangeListener {
+class ClearInputEditText : EditText, TextWatcher, View.OnFocusChangeListener {
     private var clBg: Int = 0
     private var ta: TypedArray? = null
     /**
@@ -24,6 +27,8 @@ class ClearInputEditText : TextInputEditText, TextWatcher, View.OnFocusChangeLis
      * 控件是否有焦点
      */
     private var hasFocus: Boolean = false
+    private var tint: Int = 0
+    var listener: BaseListener? =null
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, android.R.attr.editTextStyle)
@@ -32,18 +37,23 @@ class ClearInputEditText : TextInputEditText, TextWatcher, View.OnFocusChangeLis
             return
         }
         try {
-            ta = context.obtainStyledAttributes(attrs, R.styleable.CEditText)
-            clBg = ta!!.getResourceId(R.styleable.CEditText_clear_background, R.mipmap.close)
+            ta = context.obtainStyledAttributes(attrs, R.styleable.ClearInputEditText)
+            clBg = ta!!.getResourceId(R.styleable.ClearInputEditText_clear_background, R.mipmap.close)
+            tint = ta!!.getResourceId(R.styleable.ClearInputEditText_clear_background_tint, 0)
+
             mClearDrawable = resources.getDrawable(clBg)
+            if (tint != 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mClearDrawable?.setTint(getColorRes(tint))
+            }
         } catch (e: Exception) {
             Log.e("ClearEditText_err", "获取资源失败")
         } finally {
             ta!!.recycle()
         }
         //使图标大小根据字体大小来适应
-        mClearDrawable!!.setBounds(0, 0, textSize.toInt(), textSize.toInt())
+        mClearDrawable?.setBounds(0, 0, textSize.toInt(), textSize.toInt())
 
-        LogUtil.d("drawable ==="+mClearDrawable!!.intrinsicWidth+ mClearDrawable!!.intrinsicHeight+"textSize==="+textSize)
+        LogUtil.d("drawable ===" + mClearDrawable?.intrinsicWidth + mClearDrawable?.intrinsicHeight + "textSize===" + textSize)
         //默认设置隐藏图标
         setClearIconVisible(false)
         //设置焦点改变的监听
@@ -90,10 +100,18 @@ class ClearInputEditText : TextInputEditText, TextWatcher, View.OnFocusChangeLis
                 val touchable = event.x > width - totalPaddingRight && event.x < width - paddingRight
                 if (touchable) {
                     this.setText("")
+                    listener?.call()
                 }
             }
         }
         return super.onTouchEvent(event)
     }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        //去除自定义内容影响重置颜色
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mClearDrawable?.setTint(getColorRes(R.color.mainColor))
+        }
+    }
 }

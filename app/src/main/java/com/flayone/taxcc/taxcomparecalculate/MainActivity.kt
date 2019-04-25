@@ -23,14 +23,6 @@ open class MainActivity : BaseActivity() {
     private var newTaxThreshold = "5000"//新个税起征点
     private var odlTaxThreshold = "3500"//旧个税起征点
 
-
-
-    private val levelListOld = arrayListOf(0, 1500, 4500, 9000, 35000, 55000, 80000)
-    private val taxRateListOld = arrayListOf("0.03", "0.10", "0.20", "0.25", "0.30", "0.35", "0.45")
-
-    private val levelListNew = arrayListOf(0, 3000, 12000, 25000, 35000, 55000, 80000)
-    private val taxRateListNew = arrayListOf("0.03", "0.10", "0.20", "0.25", "0.30", "0.35", "0.45")
-
     private val calculateTips = "计税金额计算方式：c1 - c2 -c3"
     private var plusNumber = "0" //新个税附加扣除数
     private var newCalculateVal = "0" //新个税计税金额

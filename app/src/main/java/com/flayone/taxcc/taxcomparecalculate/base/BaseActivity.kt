@@ -2,8 +2,10 @@ package com.flayone.taxcc.taxcomparecalculate.base
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.IBinder
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AppCompatActivity
@@ -17,6 +19,7 @@ import android.widget.TextView
 import com.flayone.taxcc.taxcomparecalculate.HomeActivity
 import com.flayone.taxcc.taxcomparecalculate.R
 import com.flayone.taxcc.taxcomparecalculate.utils.MyLogger
+import com.flayone.taxcc.taxcomparecalculate.utils.StatusBarUtil.setStatusBarMode
 import com.flayone.taxcc.taxcomparecalculate.utils.ToastUtil
 import com.flayone.taxcc.taxcomparecalculate.widget.RippleEffect
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -75,6 +78,21 @@ class BaseActivity : AppCompatActivity(), MyLogger {
         startActivity(Intent(this, cls))
     }
 
+    //带动画启动activity
+    fun startAnimAct(activity: Activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivity(Intent(this, activity::class.java), ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+        } else {
+            startAct(activity)
+        }
+    }
+
+    //状态栏背景、字体颜色
+    @JvmOverloads
+    fun setStatusColor(res: Int, isTextBlack: Boolean = false) {
+        setStatusBarMode(this, isTextBlack, res)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
             android.R.id.home -> finish()
@@ -125,7 +143,14 @@ class BaseActivity : AppCompatActivity(), MyLogger {
         }
     }
 
-    protected fun ripple(View: View, cornerRadius: Float) {
-        RippleEffect().get().setViewRipple(View, cornerRadius)
+    @JvmOverloads
+    protected fun ripple(view: View, cornerRadius: Float = 0f) {
+        RippleEffect().get().setViewRipple(view, cornerRadius)
+    }
+
+    protected fun ripple(vararg views: View) {
+        for (view in views) {
+            RippleEffect().get().setViewRipple(view)
+        }
     }
 }

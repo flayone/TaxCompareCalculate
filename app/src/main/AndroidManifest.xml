@@ -15,7 +15,7 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".YearCalculateActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,6 +28,9 @@
         <activity
             android:name=".SectionTwoActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
+        <activity
+            android:name=".YearTaxActivity"
+            android:theme="@style/CustomInputLayout" />
     </application>
 
 </manifest>

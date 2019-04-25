@@ -22,6 +22,9 @@
     <color name="trans_gray">#55888888</color>
     <color name="trans_milk_white">#aaf5f4e8</color>
 
+    <color name="trans_m_bg">#aa96ceb4</color>
+    <color name="trans_y_bg">#aad9534f</color>
+
     <!--主题下默认的背景色-->
     <color name="bac">@color/background_material_light</color>
 

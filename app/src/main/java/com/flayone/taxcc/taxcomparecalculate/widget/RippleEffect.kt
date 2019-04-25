@@ -424,8 +424,10 @@ class RippleEffect {
     }
 
     fun setViewRipple(View: View, cornerRadius: Float) {
-        //先做初始化，如果可以获取到
-        rad = cornerRadius
+        if (cornerRadius != 0f){
+            //先做初始化，如果可以获取到
+            rad = cornerRadius
+        }
         var nowColor = Color.TRANSPARENT
         //不同布局可能产生不同drawable，original代表原始drawable
         var original: Drawable = ColorDrawable(nowColor)
