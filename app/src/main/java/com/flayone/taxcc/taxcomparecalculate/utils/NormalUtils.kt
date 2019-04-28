@@ -152,6 +152,7 @@ fun initRecycleLayoutManger(context: Context): LinearLayoutManager {
 //private const val maxSocialSafety = 21396
 private const val minSocialSafety = 4699
 private const val maxSocialSafety = 23496
+// 养老保险8% +医疗保险2% +失业保险0.5% = 10.5%
 private const val socialSafetyPercent = "0.105"
 
 //private const val minPublicMoney = 2190

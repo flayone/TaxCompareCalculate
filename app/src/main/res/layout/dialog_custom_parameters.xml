@@ -9,21 +9,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="10dp" />
+        app:layout_constraintGuide_begin="12dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9" />
+        app:layout_constraintGuide_end="12dp" />
 
     <TextView
         android:id="@+id/tx_title"
         android:layout_width="0dp"
         android:layout_height="46dp"
         android:gravity="center_vertical"
-        android:text="1月自定义薪资"
+        android:text="自定义薪资"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="@id/guideline_left"
         app:layout_constraintRight_toRightOf="@id/guideline_right"
@@ -33,6 +34,7 @@
         android:id="@+id/til_salary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         app:layout_constraintLeft_toLeftOf="@id/guideline_left"
         app:layout_constraintRight_toRightOf="@id/guideline_right"
         app:layout_constraintTop_toBottomOf="@id/tx_title">
@@ -93,6 +95,7 @@
         android:id="@+id/tx_ensure"
         style="@style/BottomSectionButton"
         android:text="确认"
+        android:textColor="@color/mainColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -100,6 +103,7 @@
         android:id="@+id/tx_cancel"
         style="@style/BottomSectionButton"
         android:text="取消"
+        android:textColor="@color/gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/tx_ensure" />
 
@@ -107,13 +111,13 @@
         android:id="@+id/cb_sync"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:text="同步到历史记录"
         android:checked="true"
+        android:gravity="center_vertical"
+        android:text=""
         android:textColor="@color/gray"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@id/tx_cancel"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/guideline_left"
         app:layout_constraintRight_toLeftOf="@id/tx_cancel"
         app:layout_constraintTop_toTopOf="@id/tx_cancel" />
 </android.support.constraint.ConstraintLayout>

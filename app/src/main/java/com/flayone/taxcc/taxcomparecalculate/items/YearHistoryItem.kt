@@ -17,7 +17,7 @@ private val delAllListener: BaseListener) : BaseRecycleListAdapter(list, R.layou
             title.text = "历史记录（年度）"
             btn_clear.visibility = View.VISIBLE
             title.visibility = View.VISIBLE
-            btn_clear.onClick {
+            btn_clear.setOnClickListener {
                 showAlertDialog(mContext,"确认要清除所有记录吗？",{
                     delAllListener.call()
                 })

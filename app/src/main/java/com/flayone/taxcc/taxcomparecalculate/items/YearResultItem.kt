@@ -11,10 +11,10 @@ class YearResultItem(override var list: List<Any>, private val listener: BasePos
         val data = list[position] as CalculateResult
 
         tx_salary.text = data.afterTaxSalary
-        tx_calculate.text = "计税金额:" + data.calculateVal
+        tx_calculate.text = "计税:" + data.calculateVal
         tx_tax.text = "个税:" + data.tax
-        tx_total_tax.text = "个税累计:" + data.cumulativetax
-        tx_total_calculate.text = "计税金额累计:" + data.cumulativeCalculateVal
+        tx_total_tax.text = "累计个税:" + data.cumulativetax
+        tx_total_calculate.text = "累计计税:" + data.cumulativeCalculateVal
         tx_tax_rate.text = "税率: ${calculateYearTaxRate(data.cumulativeCalculateVal)}"
 
         tx_month.text = getMonthPicUniCode(position)

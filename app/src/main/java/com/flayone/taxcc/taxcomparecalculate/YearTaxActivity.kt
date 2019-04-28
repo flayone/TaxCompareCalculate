@@ -31,7 +31,7 @@ class YearTaxActivity : BaseActivity() {
         setStatusColor(mainColor)
         isResultShow(false)
         ripple(btn_calculate, btn_calculate_original)
-
+        keepEditTwoPoint(et_salary)
 
         et_salary.listener = object : BaseListener {
             override fun call() {
@@ -55,17 +55,22 @@ class YearTaxActivity : BaseActivity() {
     }
 
     private fun calculateYearTax(s: String) {
-
         val result = calculateTax(s)
         tv_result.text = subtract(s, result)
         val rate = calculateYearTaxRate(s)
 
-        tv_calculation_formula.text = "$s（税前所得）* $rate（税率） - ${calculateQuickDeduction(s)}（速算扣除数） = $result（个税）"
+        tv_calculation_formula.text = "$s（税前年终奖）* $rate（税率） - ${calculateQuickDeduction(s)}（速算扣除数） = $result（个税）"
         isResultShow(true)
     }
 
     private fun calculateYearOriginal(s: String) {
+        val pos = calculateOriginalSalaryPosition(s)?:return
+        val rate = getTaxRateByPosition(pos)
+        val deduction = getQuickDeductionByPosition(pos)
 
+        val result = div(add(s, deduction), subtract("1",taxRateList[pos]), 2)
+        tv_result.text = result
+        tv_calculation_formula.text = "（$s（税后所得）+ $deduction（速算扣除数）） ÷ (1 - $rate（税率）)= $result（税前年终奖）"
         isResultShow(true)
     }
 

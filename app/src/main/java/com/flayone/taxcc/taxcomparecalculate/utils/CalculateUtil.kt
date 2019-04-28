@@ -253,3 +253,30 @@ fun calculateQuickDeduction(s: String): String {
         quickDeductionList[pos].toString()
     else ""
 }
+
+//s代表输入的税后金额
+fun calculateOriginalSalaryPosition(s: String): Int? {
+    for (i in 1 until yearLevelList.size) {
+        //边界值最大，用来判断当前输入值的所在扣税区间
+        val maxEdgeValue = if (i < yearLevelList.size) {
+            subtract(yearLevelList[i].toString(), calculateTax(yearLevelList[i].toString()))
+        } else {
+            Int.MAX_VALUE.toString()
+        }
+        val isInside = compareTo(s, maxEdgeValue) <= 0 //当输入的值小于等于区间最大值时
+        if (isInside) {
+            return i - 1
+        }
+    }
+    return null
+}
+
+//根据区间位置获取税率
+fun getTaxRateByPosition(pos: Int?): String = if (pos == null) "" else {
+    "${multiply(taxRateList[pos], "100")}%"
+}
+
+//根据区间位置获取速算扣除数
+fun getQuickDeductionByPosition(pos: Int?) = if (pos == null) "" else {
+    quickDeductionList[pos].toString()
+}
