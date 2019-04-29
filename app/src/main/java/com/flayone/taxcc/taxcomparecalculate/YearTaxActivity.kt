@@ -68,9 +68,9 @@ class YearTaxActivity : BaseActivity() {
         val rate = getTaxRateByPosition(pos)
         val deduction = getQuickDeductionByPosition(pos)
 
-        val result = div(add(s, deduction), subtract("1",taxRateList[pos]), 2)
+        val result = div(subtract(s, deduction), subtract("1",taxRateList[pos]), 2)
         tv_result.text = result
-        tv_calculation_formula.text = "（$s（税后所得）+ $deduction（速算扣除数）） ÷ (1 - $rate（税率）)= $result（税前年终奖）"
+        tv_calculation_formula.text = "（$s（税后所得）- $deduction（速算扣除数）） ÷ (1 - $rate（税率）)= $result（税前年终奖）"
         isResultShow(true)
     }
 

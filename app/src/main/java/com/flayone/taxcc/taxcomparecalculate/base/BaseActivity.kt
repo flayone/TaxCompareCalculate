@@ -18,6 +18,7 @@ import android.widget.EditText
 import android.widget.TextView
 import com.flayone.taxcc.taxcomparecalculate.HomeActivity
 import com.flayone.taxcc.taxcomparecalculate.R
+import com.flayone.taxcc.taxcomparecalculate.YearCalculateActivity
 import com.flayone.taxcc.taxcomparecalculate.utils.MyLogger
 import com.flayone.taxcc.taxcomparecalculate.utils.StatusBarUtil.setStatusBarMode
 import com.flayone.taxcc.taxcomparecalculate.utils.ToastUtil
@@ -33,6 +34,7 @@ open
 class BaseActivity : AppCompatActivity(), MyLogger {
     var toolbar: Toolbar? = null
     var switchButton: TextView? = null
+    private var pressedTime = 0L //按下返回键时间，用来判断可否退出
 
     override fun onContentChanged() {
         super.onContentChanged()
@@ -151,6 +153,16 @@ class BaseActivity : AppCompatActivity(), MyLogger {
     protected fun ripple(vararg views: View) {
         for (view in views) {
             RippleEffect().get().setViewRipple(view)
+        }
+    }
+
+    override fun onBackPressed() {
+        val now = System.currentTimeMillis()
+        if (now - pressedTime > 1500 && (this is YearCalculateActivity || this is HomeActivity)) {
+            pressedTime = now
+            showToast("再次点击退出")
+        } else {
+            super.onBackPressed()
         }
     }
 }

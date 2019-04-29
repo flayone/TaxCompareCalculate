@@ -121,6 +121,9 @@ class YearCalculateActivity : BaseActivity() {
         til_welfare.visibility = View.GONE
         til_expend.visibility = View.GONE
         calculate_tips.visibility = View.GONE
+        et_expend.setText("")
+        et_welfare.setText("")
+        calculate_tips.text = ""
         initHistory()
     }
 

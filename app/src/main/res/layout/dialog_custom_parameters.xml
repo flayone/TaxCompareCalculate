@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:checked="true"
         android:gravity="center_vertical"
-        android:text=""
+        android:text="同步到历史"
         android:textColor="@color/gray"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@id/tx_cancel"
