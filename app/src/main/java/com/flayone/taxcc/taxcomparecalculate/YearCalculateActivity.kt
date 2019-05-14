@@ -107,7 +107,7 @@ class YearCalculateActivity : BaseActivity() {
 
             @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
             override fun onClick(v: View) {
-                startActDrop(tv_pop_bg, mLeft + (dragWidth / 2), mTop + (dragHeight / 2), dragWidth.toFloat(), getScreenH().toFloat()) {
+                startActDrop(tv_pop_bg, mLeft + (dragWidth / 2), mTop + (dragHeight / 2), dragWidth.toFloat(), multiply(getScreenH().toString(),"1.5").toFloat()) {
 //                    showToast("年终奖")
                     startAnimAct(YearTaxActivity())
                 }

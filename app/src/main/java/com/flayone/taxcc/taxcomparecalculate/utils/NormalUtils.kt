@@ -11,7 +11,6 @@ import android.os.Build
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
-import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -204,11 +203,15 @@ fun getQuickDeductionList(levelList: MutableList<Int>, taxRateList: MutableList<
 /**
  * 幕布动画效果
  */
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-fun startActDrop(view: View, centerX: Int, centerY: Int, startRadius: Float, endRadius: Float, duration: Long = 600, endAnim: (() -> Unit)) {
+fun startActDrop(view: View, centerX: Int, centerY: Int, startRadius: Float, endRadius: Float, duration: Long = 500, endAnim: (() -> Unit)) {
 
+    val animator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius)
+    } else {
+        endAnim.invoke()
+        return
+    }
     view.visibility = View.VISIBLE
-    val animator = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, startRadius, endRadius)
     animator.duration = duration
     animator.interpolator = AccelerateInterpolator()
     animator.start()
@@ -225,10 +228,9 @@ fun startActDrop(view: View, centerX: Int, centerY: Int, startRadius: Float, end
 
         override fun onAnimationEnd(p0: Animator?) {
             view.visibility = View.GONE
-
-            endAnim.invoke()
         }
     })
+    endAnim.invoke()
 }
 
 /**

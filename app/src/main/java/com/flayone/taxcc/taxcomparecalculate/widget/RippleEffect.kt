@@ -30,8 +30,9 @@ class RippleEffect {
     }
 
     companion object {
-        fun newInstance():RippleEffect = RippleEffect()
+        fun newInstance(): RippleEffect = RippleEffect()
     }
+
     /**
      * Returns the singleton factory object.
      *
@@ -424,7 +425,7 @@ class RippleEffect {
     }
 
     fun setViewRipple(View: View, cornerRadius: Float) {
-        if (cornerRadius != 0f){
+        if (cornerRadius != 0f) {
             //先做初始化，如果可以获取到
             rad = cornerRadius
         }
@@ -433,25 +434,34 @@ class RippleEffect {
         var original: Drawable = ColorDrawable(nowColor)
         //        if (View.getBackground()!=null){
         try {
-            if (View.background == null){
+            if (View.background == null) {
                 nowColor = Color.WHITE
                 original = ColorDrawable(nowColor)
-            }else {
+            } else {
                 val bg = View.background.mutate()
-                if (bg is ColorDrawable) {
-                    nowColor = if (bg.color == Color.TRANSPARENT) {
-                        Color.WHITE
-                    } else {
-                        bg.color
+                when (bg) {
+                    is ColorDrawable -> {
+                        nowColor = if (bg.color == Color.TRANSPARENT) {
+                            Color.WHITE
+                        } else {
+                            bg.color
+                        }
+                        original = ColorDrawable(nowColor)
                     }
-                    original = ColorDrawable(nowColor)
-                } else if (bg is GradientDrawable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    nowColor = bg.color!!.defaultColor
-                    rad = bg.cornerRadius
-                    original = bg
-                } else {
-                    nowColor = Color.TRANSPARENT
-                    original = bg
+                    is GradientDrawable -> {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            nowColor = bg.color.defaultColor
+                            rad = bg.cornerRadius
+                        } else {
+                            //获取不到颜色角度等属性，放弃效果展示
+                            return
+                        }
+                        original = bg
+                    }
+                    else -> {
+                        nowColor = Color.TRANSPARENT
+                        original = bg
+                    }
                 }
             }
         } catch (e: Exception) {

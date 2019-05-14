@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_year_tax.*
  */
 class YearTaxActivity : BaseActivity() {
 
-    private val duration = 150L
+    private val duration = 550L
     private val mainColor = R.color.y_bg
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +22,7 @@ class YearTaxActivity : BaseActivity() {
         setContentView(R.layout.activity_year_tax)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.enterTransition = Fade().setDuration(duration)
-            window.exitTransition = Fade().setDuration(2 * duration)
+            window.exitTransition = Fade().setDuration(2 * duration / 3)
         }
         supportActionBar?.run {
             title = "年终奖计算器"
@@ -64,11 +64,11 @@ class YearTaxActivity : BaseActivity() {
     }
 
     private fun calculateYearOriginal(s: String) {
-        val pos = calculateOriginalSalaryPosition(s)?:return
+        val pos = calculateOriginalSalaryPosition(s) ?: return
         val rate = getTaxRateByPosition(pos)
         val deduction = getQuickDeductionByPosition(pos)
 
-        val result = div(subtract(s, deduction), subtract("1",taxRateList[pos]), 2)
+        val result = div(subtract(s, deduction), subtract("1", taxRateList[pos]), 2)
         tv_result.text = result
         tv_calculation_formula.text = "（$s（税后所得）- $deduction（速算扣除数）） ÷ (1 - $rate（税率）)= $result（税前年终奖）"
         isResultShow(true)
