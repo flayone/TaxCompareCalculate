@@ -1,7 +1,7 @@
 package com.flayone.taxcc.taxcomparecalculate.items
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.flayone.taxcc.taxcomparecalculate.R
@@ -20,8 +20,8 @@ class HistoryItem(var data: List<CalculateHistoryModel>, private val listener: B
         return data.size
     }
 
-    override fun onBindViewHolder(holder: MyViewHolder?, position: Int) {
-        with(holder?.itemView!!) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        with(holder.itemView) {
             if (position == 0) {
                 btn_clear.visibility = View.VISIBLE
                 title.visibility = View.VISIBLE

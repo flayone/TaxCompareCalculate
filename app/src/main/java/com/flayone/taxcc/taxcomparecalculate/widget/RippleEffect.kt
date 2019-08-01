@@ -7,8 +7,8 @@ import android.content.res.ColorStateList
 import android.graphics.*
 import android.graphics.drawable.*
 import android.os.Build
-import android.support.annotation.RequiresApi
-import android.support.v4.graphics.drawable.DrawableCompat
+import androidx.annotation.RequiresApi
+import androidx.core.graphics.drawable.DrawableCompat
 import android.view.View
 import org.jetbrains.anko.backgroundDrawable
 
@@ -187,7 +187,7 @@ class RippleEffect {
     @RequiresApi(Build.VERSION_CODES.M)
     private fun colorUnknownDrawable(drawable: Drawable, color: Int): Drawable {
         var d = drawable
-        if (d is DrawableWrapper || d is android.support.v7.graphics.drawable.DrawableWrapper) {
+        if (d is DrawableWrapper || d is androidx.appcompat.graphics.drawable.DrawableWrapper) {
             d = DrawableCompat.wrap(d)
             DrawableCompat.setTint(d, color)
             DrawableCompat.setTintMode(d, PorterDuff.Mode.SRC_ATOP)
@@ -450,7 +450,7 @@ class RippleEffect {
                     }
                     is GradientDrawable -> {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            nowColor = bg.color.defaultColor
+                            nowColor = bg.color?.defaultColor ?: Color.TRANSPARENT
                             rad = bg.cornerRadius
                         } else {
                             //获取不到颜色角度等属性，放弃效果展示

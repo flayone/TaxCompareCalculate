@@ -29,16 +29,19 @@ abstract class BaseKtLayoutDialog @JvmOverloads constructor(context: Context, @L
         /**
          * 设置具体高宽，要设置在show的后面
          */
-        val layoutParams = window.attributes
-        val screenSize = Point()
-        BaseApp.instance.windowManager.defaultDisplay.getSize(screenSize)
-        val screenWidth = screenSize.x
-        val screenHeight = screenSize.y
-        layoutParams.gravity = Gravity.CENTER
-        layoutParams.width = multiply(screenWidth.toString(), widthPercent.toString()).toDouble().toInt()
-        layoutParams.height = multiply(screenHeight.toString(), heightPercent.toString()).toDouble().toInt()
+        window?.run {
+
+            val layoutParams =  attributes
+            val screenSize = Point()
+            BaseApp.instance.windowManager.defaultDisplay.getSize(screenSize)
+            val screenWidth = screenSize.x
+            val screenHeight = screenSize.y
+            layoutParams.gravity = Gravity.CENTER
+            layoutParams.width = multiply(screenWidth.toString(), widthPercent.toString()).toDouble().toInt()
+            layoutParams.height = multiply(screenHeight.toString(), heightPercent.toString()).toDouble().toInt()
 //        window.decorView.setPadding(0, 0, 0, 0)
-        window.attributes = layoutParams
+             attributes = layoutParams
+        }
     }
 
     override fun dismiss() {
@@ -53,12 +56,12 @@ abstract class BaseKtLayoutDialog @JvmOverloads constructor(context: Context, @L
 }
 
 
-private fun hideDialogKeyboard(dialog: Dialog) = hideKeyboard(dialog.window.decorView.windowToken)
+private fun hideDialogKeyboard(dialog: Dialog) = hideKeyboard(dialog.window?.decorView?.windowToken)
 
 /**
  * 获取InputMethodManager，隐藏软键盘
  */
-private fun hideKeyboard(token: IBinder) {
+private fun hideKeyboard(token: IBinder?) {
     val im = BaseApp.instance.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS)
 }

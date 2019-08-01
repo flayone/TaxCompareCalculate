@@ -2,7 +2,7 @@ package com.flayone.taxcc.taxcomparecalculate
 
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import android.view.View
 import android.view.ViewGroup
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
@@ -138,23 +138,24 @@ class YearCalculateActivity : BaseActivity() {
                     et_salary.setText(item.inputSalary)
                     et_welfare.setText(item.inputWelfare)
                     et_expend.setText(item.inputExpend)
+                    inputData.clear()
                     inputData = item.hisList
                     calculateTax()
                 }
             }, object : BasePositionListener {
                 override fun onClick(i: Int) {//单个删除
                     historyList.list.removeAt(i)
-                    list_result.adapter.notifyDataSetChanged()
+                    list_result.adapter?.notifyDataSetChanged()
                     saveObject(this@YearCalculateActivity, LOCAL_Data, HISTORY_TAG_YEAR, historyList)
                 }
             }, object : BaseListener {
                 override fun call() {//全部删除
                     historyList.list.clear()
-                    list_result.adapter.notifyDataSetChanged()
+                    list_result.adapter?.notifyDataSetChanged()
                     saveObject(BaseApp.instance, LOCAL_Data, HISTORY_TAG_YEAR, historyList)
                 }
             })
-            list_result.adapter.notifyDataSetChanged()
+            list_result.adapter?.notifyDataSetChanged()
         } catch (e: Exception) {
             println(e)
         }
@@ -167,10 +168,10 @@ class YearCalculateActivity : BaseActivity() {
             val historyModel = BaseCalculateModel()
             //输入参数赋值
             historyModel.run {
-                baseSalary = salaryVal
-                expend = plusNumber
+                baseSalary = et_salary.text.toString()
+                expend = et_expend.text.toString()
                 taxThreshold = threshold
-                welfare = welfareVal
+                welfare = et_welfare.text.toString()
             }
             inputData.add(historyModel)
         }
@@ -178,19 +179,23 @@ class YearCalculateActivity : BaseActivity() {
 
     // 计算税额并列出所有月份的结果
     private fun calculateTax() {
+        historyList = getObject(this, LOCAL_Data, HISTORY_TAG_YEAR) as YearHistoryListModel
+        val mSalaryVal = et_salary.text.toString()
+        val mPlusNumber = et_expend.text.toString()
+        val mWelfareVal = et_welfare.text.toString()
         mHistoryModel = YearHistoryModel()
         calculate_tips.visibility = View.VISIBLE
         mHistoryModel.run {
-            inputSalary = salaryVal
-            inputExpend = plusNumber
-            inputWelfare = welfareVal
+            inputSalary = mSalaryVal
+            inputExpend = mPlusNumber
+            inputWelfare = mWelfareVal
         }
         val baseInputData = BaseCalculateModel()
         //当前页面输入的基本参数，用来对自定义参数不需要同步的数据初始化
         baseInputData.run {
-            baseSalary = salaryVal
-            welfare = welfareVal
-            expend = plusNumber
+            baseSalary = mSalaryVal
+            welfare = mWelfareVal
+            expend = mPlusNumber
         }
         resultData.list.clear()
         for (i in 0 until 12) {
@@ -266,6 +271,7 @@ class YearCalculateActivity : BaseActivity() {
             }
             historyList.list.add(mHistoryModel)
         }
+        //todo  保存整个历史信息有些问题
         saveObject(this, LOCAL_Data, HISTORY_TAG_YEAR, historyList)
         Logger.json(historyList.toJSON())
     }

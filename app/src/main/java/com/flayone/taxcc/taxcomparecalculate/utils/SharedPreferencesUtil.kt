@@ -48,7 +48,7 @@ fun setObjectPreferences(context: Context, preference: String, key: String, valu
     editor.commit()
 }
 
-fun getObjectPreference(context: Context, preference: String, key: String, defaultValue: JSONConvertable? = null): String {
+fun getObjectPreference(context: Context, preference: String, key: String, defaultValue: JSONConvertable? = null): String? {
     //    ToastUtil.showToast(context, "result = $result")
     return context.getSharedPreferences(preference, Context.MODE_PRIVATE).getString(key, defaultValue?.toJSON())
 }
@@ -96,7 +96,7 @@ fun saveObject(context: Context, preference: String, key: String, data: Any) {
         oos.writeObject(data)
         val putString = String(android.util.Base64.encodeToString(ba.toByteArray(), android.util.Base64.DEFAULT).toCharArray())
         editor.putString(key, putString)
-        editor.apply()
+        editor.commit()
     } catch (e: Exception) {
         e.printStackTrace()
     }

@@ -8,13 +8,13 @@ import android.content.Context
 import android.graphics.Point
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.LayoutRes
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.LayoutRes
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -89,7 +89,7 @@ fun hideDialogKeybord(dialog: Dialog, context: Context) {
     if (b == null) {
         try {
             val a = context as BaseActivity
-            b = a.currentFocus.windowToken
+            b = a.currentFocus?.windowToken
         } catch (e: Exception) {
         }
     }
@@ -139,7 +139,7 @@ fun initRecycleLayoutManger(context: Context): LinearLayoutManager {
                 RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT)
     }
-    layoutManager.orientation = LinearLayoutManager.VERTICAL
+    layoutManager.orientation = RecyclerView.VERTICAL
     return layoutManager
 }
 
@@ -275,4 +275,4 @@ fun getScreenH() = getScreenSize().y
 fun getScreenHWithOutBar() = getScreenSize().y - getBarHeight()
 
 fun getColorRes(@ColorRes colorRes: Int): Int = ContextCompat.getColor(BaseApp.instance, colorRes)
-fun getDrawableRes(@DrawableRes res:Int ) : Drawable = ContextCompat.getDrawable(BaseApp.instance, res)
+fun getDrawableRes(@DrawableRes res:Int ) : Drawable? = ContextCompat.getDrawable(BaseApp.instance, res)

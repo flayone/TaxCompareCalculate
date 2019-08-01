@@ -27,8 +27,9 @@ private val delAllListener: BaseListener) : BaseRecycleListAdapter(list, R.layou
             title.visibility = View.GONE
         }
         val pos = data.size - (position + 1)
-        tx_salary.text = shortYearMoney(data[pos].yearAfterTax)
-        tx_detail.text = "税前:${shortYearMoney(data[pos].yearSalary)}(月均：${shortMoney(div(data[pos].yearSalary, "12", 2))})，税:${shortMoney(data[pos].yearTax)}，月均收入:${shortMoney(div(data[pos].yearAfterTax, "12", 2))}"
+        //(月均:${shortMoney(div(data[pos].yearAfterTax, "12", 2))})
+        tx_salary.text = "${shortYearMoney(data[pos].yearAfterTax)}"
+        tx_detail.text = "税前:${shortYearMoney(data[pos].yearSalary)}(月薪:${shortMoney(div(data[pos].yearSalary, "12", 2))})，税:${shortMoney(data[pos].yearTax)}，险金:${data[pos].inputWelfare},附加:${data[pos].inputExpend}"
         cons_parent.onClick {
             listener.onClick(pos)
         }

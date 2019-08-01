@@ -1,8 +1,8 @@
 package com.flayone.taxcc.taxcomparecalculate
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -127,7 +127,7 @@ open class MainActivity : BaseActivity() {
                         ViewGroup.LayoutParams.WRAP_CONTENT)
             }
         }
-        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        layoutManager.orientation = RecyclerView.VERTICAL
 
         list_history.layoutManager = layoutManager
         list_history.adapter = adapter

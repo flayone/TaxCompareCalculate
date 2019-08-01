@@ -5,7 +5,7 @@ import android.graphics.Typeface
 import android.util.AttributeSet
 
 
-class IconFontTextView : android.support.v7.widget.AppCompatTextView {
+class IconFontTextView : androidx.appcompat.widget.AppCompatTextView {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
