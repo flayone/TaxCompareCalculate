@@ -4,7 +4,7 @@
 
 功能：个税计算器，计算12个月税后收入情况及个税缴纳数，**记录历史操作，自定义月收入、社保五险一金、附加扣除数。**<br>
 
-apk下载体验：https://www.pgyer.com/GCrL<br>
+apk下载体验：https://www.coolapk.com/apk/com.flayone.taxcc.taxcomparecalculate<br>
 
 
 页面预览
