@@ -107,7 +107,7 @@ fun getObject(context: Context, preference: String, key: String): Any? {
     val bais = ByteArrayInputStream(android.util.Base64.decode(result, android.util.Base64.DEFAULT))
     try {
         return ObjectInputStream(bais).readObject()
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         e.printStackTrace()
     }
     return null

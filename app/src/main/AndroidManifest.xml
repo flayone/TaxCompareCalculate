@@ -31,6 +31,8 @@
         <activity
             android:name=".YearTaxActivity"
             android:theme="@style/CustomInputLayout" />
+
+
     </application>
 
 </manifest>

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.huawei.agconnect'
 
 apply plugin: 'kotlin-android'
 
@@ -80,6 +81,11 @@ dependencies {
 
     //兼容4.4 - 6.0 设置状态栏颜色方法
     implementation 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+
+    //华为服务核心依赖地址
+    implementation 'com.huawei.agconnect:agconnect-core:1.5.2.300'
+//    华为远程配置SDK
+    implementation 'com.huawei.agconnect:agconnect-remoteconfig:1.5.2.300'
 }
 kotlin {
     experimental {

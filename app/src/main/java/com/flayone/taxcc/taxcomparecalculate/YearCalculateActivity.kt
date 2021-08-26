@@ -107,7 +107,7 @@ class YearCalculateActivity : BaseActivity() {
 
             @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
             override fun onClick(v: View) {
-                startActDrop(tv_pop_bg, mLeft + (dragWidth / 2), mTop + (dragHeight / 2), dragWidth.toFloat(), multiply(getScreenH().toString(),"1.5").toFloat()) {
+                startActDrop(tv_pop_bg, mLeft + (dragWidth / 2), mTop + (dragHeight / 2), dragWidth.toFloat(), multiply(getScreenH().toString(), "1.5").toFloat()) {
 //                    showToast("年终奖")
                     startAnimAct(YearTaxActivity())
                 }
@@ -130,7 +130,10 @@ class YearCalculateActivity : BaseActivity() {
     //历史数据初始化
     private fun initHistory() {
         try {
-            historyList = getObject(this, LOCAL_Data, HISTORY_TAG_YEAR) as YearHistoryListModel
+            val hty = getObject(this, LOCAL_Data, HISTORY_TAG_YEAR)
+        if (hty != null) {
+            historyList = hty as YearHistoryListModel
+        }
             Logger.json(historyList.toJSON())
             list_result.adapter = YearHistoryItem(historyList.list, object : BasePositionListener {
                 override fun onClick(i: Int) {
@@ -179,7 +182,10 @@ class YearCalculateActivity : BaseActivity() {
 
     // 计算税额并列出所有月份的结果
     private fun calculateTax() {
-        historyList = getObject(this, LOCAL_Data, HISTORY_TAG_YEAR) as YearHistoryListModel
+        val hty = getObject(this, LOCAL_Data, HISTORY_TAG_YEAR)
+        if (hty != null) {
+            historyList = hty as YearHistoryListModel
+        }
         val mSalaryVal = et_salary.text.toString()
         val mPlusNumber = et_expend.text.toString()
         val mWelfareVal = et_welfare.text.toString()
@@ -275,7 +281,6 @@ class YearCalculateActivity : BaseActivity() {
         saveObject(this, LOCAL_Data, HISTORY_TAG_YEAR, historyList)
         Logger.json(historyList.toJSON())
     }
-
 
 
     private fun calculateYearSalaryBeforeTax(): String {
