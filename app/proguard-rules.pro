@@ -188,3 +188,7 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+#华为服务
+-ignorewarnings
+-keep class com.huawei.agconnect.**{*;}

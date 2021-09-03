@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.flayone.taxcc.taxcomparecalculate">
+
+    <uses-sdk tools:overrideLibrary="com.huawei.agconnect.remoteconfig,com.huawei.agconnect.abtest,com.huawei.agconnect.core,com.huawei.agconnect.credential,com.huawei.agconnect.https,com.huawei.agconnect.datastore,com.huawei.hmf.tasks" />
 
     <application
         android:name=".base.BaseApp"

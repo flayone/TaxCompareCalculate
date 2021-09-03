@@ -20,9 +20,9 @@
         android:id="@+id/tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.3"
         android:padding="10dp"
         android:text=""
-        android:lineSpacingMultiplier="1.3"
         android:textSize="13sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
@@ -45,7 +45,7 @@
             android:background="@drawable/y_radius_bg"
             android:gravity="center"
             android:padding="8dp"
-            android:text="2019个税年累计算法"
+            android:text="2019个税年累计算法(新)"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -53,15 +53,15 @@
             android:id="@+id/month_cal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="15dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="15dp"
             android:layout_weight="1"
             android:background="@drawable/m_radius_bg"
             android:gravity="center"
             android:padding="8dp"
-            android:text="2018个税月均算法"
+            android:text="2018个税月均算法(旧)"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>

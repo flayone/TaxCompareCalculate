@@ -38,7 +38,8 @@ class YearCalculateActivity : BaseActivity() {
 
     override fun initView() {
         super.initView()
-        setTitle("新个税计算器(2019.1.1后)")
+        val version = BuildConfig.VERSION_NAME;
+        setTitle("新个税计算器(v$version)")
         keepEditTwoPoint(et_salary)
         keepEditTwoPoint(et_welfare)
         keepEditTwoPoint(et_expend)
