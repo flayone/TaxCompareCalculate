@@ -34,6 +34,7 @@
         <activity
             android:name=".YearTaxActivity"
             android:theme="@style/CustomInputLayout" />
+        <activity android:name=".WebViewActivity" />
 
 
     </application>

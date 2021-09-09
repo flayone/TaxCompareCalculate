@@ -6,20 +6,29 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Point
 import android.os.IBinder
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
 import android.view.Gravity
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
+import com.dbflow5.structure.save
 import com.flayone.taxcc.taxcomparecalculate.R
 import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
 import com.flayone.taxcc.taxcomparecalculate.utils.*
 import com.flayone.taxcc.taxcomparecalculate.widget.RippleEffect
+import com.flayone.taxcc.taxcomparecalculate.widget.UrlClickSpan
+import com.huawei.agconnect.datastore.core.SharedPrefUtil
 import kotlinx.android.synthetic.main.dialog_custom_parameters.*
+import kotlinx.android.synthetic.main.dialog_user_privacy.*
 import org.jetbrains.anko.windowManager
+import kotlin.system.exitProcess
 
 /**
  * layoutId 布局id  widthPercent，heightPercent 分别是宽高相对屏幕的百分比，默认0.5代表各一半
  */
-abstract class BaseKtLayoutDialog @JvmOverloads constructor(context: Context, @LayoutRes private val layoutId: Int, private val widthPercent: Float = 0.5f, private val heightPercent: Float = 0.5f, themeStyle: Int = 0) : Dialog(context, themeStyle) {
+abstract class BaseKtLayoutDialog @JvmOverloads constructor(context: Context, @LayoutRes private val layoutId: Int, private val widthPercent: Float = 0.5f, private val heightPercent: Float = -1f, themeStyle: Int = 0) : Dialog(context, themeStyle) {
     init {
         this.setContentView(layoutId)
     }
@@ -31,16 +40,20 @@ abstract class BaseKtLayoutDialog @JvmOverloads constructor(context: Context, @L
          */
         window?.run {
 
-            val layoutParams =  attributes
+            val layoutParams = attributes
             val screenSize = Point()
             BaseApp.instance.windowManager.defaultDisplay.getSize(screenSize)
             val screenWidth = screenSize.x
             val screenHeight = screenSize.y
             layoutParams.gravity = Gravity.CENTER
             layoutParams.width = multiply(screenWidth.toString(), widthPercent.toString()).toDouble().toInt()
-            layoutParams.height = multiply(screenHeight.toString(), heightPercent.toString()).toDouble().toInt()
+            if (heightPercent <= 0) {
+                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            } else {
+                layoutParams.height = multiply(screenHeight.toString(), heightPercent.toString()).toDouble().toInt()
+            }
 //        window.decorView.setPadding(0, 0, 0, 0)
-             attributes = layoutParams
+            attributes = layoutParams
         }
     }
 
@@ -144,4 +157,44 @@ class CustomParametersDialog(context: Context, titleString: String, model: BaseC
     private fun showTips(tips: String, model: BaseCalculateModel) {
         showAlertDialog(context, tips, { listener.ensure(model) })
     }
+}
+
+
+class UserPrivacyDialog(context: Context) : BaseKtLayoutDialog(context, R.layout.dialog_user_privacy, 0.85f) {
+
+    init {
+        val content = "请你务必审慎阅读、充分理解“服务协议和隐私政策”个条款，包括但不限于：为了向你提供内容等服务，我们需要收集你的设备信息、操作日志等个人信息。你可以在“设置”中查看、变更、删除个人信息并管理你的授权。你可以阅读"
+        val userInf = "《用户协议》"
+        val and = "和"
+        val privacyInf = "《隐私政策》"
+        val end = "了解详细信息。如你同意，请点击“同意”开始接受我们的服务。"
+
+
+        val userSpan = SpannableString(userInf)
+        userSpan.setSpan(UrlClickSpan(USER_URL), 0, userInf.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+
+        val privacySpan = SpannableString(privacyInf)
+        privacySpan.setSpan(UrlClickSpan(PRIVACY_URL), 0, userInf.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+
+        tv_dup_content.append(content)
+        tv_dup_content.append(userSpan)
+        tv_dup_content.append(and)
+        tv_dup_content.append(privacySpan)
+        tv_dup_content.append(end)
+
+        tv_dup_content.movementMethod = LinkMovementMethod.getInstance()
+
+        tv_dup_no.setOnClickListener {
+            exitProcess(0)
+        }
+
+        tv_dup_yes.setOnClickListener {
+            saveBoole(sp_user_privacy, true)
+            dismiss()
+        }
+        setCanceledOnTouchOutside(false)
+        setCancelable(false)
+
+    }
+
 }

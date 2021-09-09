@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
 import com.flayone.taxcc.taxcomparecalculate.dialog.CustomParametersDialog
+import com.flayone.taxcc.taxcomparecalculate.dialog.UserPrivacyDialog
 import com.flayone.taxcc.taxcomparecalculate.items.YearHistoryItem
 import com.flayone.taxcc.taxcomparecalculate.items.YearResultItem
 import com.flayone.taxcc.taxcomparecalculate.utils.*
@@ -24,6 +25,7 @@ class YearCalculateActivity : BaseActivity() {
     private var cumulativeTax = "0" //当前年累计个税
     private var salaryList = arrayListOf<String>() //12个月的月薪基数集合
     private val resultData = ResultListModel()
+
     //记录当前输入的参数,可自定义值来完善计算结果
     private var inputData = mutableListOf<BaseCalculateModel>()
     private var historyList = YearHistoryListModel()
@@ -132,9 +134,9 @@ class YearCalculateActivity : BaseActivity() {
     private fun initHistory() {
         try {
             val hty = getObject(this, LOCAL_Data, HISTORY_TAG_YEAR)
-        if (hty != null) {
-            historyList = hty as YearHistoryListModel
-        }
+            if (hty != null) {
+                historyList = hty as YearHistoryListModel
+            }
             Logger.json(historyList.toJSON())
             list_result.adapter = YearHistoryItem(historyList.list, object : BasePositionListener {
                 override fun onClick(i: Int) {

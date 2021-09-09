@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.Fragment
 import android.content.Context
+import android.content.Intent
 import android.graphics.Point
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -23,6 +24,7 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import com.flayone.taxcc.taxcomparecalculate.WebViewActivity
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
 import com.flayone.taxcc.taxcomparecalculate.dialog.BaseListenerDialogHelper
@@ -151,6 +153,7 @@ fun initRecycleLayoutManger(context: Context): LinearLayoutManager {
 //private const val maxSocialSafety = 21396
 private const val minSocialSafety = 4699
 private const val maxSocialSafety = 23496
+
 // 养老保险8% +医疗保险2% +失业保险0.5% = 10.5%
 private const val socialSafetyPercent = "0.105"
 
@@ -275,4 +278,12 @@ fun getScreenH() = getScreenSize().y
 fun getScreenHWithOutBar() = getScreenSize().y - getBarHeight()
 
 fun getColorRes(@ColorRes colorRes: Int): Int = ContextCompat.getColor(BaseApp.instance, colorRes)
-fun getDrawableRes(@DrawableRes res:Int ) : Drawable? = ContextCompat.getDrawable(BaseApp.instance, res)
+fun getDrawableRes(@DrawableRes res: Int): Drawable? = ContextCompat.getDrawable(BaseApp.instance, res)
+
+
+fun startWebPage(url: String) {
+    val intent = Intent(BaseApp.instance.applicationContext, WebViewActivity::class.java)
+    intent.putExtra("url", url)
+    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    BaseApp.instance.startActivity(intent)
+}

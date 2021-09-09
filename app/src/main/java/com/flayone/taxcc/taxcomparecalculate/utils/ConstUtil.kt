@@ -16,3 +16,10 @@ const val HISTORY_TAG_YEAR = "historyListYear"//年累计算法历史数据
 const val LOCAL_Data = "LocalData"
 const val hisLimit = 20 //历史记录列表个数限制
 const val threshold = "5000" //起征点
+
+
+const val USER_URL = "https://flayone.github.io/public/user.html"
+const val PRIVACY_URL = "https://flayone.github.io/public/index.html"
+
+const val sp_setting = "tax_setting"
+const val sp_user_privacy = "tax_user_privacy"

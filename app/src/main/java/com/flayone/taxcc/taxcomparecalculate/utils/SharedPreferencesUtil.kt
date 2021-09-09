@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
+import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
 import java.io.*
 
 
@@ -111,4 +112,13 @@ fun getObject(context: Context, preference: String, key: String): Any? {
         e.printStackTrace()
     }
     return null
+}
+
+
+fun saveBoole(key: String, value: Boolean) {
+    setPreferences(BaseApp.instance, sp_setting, key, value)
+}
+
+fun getBoole(key: String, defaultValue: Boolean = false): Boolean {
+    return getPreference(BaseApp.instance, sp_setting, key, defaultValue)
 }

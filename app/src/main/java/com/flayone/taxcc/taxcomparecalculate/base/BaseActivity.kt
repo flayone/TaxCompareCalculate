@@ -19,9 +19,12 @@ import android.widget.TextView
 import com.flayone.taxcc.taxcomparecalculate.HomeActivity
 import com.flayone.taxcc.taxcomparecalculate.R
 import com.flayone.taxcc.taxcomparecalculate.YearCalculateActivity
+import com.flayone.taxcc.taxcomparecalculate.dialog.UserPrivacyDialog
 import com.flayone.taxcc.taxcomparecalculate.utils.MyLogger
 import com.flayone.taxcc.taxcomparecalculate.utils.StatusBarUtil.setStatusBarMode
 import com.flayone.taxcc.taxcomparecalculate.utils.ToastUtil
+import com.flayone.taxcc.taxcomparecalculate.utils.getBoole
+import com.flayone.taxcc.taxcomparecalculate.utils.sp_user_privacy
 import com.flayone.taxcc.taxcomparecalculate.widget.RippleEffect
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.lang.Exception
@@ -39,6 +42,13 @@ class BaseActivity : AppCompatActivity(), MyLogger {
     override fun onContentChanged() {
         super.onContentChanged()
         preInit()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!getBoole(sp_user_privacy)) {
+            UserPrivacyDialog(this).show()
+        }
     }
 
     private fun preInit() {
