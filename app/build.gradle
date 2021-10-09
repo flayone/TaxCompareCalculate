@@ -13,11 +13,14 @@ android {
 
     defaultConfig {
         applicationId "com.flayone.taxcc.taxcomparecalculate"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 5
         versionName "2.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
+        manifestPlaceholders=[qqappid:"100424468"]
     }
 
     signingConfigs {
@@ -45,6 +48,10 @@ android {
             signingConfig signingConfigs.liyayu
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 def dbflow_version = "5.0.0-alpha1" // reference the releases tab on Github for latest versions
 dependencies {
@@ -53,17 +60,19 @@ dependencies {
 //    implementation "com.android.support:support-v4:$support_version"
 //    implementation "com.android.support:appcompat-v7:$support_version"
 //    implementation "com.android.support:recyclerview-v7:$support_version"
+    implementation 'androidx.multidex:multidex:2.0.1'
+
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.2.1'
 
     //kotlin and anko
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.anko:anko:$anko_version"
     
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 //    androidTestImplementation 'com.android.support.test:runner:1.0.2'
 //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     // Use if Kotlin user.
@@ -86,6 +95,59 @@ dependencies {
     implementation 'com.huawei.agconnect:agconnect-core:1.5.2.300'
 //    华为远程配置SDK
     implementation 'com.huawei.agconnect:agconnect-remoteconfig:1.5.2.300'
+
+    //引入Advance SDK
+    def advanceVersion = "3.5.3"
+    //必须，Advance聚合SDK 引入。如果gradle引入异常，请参考根目录gradle进行配置，如果依然无法引入，请联系我们使用本地aar引入。
+    implementation "io.github.flayone:advance-core:${advanceVersion}"
+    //必须，mercury SDK 引入 包含了广告aar以及渠道处理逻辑
+    implementation "io.github.flayone:advance-mry:${advanceVersion}_350"
+    //穿山甲、广点通、百度、快手SDK 引入，包含了广告aar以及渠道处理逻辑(如果APP本地引入了平台SDK的aar，不希望使用带aar引入的advance渠道库，可以在最后面加上 _core 标识，这样就不会产生aar引入冲突了，但是请注意，非advance推荐版本可能会出现广告加载异常，一定要充分测试)
+    implementation "io.github.flayone:advance-gdt:${advanceVersion}_4410"
+    implementation "io.github.flayone:advance-csj:${advanceVersion}_4001"
+    implementation "io.github.flayone:advance-bd:${advanceVersion}_915"
+    implementation "io.github.flayone:advance-ks:${advanceVersion}_3314"
+
+    implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
+
+
+// 下面各SDK根据宿主App是否使用相关业务按需引入。
+// 友盟统计SDK
+    implementation  'com.umeng.umsdk:common:9.4.2'// 必选
+    implementation  'com.umeng.umsdk:asms:1.4.1'// 必选
+    implementation 'com.umeng.umsdk:apm:1.4.2' // U-APM包依赖(必选)
+
+    //友盟Push相关依赖（必须）
+    implementation 'com.umeng.umsdk:utdid:1.5.2.1'
+    api 'com.umeng.umsdk:push:6.3.3'
+    implementation 'com.umeng.umsdk:alicloud-httpdns:1.3.2.3'
+    implementation 'com.umeng.umsdk:alicloud-utils:2.0.0'
+    implementation 'com.umeng.umsdk:alicloud_beacon:1.0.5'
+    api 'com.umeng.umsdk:agoo-accs:3.4.2.7'
+    implementation 'com.umeng.umsdk:agoo_aranger:1.0.6'
+    implementation 'com.umeng.umsdk:agoo_networksdk:3.5.8'
+    implementation 'com.umeng.umsdk:agoo_tnet4android:3.1.14.10'
+
+    // 分享相关库
+    implementation 'com.umeng.umsdk:share-core:7.1.6'//分享核心库，必选
+    implementation 'com.umeng.umsdk:share-board:7.1.6'//分享面板功能，可选
+    implementation 'com.umeng.umsdk:link:1.1.0'//集成智能超链U-Link，可选，如要统计分享回流次数和分享新增用户指标则必选
+
+// 第三方平台相关库，可根据需要自行选择
+    implementation 'com.umeng.umsdk:share-wx:7.1.6' //微信完整版
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.7.9'//微信官方依赖库，必选
+
+    implementation 'com.umeng.umsdk:share-qq:7.1.6'//QQ完整版
+    implementation 'com.tencent.tauth:qqopensdk:3.53.0'//QQ官方依赖库，必选
+    implementation 'com.squareup.okhttp3:okhttp:3.12.12'//QQ SDK在3.53.0版本及以上时需要集成okhttp官方依赖库，必选
+
+//    implementation 'com.umeng.umsdk:share-sina:7.1.6'//新浪微博完整版
+//    implementation 'com.sina.weibo.sdk:core:10.10.0:openDefaultRelease@aar'//新浪微博官方SDK依赖库，必选，如在线集成失败请本地下载离线包https://counsel.umeng.com/api/activity/download?fileName=activity/67/openDefault-10.10.0.aar
+
+    implementation  'com.umeng.umsdk:abtest:1.0.0'//使用U-App中ABTest能力，可选
+
+    // 权限请求框架：https://github.com/getActivity/XXPermissions
+    implementation 'com.github.getActivity:XXPermissions:12.3'
 }
 kotlin {
     experimental {

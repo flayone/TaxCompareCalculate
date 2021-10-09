@@ -177,18 +177,25 @@
 -keep public class * extends android.app.IntentService
 -dontwarn cn.jpush.**
 -keep class cn.jpush.** { *; }
-# 友盟混淆相关
--keep public class com.chexiang.myhome.R$*{
-    public static final int *;
-}
--keepclassmembers class * {
-   public <init> (org.json.JSONObject);
-}
--keepclassmembers enum * {
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
-}
+
 
 #华为服务
 -ignorewarnings
 -keep class com.huawei.agconnect.**{*;}
+
+#bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+-keep class android.support.**{*;}
+
+# 友盟混淆相关
+-keep class com.umeng.** {*;}
+
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}

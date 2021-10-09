@@ -18,6 +18,7 @@ import android.widget.EditText
 import android.widget.TextView
 import com.flayone.taxcc.taxcomparecalculate.HomeActivity
 import com.flayone.taxcc.taxcomparecalculate.R
+import com.flayone.taxcc.taxcomparecalculate.WelcomeActivity
 import com.flayone.taxcc.taxcomparecalculate.YearCalculateActivity
 import com.flayone.taxcc.taxcomparecalculate.dialog.UserPrivacyDialog
 import com.flayone.taxcc.taxcomparecalculate.utils.MyLogger
@@ -47,7 +48,13 @@ class BaseActivity : AppCompatActivity(), MyLogger {
     override fun onResume() {
         super.onResume()
         if (!getBoole(sp_user_privacy)) {
-            UserPrivacyDialog(this).show()
+            //如果是欢迎页逻辑交由此页面处理
+            if (this is WelcomeActivity) {
+                return
+            }
+            UserPrivacyDialog(this) {
+
+            }.show()
         }
     }
 

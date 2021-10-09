@@ -6,13 +6,17 @@ buildscript {
     ext.anko_version = '0.10.1'
 
     repositories {
+        //advance相关引用的maven依赖根目录地址，需配置在最前面，防止依赖找不到
+        maven { url 'https://s01.oss.sonatype.org/content/groups/public' }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven {url 'https://developer.huawei.com/repo/'}
         google()
         jcenter()
+        maven { url 'https://repo1.maven.org/maven2/' }
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.android.tools.build:gradle:3.4.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.huawei.agconnect:agcp:1.5.2.300'
 
@@ -23,11 +27,15 @@ buildscript {
 
 allprojects {
     repositories {
+        //advance相关引用的maven依赖根目录地址，需配置在最前面，防止依赖找不到
+        maven { url 'https://s01.oss.sonatype.org/content/groups/public' }
         maven { url "https://www.jitpack.io" }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven {url 'https://developer.huawei.com/repo/'}
         google()
         jcenter()
+        maven { url 'https://repo1.maven.org/maven2/' }
+        maven { url 'https://jitpack.io' }
     }
 }
 
