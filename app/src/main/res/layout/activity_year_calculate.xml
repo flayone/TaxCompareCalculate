@@ -4,148 +4,163 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/include_toolbar" />
+
+        <com.flayone.taxcc.taxcomparecalculate.widget.XDrawerLayout
+            android:id="@+id/drawer_layout_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/con_content_guide_line_width" />
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/con_content_guide_line_width" />
-
-            <include
-                android:id="@+id/toolbar"
-                layout="@layout/include_toolbar" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_salary"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:counterEnabled="true"
-                app:counterMaxLength="10"
-                app:layout_constraintLeft_toLeftOf="@id/guideline_left"
-                app:layout_constraintRight_toRightOf="@id/guideline_right"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-                <com.flayone.taxcc.taxcomparecalculate.widget.ClearInputEditText
-                    android:id="@+id/et_salary"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="4dp"
-                    android:gravity="center_vertical"
-                    android:hint="@string/hint_c1"
-                    android:inputType="number"
-                    android:maxLength="10"
-                    android:text=""
-                    android:textSize="26sp"
-                    android:textStyle="bold" />
+                    android:layout_height="match_parent">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="@dimen/con_content_guide_line_width" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_welfare"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingRight="5dp"
-                app:layout_constraintLeft_toLeftOf="@id/guideline_left"
-                app:layout_constraintRight_toLeftOf="@+id/til_expend"
-                app:layout_constraintTop_toBottomOf="@id/til_salary">
-
-                <com.flayone.taxcc.taxcomparecalculate.widget.ClearInputEditText
-                    android:id="@+id/et_welfare"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:hint="@string/hint_c2"
-                    android:inputType="number"
-                    android:text=""
-                    android:textSize="15sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_expend"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                app:layout_constraintLeft_toRightOf="@+id/til_welfare"
-                app:layout_constraintRight_toRightOf="@id/guideline_right"
-                app:layout_constraintTop_toBottomOf="@id/til_salary">
-
-                <com.flayone.taxcc.taxcomparecalculate.widget.ClearInputEditText
-                    android:id="@+id/et_expend"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:hint="@string/hint_c3"
-                    android:inputType="number"
-                    android:text=""
-                    android:textSize="15sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/calculate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/round_button"
-                android:gravity="center"
-                android:text="@string/btn_cal"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                app:layout_constraintRight_toRightOf="@id/guideline_right"
-                app:layout_constraintTop_toBottomOf="@+id/til_expend" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="@dimen/con_content_guide_line_width" />
 
 
-            <TextView
-                android:id="@+id/calculate_tips"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="232323"
-                android:textColor="@color/gray"
-                android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="@+id/calculate"
-                app:layout_constraintLeft_toLeftOf="@id/guideline_left"
-                app:layout_constraintRight_toLeftOf="@+id/calculate"
-                app:layout_constraintTop_toTopOf="@+id/calculate" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_salary"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="10"
+                        app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+                        app:layout_constraintRight_toRightOf="@id/guideline_right"
+                        app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_result"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:visibility="visible"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/calculate" />
+                        <com.flayone.taxcc.taxcomparecalculate.widget.ClearInputEditText
+                            android:id="@+id/et_salary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="4dp"
+                            android:gravity="center_vertical"
+                            android:hint="@string/hint_c1"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:text=""
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_welfare"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="5dp"
+                        app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+                        app:layout_constraintRight_toLeftOf="@+id/til_expend"
+                        app:layout_constraintTop_toBottomOf="@id/til_salary">
+
+                        <com.flayone.taxcc.taxcomparecalculate.widget.ClearInputEditText
+                            android:id="@+id/et_welfare"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:hint="@string/hint_c2"
+                            android:inputType="number"
+                            android:text=""
+                            android:textSize="15sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_expend"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        app:layout_constraintLeft_toRightOf="@+id/til_welfare"
+                        app:layout_constraintRight_toRightOf="@id/guideline_right"
+                        app:layout_constraintTop_toBottomOf="@id/til_salary">
+
+                        <com.flayone.taxcc.taxcomparecalculate.widget.ClearInputEditText
+                            android:id="@+id/et_expend"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:hint="@string/hint_c3"
+                            android:inputType="number"
+                            android:text=""
+                            android:textSize="15sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/calculate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/round_button"
+                        android:gravity="center"
+                        android:text="@string/btn_cal"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintRight_toRightOf="@id/guideline_right"
+                        app:layout_constraintTop_toBottomOf="@+id/til_expend" />
+
+
+                    <TextView
+                        android:id="@+id/calculate_tips"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="232323"
+                        android:textColor="@color/gray"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/calculate"
+                        app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+                        app:layout_constraintRight_toLeftOf="@+id/calculate"
+                        app:layout_constraintTop_toTopOf="@+id/calculate" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/list_result"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:visibility="visible"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/calculate" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <include layout="@layout/item_main_draw_left" />
+
+        </com.flayone.taxcc.taxcomparecalculate.widget.XDrawerLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_pop_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/y_bg"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_pop_section"
@@ -154,5 +169,6 @@
         android:background="@drawable/round_section_bg"
         android:gravity="center"
         android:text="年终奖"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white" />
+
 </FrameLayout>

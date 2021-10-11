@@ -9,6 +9,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="OverFlowMenuTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:actionMenuTextColor">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
@@ -39,6 +40,7 @@
         <item name="android:layout_marginBottom">5dp</item>
         <item name="android:layout_marginLeft">5dp</item>
     </style>
+
     <style name="ItemText">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -63,6 +65,11 @@
     <style name="CustomInputLayout" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/y_bg</item>
 
+    </style>
+
+    <style name="WelcomePage" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/launch_holder</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
 </resources>

@@ -122,3 +122,11 @@ fun saveBoole(key: String, value: Boolean) {
 fun getBoole(key: String, defaultValue: Boolean = false): Boolean {
     return getPreference(BaseApp.instance, sp_setting, key, defaultValue)
 }
+
+fun saveLong(key: String, value: Long) {
+    setPreferences(BaseApp.instance, sp_setting, key, value)
+}
+
+fun getLong(key: String, defaultValue: Long = -1): Long {
+    return getPreference(BaseApp.instance, sp_setting, key, defaultValue)
+}

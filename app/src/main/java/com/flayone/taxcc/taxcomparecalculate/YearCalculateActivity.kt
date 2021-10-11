@@ -2,13 +2,13 @@ package com.flayone.taxcc.taxcomparecalculate
 
 import android.os.Build
 import android.os.Bundle
-import androidx.annotation.RequiresApi
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import com.advance.utils.AdvanceSplashPlusManager
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
 import com.flayone.taxcc.taxcomparecalculate.dialog.CustomParametersDialog
-import com.flayone.taxcc.taxcomparecalculate.dialog.UserPrivacyDialog
 import com.flayone.taxcc.taxcomparecalculate.items.YearHistoryItem
 import com.flayone.taxcc.taxcomparecalculate.items.YearResultItem
 import com.flayone.taxcc.taxcomparecalculate.utils.*
@@ -36,12 +36,16 @@ class YearCalculateActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_year_calculate)
         ripple(calculate, 90f)
+        //开屏v+、点睛广告后续效果启动。当开屏页和首页为不同activity时，需要调用该方法以唤起开屏效果。
+        AdvanceSplashPlusManager.startZoom(this)
     }
 
     override fun initView() {
         super.initView()
-        val version = BuildConfig.VERSION_NAME;
-        setTitle("新个税计算器(v$version)")
+        initDraw()
+
+        val version = BuildConfig.VERSION_NAME
+        setTitle("新个税计算器")
         keepEditTwoPoint(et_salary)
         keepEditTwoPoint(et_welfare)
         keepEditTwoPoint(et_expend)

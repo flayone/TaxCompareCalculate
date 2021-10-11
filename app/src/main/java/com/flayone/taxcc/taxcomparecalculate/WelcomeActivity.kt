@@ -2,14 +2,15 @@ package com.flayone.taxcc.taxcomparecalculate
 
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Window
 import android.view.WindowManager
 import com.flayone.taxcc.taxcomparecalculate.ad.AdvanceAD
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
 import com.flayone.taxcc.taxcomparecalculate.dialog.UserPrivacyDialog
-import com.flayone.taxcc.taxcomparecalculate.utils.getBoole
-import com.flayone.taxcc.taxcomparecalculate.utils.sp_user_privacy
+import com.flayone.taxcc.taxcomparecalculate.utils.*
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -63,19 +64,46 @@ class WelcomeActivity : BaseActivity() {
      * 开始初始化、主要是第三方服务和广告
      */
     private fun startSDK() {
-        d("[startInit]")
-        //初始化
+        d("[startSDK]")
+        //初始化第三方SDK
         BaseApp.instance.initSDK()
-        getSplashAD()
+
+        //满足一定条件才会请求展示广告
+        if (isUserTimeEnough()) {
+            getSplashAD()
+        } else {
+            Handler(Looper.getMainLooper()).postDelayed({
+                goMain()
+            }, 1200)
+        }
     }
 
     private fun getSplashAD() {
         //请求开屏广告
         AdvanceAD(this).loadSplash(fl_ad, null, null) {
-            startAct(YearCalculateActivity())
-            finish()
+            goMain()
         }
     }
 
+    /**
+     * 跳转首页
+     */
+    private fun goMain() {
+        startAct(YearCalculateActivity())
+        finish()
+    }
+
+    override fun onBackPressed() {
+//        super.onBackPressed()
+    }
+
+    private fun isUserTimeEnough(): Boolean {
+        return if (getLong(sp_user_first_start_time) < 0) {
+            saveLong(sp_user_first_start_time, System.currentTimeMillis())
+            false
+        } else {
+            System.currentTimeMillis() - getLong(sp_user_first_start_time) > 259200000//三天以上才用加载广告
+        }
+    }
 
 }

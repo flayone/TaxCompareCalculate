@@ -7,15 +7,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
-import com.google.android.material.textfield.TextInputEditText
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.customview.widget.ViewDragHelper
+import com.advance.utils.ScreenUtil
 import com.flayone.taxcc.taxcomparecalculate.HomeActivity
 import com.flayone.taxcc.taxcomparecalculate.R
 import com.flayone.taxcc.taxcomparecalculate.WelcomeActivity
@@ -27,8 +26,11 @@ import com.flayone.taxcc.taxcomparecalculate.utils.ToastUtil
 import com.flayone.taxcc.taxcomparecalculate.utils.getBoole
 import com.flayone.taxcc.taxcomparecalculate.utils.sp_user_privacy
 import com.flayone.taxcc.taxcomparecalculate.widget.RippleEffect
-import org.jetbrains.anko.sdk25.coroutines.onClick
-import java.lang.Exception
+import com.flayone.taxcc.taxcomparecalculate.widget.XActionBarDrawerToggle
+import com.flayone.taxcc.taxcomparecalculate.widget.XDrawerLayout
+import com.google.android.material.textfield.TextInputEditText
+import kotlin.system.exitProcess
+
 
 @SuppressLint("Registered")
 open
@@ -37,12 +39,12 @@ open
  */
 class BaseActivity : AppCompatActivity(), MyLogger {
     var toolbar: Toolbar? = null
-    var switchButton: TextView? = null
+    var settingButton: TextView? = null
     private var pressedTime = 0L //按下返回键时间，用来判断可否退出
-
+    var mDrawerLayout: XDrawerLayout? = null
     override fun onContentChanged() {
         super.onContentChanged()
-        preInit()
+        initToolBar()
     }
 
     override fun onResume() {
@@ -58,28 +60,73 @@ class BaseActivity : AppCompatActivity(), MyLogger {
         }
     }
 
-    private fun preInit() {
+    private fun initToolBar() {
         try {
             //设置默认的toolbar
             toolbar = findViewById(R.id.toolbar)
-            switchButton = findViewById(R.id.mode_change)
+            settingButton = findViewById(R.id.mode_change)
             setSupportActionBar(toolbar)
-            supportActionBar?.setHomeButtonEnabled(false)
-            supportActionBar?.setDisplayHomeAsUpEnabled(false)
-            supportActionBar?.setDisplayShowHomeEnabled(false)
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             e.printStackTrace()
         }
         initView()
     }
 
+    fun initDraw() {
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        mDrawerLayout = findViewById(R.id.drawer_layout_root)
+//            supportActionBar?.setDisplayShowHomeEnabled(true)
+//创建返回键，并实现打开关/闭监听
+
+        //创建返回键，并实现打开关/闭监听
+        val mDrawerToggle = object : XActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.open, R.string.close) {
+            override fun onDrawerOpened(drawerView: View) {
+                super.onDrawerOpened(drawerView)
+            }
+
+            override fun onDrawerClosed(drawerView: View) {
+                super.onDrawerClosed(drawerView)
+            }
+        }
+        mDrawerToggle.syncState()
+        mDrawerLayout?.run {
+            addDrawerListener(mDrawerToggle)
+            setCustomLeftEdgeSize(this, 1f)
+        }
+    }
+
+    open fun setCustomLeftEdgeSize(drawerLayout: XDrawerLayout, displayWidthPercentage: Float) {
+        try {
+            // find ViewDragHelper and set it accessible
+            val leftDraggerField = drawerLayout.javaClass.getDeclaredField("mLeftDragger")
+                    ?: return
+            leftDraggerField.isAccessible = true
+            val leftDragger = leftDraggerField[drawerLayout] as ViewDragHelper
+            // find edgesize and set is accessible
+            val edgeSizeField = leftDragger.javaClass.getDeclaredField("mEdgeSize")
+            edgeSizeField.isAccessible = true
+            val edgeSize = edgeSizeField.getInt(leftDragger)
+            d("mEdgeSize == $edgeSize")
+            // set new edgesize
+            val widthPixels: Int = ScreenUtil.getScreenWidth(this)
+            edgeSizeField.setInt(leftDragger, Math.max(edgeSize, (widthPixels * displayWidthPercentage).toInt()))
+        } catch (e: NoSuchFieldException) {
+            e.printStackTrace()
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        }
+    }
+
     fun setTitle(s: String) {
         supportActionBar?.title = s
-        switchButton?.visibility = View.VISIBLE
-        switchButton?.onClick {
-            finish()
-            startAct(HomeActivity())
-        }
+//        settingButton?.visibility = View.VISIBLE
+//        settingButton?.onClick {
+//            finish()
+//            startAct(HomeActivity())
+//        }
     }
 
 
@@ -173,11 +220,37 @@ class BaseActivity : AppCompatActivity(), MyLogger {
         }
     }
 
+    //返回键监听
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (event.keyCode === KeyEvent.KEYCODE_MENU) {
+            mDrawerLayout?.run {
+                if (isDrawerOpen(Gravity.LEFT)) {
+                    closeDrawer(Gravity.LEFT)
+                } else {
+                    openDrawer(Gravity.LEFT)
+                }
+            }
+            return true
+        } else if (event.keyCode === KeyEvent.KEYCODE_BACK) {
+            mDrawerLayout?.run {
+                if (isDrawerOpen(Gravity.LEFT)) {
+                    closeDrawer(Gravity.LEFT)
+                    return true
+                }
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
     override fun onBackPressed() {
         val now = System.currentTimeMillis()
-        if (now - pressedTime > 1500 && (this is YearCalculateActivity || this is HomeActivity)) {
-            pressedTime = now
-            showToast("再次点击退出")
+        if (this is YearCalculateActivity || this is HomeActivity) {
+            if (now - pressedTime > 1500) {
+                pressedTime = now
+                showToast("再次点击退出")
+            } else {//退出应用
+                exitProcess(0)
+            }
         } else {
             super.onBackPressed()
         }

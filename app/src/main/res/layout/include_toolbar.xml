@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:padding="8dp"
-        android:text="切换"
+        android:text="设置"
         android:layout_marginRight="10dp"
         android:visibility="gone"
         android:textColor="@color/blue_light"

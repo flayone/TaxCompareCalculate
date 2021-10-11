@@ -46,6 +46,7 @@
         <activity android:name="com.flayone.taxcc.taxcomparecalculate.WebViewActivity" />
         <activity
             android:name="com.flayone.taxcc.taxcomparecalculate.WelcomeActivity"
+            android:theme="@style/WelcomePage"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

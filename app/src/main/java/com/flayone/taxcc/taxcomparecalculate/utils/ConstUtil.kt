@@ -23,3 +23,4 @@ const val PRIVACY_URL = "https://flayone.github.io/public/index.html"
 
 const val sp_setting = "tax_setting"
 const val sp_user_privacy = "tax_user_privacy"
+const val sp_user_first_start_time = "sp_user_first_start_time"

@@ -4,6 +4,8 @@
     <string name="hint_c2">五险一金等：c2</string>
     <string name="hint_c3">附加扣除数：c3</string>
     <string name="btn_cal">计算</string>
+    <string name="open">打开</string>
+    <string name="close">关闭</string>
 
     <string name="January">&#xe774;</string>
     <string name="February">&#xe76c;</string>
