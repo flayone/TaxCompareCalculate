@@ -1,15 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="200dp"
+    android:layout_width="230dp"
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:background="@color/white">
 
     <TextView
+        android:id="@+id/tv_imdl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="这是侧边栏"
+        android:paddingLeft="20dp"
+        android:paddingTop="22dp"
+        android:text="设置"
+        android:textColor="@color/black"
+        android:textSize="25sp"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_imdl_intr"
+        style="@style/DrawItem"
+        android:layout_marginTop="32dp"
+        android:text="说明"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_imdl_title" />
+
+    <TextView
+        android:id="@+id/tv_imdl_year"
+        style="@style/DrawItem"
+        android:text="年终奖"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_imdl_intr" />
+
+    <TextView
+        android:id="@+id/tv_imdl_old"
+        style="@style/DrawItem"
+        android:text="旧个税计算器"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_imdl_year" />
+
+    <TextView
+        android:id="@+id/tv_imdl_update"
+        style="@style/DrawItem"
+        android:text="检测更新"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_imdl_old" />
+
+    <TextView
+        android:id="@+id/tv_imdl_about"
+        style="@style/DrawItem"
+        android:text="关于"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_imdl_update" />
+
+    <View
+        android:id="@+id/tv_imdl_line_b"
+        android:layout_width="1dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_imdl_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:padding="10dp"
+        android:text="用户协议"
+        android:textColor="@color/blue"
+        app:layout_constraintBottom_toBottomOf="@id/tv_imdl_line_b"
+        app:layout_constraintRight_toLeftOf="@id/tv_imdl_line_b"
+        app:layout_constraintTop_toTopOf="@id/tv_imdl_line_b" />
+
+
+    <TextView
+        android:id="@+id/tv_imdl_privacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:padding="10dp"
+
+        android:text="隐私政策"
+        android:textColor="@color/blue"
+        app:layout_constraintBottom_toBottomOf="@id/tv_imdl_line_b"
+        app:layout_constraintLeft_toRightOf="@id/tv_imdl_line_b"
+        app:layout_constraintTop_toTopOf="@id/tv_imdl_line_b" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,10 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.customview.widget.ViewDragHelper
 import com.advance.utils.ScreenUtil
-import com.flayone.taxcc.taxcomparecalculate.HomeActivity
-import com.flayone.taxcc.taxcomparecalculate.R
-import com.flayone.taxcc.taxcomparecalculate.WelcomeActivity
-import com.flayone.taxcc.taxcomparecalculate.YearCalculateActivity
+import com.flayone.taxcc.taxcomparecalculate.*
 import com.flayone.taxcc.taxcomparecalculate.dialog.UserPrivacyDialog
 import com.flayone.taxcc.taxcomparecalculate.utils.MyLogger
 import com.flayone.taxcc.taxcomparecalculate.utils.StatusBarUtil.setStatusBarMode
@@ -51,7 +48,7 @@ class BaseActivity : AppCompatActivity(), MyLogger {
         super.onResume()
         if (!getBoole(sp_user_privacy)) {
             //如果是欢迎页逻辑交由此页面处理
-            if (this is WelcomeActivity) {
+            if (this is WelcomeActivity || this is WebViewActivity) {
                 return
             }
             UserPrivacyDialog(this) {
@@ -244,7 +241,7 @@ class BaseActivity : AppCompatActivity(), MyLogger {
 
     override fun onBackPressed() {
         val now = System.currentTimeMillis()
-        if (this is YearCalculateActivity || this is HomeActivity) {
+        if (this is YearCalculateActivity) {
             if (now - pressedTime > 1500) {
                 pressedTime = now
                 showToast("再次点击退出")

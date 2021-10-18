@@ -28,6 +28,7 @@ import android.view.accessibility.AccessibilityEvent;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.IntDef;
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
@@ -47,6 +48,7 @@ import java.util.List;
 
 import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
+@Keep
 public class XDrawerLayout extends ViewGroup {
     private static final String TAG = "DrawerLayout";
 

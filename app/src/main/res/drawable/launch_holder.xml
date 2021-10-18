@@ -6,7 +6,7 @@
     <item>
         <bitmap
             android:src="@mipmap/place_holder"
-            android:gravity="fill" />
+            android:gravity="fill_horizontal" />
     </item>
 
 </layer-list>

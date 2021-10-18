@@ -13,7 +13,9 @@ import com.flayone.taxcc.taxcomparecalculate.items.YearHistoryItem
 import com.flayone.taxcc.taxcomparecalculate.items.YearResultItem
 import com.flayone.taxcc.taxcomparecalculate.utils.*
 import com.orhanobut.logger.Logger
+import com.tencent.bugly.beta.Beta
 import kotlinx.android.synthetic.main.activity_year_calculate.*
+import kotlinx.android.synthetic.main.item_main_draw_left.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
 class YearCalculateActivity : BaseActivity() {
@@ -38,19 +40,19 @@ class YearCalculateActivity : BaseActivity() {
         ripple(calculate, 90f)
         //开屏v+、点睛广告后续效果启动。当开屏页和首页为不同activity时，需要调用该方法以唤起开屏效果。
         AdvanceSplashPlusManager.startZoom(this)
+        initDraw()
     }
 
     override fun initView() {
         super.initView()
-        initDraw()
-
-        val version = BuildConfig.VERSION_NAME
         setTitle("新个税计算器")
         keepEditTwoPoint(et_salary)
         keepEditTwoPoint(et_welfare)
         keepEditTwoPoint(et_expend)
         list_result.isNestedScrollingEnabled = false
         list_result.layoutManager = initRecycleLayoutManger(this)
+
+        initDrawLayout()
 
         initLayout()
         salaryList = arrayListOf()
@@ -121,6 +123,33 @@ class YearCalculateActivity : BaseActivity() {
             }
 
         }))
+    }
+
+    private fun initDrawLayout() {
+        tv_imdl_user.setOnClickListener {
+            startWebPage(USER_URL)
+        }
+        tv_imdl_privacy.setOnClickListener {
+            startWebPage(PRIVACY_URL)
+        }
+        tv_imdl_update.setOnClickListener {
+            Beta.checkUpgrade()
+        }
+
+        tv_imdl_year.setOnClickListener {
+            startAct(YearTaxActivity::class.java)
+        }
+        tv_imdl_intr.setOnClickListener {
+            startAct(HomeActivity::class.java)
+        }
+        tv_imdl_old.setOnClickListener {
+            startAct(MainActivity::class.java)
+        }
+
+        tv_imdl_about.setOnClickListener {
+            startAct(AboutActivity::class.java)
+
+        }
     }
 
     //页面显示相关的初始化

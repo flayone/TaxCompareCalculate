@@ -20,11 +20,12 @@
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:clickable="true">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="10dp">
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline_left"

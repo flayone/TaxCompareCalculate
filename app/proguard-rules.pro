@@ -199,3 +199,8 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+#XDrawerLayout反射
+-keepclasseswithmembernames class com.flayone.taxcc.taxcomparecalculate.widget.XDrawerLayout{
+    <fields>;
+}
