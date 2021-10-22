@@ -102,7 +102,7 @@ class WelcomeActivity : BaseActivity() {
             saveLong(sp_user_first_start_time, System.currentTimeMillis())
             false
         } else {
-            System.currentTimeMillis() - getLong(sp_user_first_start_time) > 259200000//三天以上才用加载广告
+            System.currentTimeMillis() - getLong(sp_user_first_start_time) > limit_ad_time//指定时间以上才用加载广告
         }
     }
 

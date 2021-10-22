@@ -24,3 +24,7 @@ const val PRIVACY_URL = "https://flayone.github.io/public/index.html"
 const val sp_setting = "tax_setting"
 const val sp_user_privacy = "tax_user_privacy"
 const val sp_user_first_start_time = "sp_user_first_start_time"
+
+//const val limit_ad_time = 259200000 //三天后，用户才可以看到广告
+const val limit_ad_time = 89400000 //1天后，用户才可以看到广告
+//const val limit_ad_time = 0 //0天后，用户才可以看到广告
