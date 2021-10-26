@@ -3,7 +3,6 @@ package com.flayone.taxcc.taxcomparecalculate.base
 import android.app.Application
 import com.dbflow5.config.FlowConfig
 import com.dbflow5.config.FlowManager
-import com.flayone.taxcc.taxcomparecalculate.MainActivity
 import com.flayone.taxcc.taxcomparecalculate.R
 import com.flayone.taxcc.taxcomparecalculate.YearCalculateActivity
 import com.flayone.taxcc.taxcomparecalculate.ad.AdvanceAD

@@ -147,8 +147,9 @@ public class AdvanceAD {
 
             @Override
             public void jumpToMain() {
-                if (callBack != null)
+                if (callBack != null) {
                     callBack.jumpMain();
+                }
             }
 
             @Override
@@ -165,11 +166,17 @@ public class AdvanceAD {
                     skipView.setBackgroundDrawable(ContextCompat.getDrawable(mActivity, R.drawable.background_circle));
 
                 logAndToast(mActivity, "广告展示成功");
+                if (callBack != null) {
+                    callBack.adEnd();
+                }
             }
 
             @Override
             public void onAdFailed(AdvanceError advanceError) {
                 logAndToast(mActivity, "广告加载失败 code=" + advanceError.code + " msg=" + advanceError.msg);
+                if (callBack != null) {
+                    callBack.adEnd();
+                }
             }
 
             @Override
@@ -198,6 +205,8 @@ public class AdvanceAD {
      */
     public interface SplashCallBack {
         void jumpMain();
+        //广告周期结束,展示成功或加载失败时回调
+        void adEnd();
     }
 
     /**
@@ -558,7 +567,7 @@ public class AdvanceAD {
         android.util.Log.d("[AdvanceAD-logAndToast]", msg);
         //如果不想弹出toast可以在此注释掉下面代码
         if (BuildConfig.DEBUG) {
-            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
         }
     }
 }

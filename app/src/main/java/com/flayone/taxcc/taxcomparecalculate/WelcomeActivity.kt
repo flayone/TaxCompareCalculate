@@ -14,6 +14,7 @@ import com.flayone.taxcc.taxcomparecalculate.utils.*
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
+import com.huawei.agconnect.remoteconfig.AGConnectConfig
 import kotlinx.android.synthetic.main.activity_welcome.*
 
 class WelcomeActivity : BaseActivity() {
@@ -80,9 +81,54 @@ class WelcomeActivity : BaseActivity() {
 
     private fun getSplashAD() {
         //请求开屏广告
-        AdvanceAD(this).loadSplash(fl_ad, null, null) {
-            goMain()
+        AdvanceAD(this).loadSplash(fl_ad, null, null, object : AdvanceAD.SplashCallBack {
+            override fun adEnd() {
+//                提前初始化变量信息
+                initAGConfig()
+            }
+
+            override fun jumpMain() {
+                goMain()
+            }
+
+        })
+    }
+
+    private fun initAGConfig() {
+
+        try {
+            val config = AGConnectConfig.getInstance()
+            val map = mutableMapOf<String, Any>()
+            map[AGKEY_MINSS] = minSocialSafety_DF
+            map[AGKEY_MAXSS] = maxSocialSafety_DF
+            map[AGKEY_MINPM] = minPublicMoney_DF
+            map[AGKEY_MAXPM] = maxPublicMoney_DF
+            //设置默认值
+            config.applyDefault(map)
+
+            config.apply(config.loadLastFetched())
+            //拉取服务端值
+            //fetch()接口默认更新周期为 12 小时，fetch(long intervalSeconds)接口则可以自行设置更新周期，在更新周期内再次调用fetch接口不会去云侧同步数据，而是使用本地缓存数据直接返回。
+            //fetch(long intervalSeconds)间隔时间单位为秒，在调测阶段可以设置为0，方便调测，在实际生产阶段建议设置较大值，防止受到流控限制。
+            val fetch = if (BuildConfig.DEBUG) {
+                config.fetch(0)
+            } else {
+                config.fetch()
+            }
+            fetch.addOnSuccessListener {
+                config.apply(it)
+                //使用配置值
+            }.addOnFailureListener {
+
+            }
+            val vl = config.mergedAll
+
+
+            d("ag config inf : vl= $vl  ")
+        } catch (e: Throwable) {
+            e.printStackTrace()
         }
+
     }
 
     /**
