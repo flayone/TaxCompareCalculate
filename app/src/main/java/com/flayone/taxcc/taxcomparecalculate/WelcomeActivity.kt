@@ -50,10 +50,16 @@ class WelcomeActivity : BaseActivity() {
 
                 override fun onDenied(permissions: MutableList<String>, never: Boolean) {
                     d("[checkPermission] onDenied")
+                    saveLong(sp_permission_denied_time, System.currentTimeMillis())
                     startSDK()
                 }
             }
-            XXPermissions.with(this).permission(Permission.READ_PHONE_STATE)?.request(cal)
+            val canRequestPerm = System.currentTimeMillis() - getLong(sp_permission_denied_time) > limit_permission_time
+            if (canRequestPerm) {
+                XXPermissions.with(this).permission(Permission.READ_PHONE_STATE)?.request(cal)
+            } else {
+                startSDK()
+            }
         } else {
             d("[checkPermission] no need")
             startSDK()
