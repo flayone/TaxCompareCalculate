@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 import com.advance.AdvanceBanner;
 import com.advance.AdvanceBannerListener;
 import com.advance.AdvanceBaseAdspot;
+import com.advance.AdvanceConfig;
 import com.advance.AdvanceFullScreenItem;
 import com.advance.AdvanceFullScreenVideo;
 import com.advance.AdvanceFullScreenVideoListener;
@@ -28,6 +29,7 @@ import com.advance.RewardServerCallBackInf;
 import com.advance.custom.AdvanceBaseCustomAdapter;
 import com.advance.model.AdvanceError;
 import com.advance.model.AdvanceLogLevel;
+import com.advance.model.CacheMode;
 import com.advance.supplier.baidu.AdvanceBDManager;
 import com.advance.utils.LogUtil;
 import com.advance.utils.ScreenUtil;
@@ -86,6 +88,8 @@ public class AdvanceAD {
         AdvanceSDK.setDebug(BuildConfig.DEBUG, AdvanceLogLevel.MAX);
         //推荐配置：允许Mercury预缓存素材
         MercuryAD.needPreLoadMaterial(true);
+        //策略缓存时长配置
+        AdvanceConfig.getInstance().setDefaultStrategyCacheTime(CacheMode.WEEK);
     }
 
     /**
@@ -195,6 +199,7 @@ public class AdvanceAD {
                 logAndToast(mActivity, "倒计时结束，关闭广告");
             }
         });
+        advanceSplash.enableStrategyCache(true);
         //必须：请求广告
         advanceSplash.loadStrategy();
     }
@@ -205,6 +210,7 @@ public class AdvanceAD {
      */
     public interface SplashCallBack {
         void jumpMain();
+
         //广告周期结束,展示成功或加载失败时回调
         void adEnd();
     }

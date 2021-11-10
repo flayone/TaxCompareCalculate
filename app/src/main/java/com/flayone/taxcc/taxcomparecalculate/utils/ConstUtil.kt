@@ -37,3 +37,5 @@ const val AGKEY_MINSS = "minSocialSafety"
 const val AGKEY_MAXSS = "maxSocialSafety"
 const val AGKEY_MINPM = "minPublicMoney"
 const val AGKEY_MAXPM = "maxPublicMoney"
+
+const val AGKEY_LIMIT_AD_TIME = "limit_ad_time"

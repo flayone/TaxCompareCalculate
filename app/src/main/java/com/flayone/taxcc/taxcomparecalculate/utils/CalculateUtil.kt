@@ -188,6 +188,9 @@ fun div(v1: String, v2: String, scale: Int): String {
 }
 
 fun shortMoney(ori: String): String {
+    if (ori.isEmpty()){
+        return "0"
+    }
     if (ori.toDouble() <= 999.99) {
         return ori
     }
@@ -198,6 +201,9 @@ fun shortMoney(ori: String): String {
 }
 
 fun shortYearMoney(ori: String): String {
+    if (ori.isEmpty()){
+        return "0"
+    }
     if (ori.toDouble() <= 9999.99) {
         return ori
     }

@@ -11,6 +11,7 @@ import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
 import com.flayone.taxcc.taxcomparecalculate.dialog.UserPrivacyDialog
 import com.flayone.taxcc.taxcomparecalculate.utils.*
+import com.flayone.taxcc.taxcomparecalculate.utils.ConstGetter.getADWait
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
@@ -109,6 +110,7 @@ class WelcomeActivity : BaseActivity() {
             map[AGKEY_MAXSS] = maxSocialSafety_DF
             map[AGKEY_MINPM] = minPublicMoney_DF
             map[AGKEY_MAXPM] = maxPublicMoney_DF
+            map[AGKEY_LIMIT_AD_TIME] = limit_ad_time
             //设置默认值
             config.applyDefault(map)
 
@@ -154,7 +156,7 @@ class WelcomeActivity : BaseActivity() {
             saveLong(sp_user_first_start_time, System.currentTimeMillis())
             false
         } else {
-            System.currentTimeMillis() - getLong(sp_user_first_start_time) > limit_ad_time//指定时间以上才用加载广告
+            System.currentTimeMillis() - getLong(sp_user_first_start_time) > getADWait()//指定时间以上才用加载广告
         }
     }
 
