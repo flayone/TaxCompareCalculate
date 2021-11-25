@@ -9,8 +9,8 @@ app下载体验： https://appgallery.huawei.com/app/C104387041<br>
 
 页面预览
 
-<img src="images/p_cal.png" width="25%" />  <img src="images/p_his.png" width="25%" />  <img src="images/p_more.png" width="25%" />
-<img src="images/p_year.png" width="25%" />  
+<img src="images/p_cal.png" width="24%" />  <img src="images/p_his.png" width="24%" />  <img src="images/p_more.png" width="24%" />
+<img src="images/p_year.png" width="24%" />  
 
 ## CHANGE LIST
 v2.0<br>

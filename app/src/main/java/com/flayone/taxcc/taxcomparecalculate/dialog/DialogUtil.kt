@@ -158,7 +158,7 @@ class CustomParametersDialog(context: Context, titleString: String, model: BaseC
 }
 
 
-class UserPrivacyDialog(context: Context,ok :() -> Unit = {}) : BaseKtLayoutDialog(context, R.layout.dialog_user_privacy, 0.85f) {
+class UserPrivacyDialog(context: Context, ok: () -> Unit = {}) : BaseKtLayoutDialog(context, R.layout.dialog_user_privacy, 0.85f) {
 
     init {
         val content = "请你务必审慎阅读、充分理解“服务协议和隐私政策”个条款，包括但不限于：为了向你提供内容等服务，我们需要收集你的设备信息、操作日志等个人信息。你可以在“设置”中查看、变更、删除个人信息并管理你的授权。你可以阅读"

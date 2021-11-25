@@ -151,6 +151,10 @@ class WelcomeActivity : BaseActivity() {
 //        super.onBackPressed()
     }
 
+    /**
+     * todo 是否用户第一次不展示广告？
+     * 目前逻辑为：用户第一次打开时可能还未获取到服务端远程配置信息，且默认值未初始化，此时getADWait获取的值为0，导致第一次一定会出广告
+     */
     private fun isUserTimeEnough(): Boolean {
         return if (getLong(sp_user_first_start_time) < 0) {
             saveLong(sp_user_first_start_time, System.currentTimeMillis())
