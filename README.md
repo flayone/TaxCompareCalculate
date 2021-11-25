@@ -4,13 +4,13 @@
 
 功能：个税计算器，计算12个月税后收入情况及个税缴纳数，**记录历史操作，自定义月收入、社保五险一金、附加扣除数。**<br>
 
-apk下载体验：https://www.coolapk.com/apk/com.flayone.taxcc.taxcomparecalculate<br>
+app下载体验： https://appgallery.huawei.com/app/C104387041<br>
 
 
 页面预览
 
-<img src="images/201901.jpeg" width="32%" />  <img src="images/201902.jpeg" width="32%" />  <img src="images/201903.jpeg" width="32%" />
-<img src="images/201904.jpeg" width="32%" />  <img src="images/201905.jpeg" width="32%" />
+<img src="images/p_cal.png" width="25%" />  <img src="images/p_his.png" width="25%" />  <img src="images/p_more.png" width="25%" />
+<img src="images/p_year.png" width="25%" />  
 
 ## CHANGE LIST
 v2.0<br>
