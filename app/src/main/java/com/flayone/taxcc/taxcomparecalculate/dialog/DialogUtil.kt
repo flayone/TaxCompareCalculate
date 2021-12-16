@@ -19,6 +19,7 @@ import com.flayone.taxcc.taxcomparecalculate.utils.*
 import com.flayone.taxcc.taxcomparecalculate.widget.RippleEffect
 import com.flayone.taxcc.taxcomparecalculate.widget.UrlClickSpan
 import kotlinx.android.synthetic.main.dialog_custom_parameters.*
+import kotlinx.android.synthetic.main.dialog_rate_help.*
 import kotlinx.android.synthetic.main.dialog_user_privacy.*
 import org.jetbrains.anko.windowManager
 import kotlin.system.exitProcess
@@ -196,4 +197,14 @@ class UserPrivacyDialog(context: Context, ok: () -> Unit = {}) : BaseKtLayoutDia
 
     }
 
+}
+
+
+class RateHelpDialog(context: Context, ok: () -> Unit = {}) : BaseKtLayoutDialog(context, R.layout.dialog_rate_help, 0.85f) {
+init {
+    btn_ok.setOnClickListener {
+        ok.invoke()
+        dismiss()
+    }
+}
 }

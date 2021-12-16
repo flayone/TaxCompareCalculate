@@ -4,7 +4,9 @@ import android.os.Build
 import android.os.Bundle
 import android.transition.Fade
 import android.view.View
+import android.widget.AdapterView
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
+import com.flayone.taxcc.taxcomparecalculate.dialog.RateHelpDialog
 import com.flayone.taxcc.taxcomparecalculate.utils.*
 import kotlinx.android.synthetic.main.activity_year_tax.*
 
@@ -16,6 +18,7 @@ class YearTaxActivity : BaseActivity() {
 
     private val duration = 550L
     private val mainColor = R.color.y_bg
+    private var rateSelectPos = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,25 +55,60 @@ class YearTaxActivity : BaseActivity() {
             }
             calculateYearOriginal(et_salary.text.toString())
         }
+
+        v_ayt_01.setOnClickListener {
+            RateHelpDialog(this).show()
+        }
+
+        acs_rate.setSelection(0)
+        acs_rate.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                rateSelectPos = position
+
+            }
+
+        }
     }
 
     private fun calculateYearTax(s: String) {
-        val result = calculateTax(s)
+
+        val is2021 = rateSelectPos == 0//旧版计算方式
+        val result = if (is2021) calculateTax(s) else {
+            multiply(s, taxRateList[rateSelectPos - 1], 2)
+        }
         tv_result.text = subtract(s, result)
         val rate = calculateYearTaxRate(s)
 
-        tv_calculation_formula.text = "$s（税前年终奖）* $rate（税率） - ${calculateQuickDeduction(s)}（速算扣除数） = $result（个税）"
+        val tip = if (is2021) "$s（税前年终奖）* $rate（税率） - ${calculateQuickDeduction(s)}（速算扣除数） = $result（个税）" else{
+            "$s（税前年终奖）* ${taxRateList[rateSelectPos - 1]}（税率） = $result（个税）"
+        }
+        tv_calculation_formula.text =  tip
         isResultShow(true)
     }
 
     private fun calculateYearOriginal(s: String) {
+        val is2021 = rateSelectPos == 0//旧版计算方式
+
         val pos = calculateOriginalSalaryPosition(s) ?: return
         val rate = getTaxRateByPosition(pos)
         val deduction = getQuickDeductionByPosition(pos)
 
-        val result = div(subtract(s, deduction), subtract("1", taxRateList[pos]), 2)
+        val rateInf = if (is2021) taxRateList[pos] else taxRateList[rateSelectPos - 1]
+        val result = if (is2021) div(subtract(s, deduction), subtract("1", rateInf), 2)else{
+            div( s, subtract("1", rateInf), 2)
+        }
         tv_result.text = result
-        tv_calculation_formula.text = "（$s（税后所得）- $deduction（速算扣除数）） ÷ (1 - $rate（税率）)= $result（税前年终奖）"
+
+        val tip = if (is2021)"（$s（税后所得）- $deduction（速算扣除数）） ÷ (1 - $rate（税率）)= $result（税前年终奖）" else{
+            "$s（税后所得） ÷ (1 - ${taxRateList[rateSelectPos - 1]}（税率）)= $result（税前年终奖）"
+        }
+
+        tv_calculation_formula.text = tip
         isResultShow(true)
     }
 

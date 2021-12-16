@@ -51,6 +51,30 @@
             app:clear_background_tint="@color/y_bg" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/v_ayt_01"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:drawableRight="@mipmap/icon_help"
+        android:drawablePadding="3dp"
+        android:drawableTint="@color/mery_blue"
+        android:gravity="center"
+        android:text="选择适用税率"
+        android:textColor="@color/mery_text_black"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/til_salary" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/acs_rate"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:entries="@array/year_custom_rate"
+        app:layout_constraintBottom_toBottomOf="@id/v_ayt_01"
+        app:layout_constraintLeft_toRightOf="@id/v_ayt_01"
+        app:layout_constraintTop_toTopOf="@id/v_ayt_01" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_calculate"
         android:layout_width="0dp"
@@ -63,7 +87,7 @@
         android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="@id/guideline_left"
         app:layout_constraintRight_toRightOf="@id/guideline_right"
-        app:layout_constraintTop_toBottomOf="@+id/til_salary" />
+        app:layout_constraintTop_toBottomOf="@+id/v_ayt_01" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_calculate_original"

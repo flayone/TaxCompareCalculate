@@ -7,6 +7,8 @@
     <string name="open">打开</string>
     <string name="close">关闭</string>
 
+    <string name="help_rate">根据2022年个税新实行政策：年终奖金额将计入年累计计税额度，不可单独计税。\n那么自2022年开始，年终奖将按照奖金发放当月的税率计税。当月税率可参考计算器首页个税计算结果中，对应月份的税率信息，选择正确的税率后开始计算奖金税后收入。\n如果选择了-自动选择-选项，代表使用2022年新政前的单独计税方式</string>
+
     <string name="January">&#xe774;</string>
     <string name="February">&#xe76c;</string>
     <string name="March">&#xe770;</string>

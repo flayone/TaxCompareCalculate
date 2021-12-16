@@ -246,7 +246,7 @@ fun calculateYearTaxRate(s: String): String {
 }
 
 
-private val quickDeductionList = getQuickDeductionList(yearLevelList, taxRateList)
+val quickDeductionList = getQuickDeductionList(yearLevelList, taxRateList)
 
 // 根据当月年化累计预扣预缴税额来计算个税数：
 fun calculateTax(s: String): String {
