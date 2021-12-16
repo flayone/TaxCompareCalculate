@@ -171,19 +171,23 @@ private const val missCount = "0"//修正参数
 
 //(以上海为例)计算险金扣除数
 fun calculateWelfare(salaryVal: String): String {
-    return when (salaryVal.toDouble()) {
-        in 0..ConstGetter.getMinPublicMoney().toInt() -> //公积金下限、社保下限以下。
-            add(multiply(ConstGetter.getMinPublicMoney().toString(), publicMoneyPercent, 2), multiply(ConstGetter.getMinSocialSafety().toString(), socialSafetyPercent, 2), missCount)
-        in ConstGetter.getMinPublicMoney()..ConstGetter.getMinSocialSafety() -> //公积金7%、社保下限
-            add(multiply(salaryVal, publicMoneyPercent, 2), multiply(ConstGetter.getMinSocialSafety().toString(), socialSafetyPercent, 2), missCount)
-        in ConstGetter.getMinSocialSafety()..ConstGetter.getMaxPublicMoney() -> //公积金7%,社保10.5%
-            add(multiply(salaryVal, publicMoneyPercent, 2), multiply(salaryVal, socialSafetyPercent, 2), missCount)
-        in ConstGetter.getMaxPublicMoney()..ConstGetter.getMaxSocialSafety() -> //公积金上限,社保10.5%
-            add(multiply(ConstGetter.getMaxPublicMoney().toString(), publicMoneyPercent, 2), multiply(salaryVal, socialSafetyPercent, 2), missCount)
-        in ConstGetter.getMaxSocialSafety()..Int.MAX_VALUE -> {//公积金上限,社保上限
-            add(multiply(ConstGetter.getMaxPublicMoney().toString(), publicMoneyPercent, 2), multiply(ConstGetter.getMaxSocialSafety().toString(), socialSafetyPercent, 2), missCount)
+    try {
+        return when (salaryVal.toDouble()) {
+            in 0..ConstGetter.getMinPublicMoney().toInt() -> //公积金下限、社保下限以下。
+                add(multiply(ConstGetter.getMinPublicMoney().toString(), publicMoneyPercent, 2), multiply(ConstGetter.getMinSocialSafety().toString(), socialSafetyPercent, 2), missCount)
+            in ConstGetter.getMinPublicMoney()..ConstGetter.getMinSocialSafety() -> //公积金7%、社保下限
+                add(multiply(salaryVal, publicMoneyPercent, 2), multiply(ConstGetter.getMinSocialSafety().toString(), socialSafetyPercent, 2), missCount)
+            in ConstGetter.getMinSocialSafety()..ConstGetter.getMaxPublicMoney() -> //公积金7%,社保10.5%
+                add(multiply(salaryVal, publicMoneyPercent, 2), multiply(salaryVal, socialSafetyPercent, 2), missCount)
+            in ConstGetter.getMaxPublicMoney()..ConstGetter.getMaxSocialSafety() -> //公积金上限,社保10.5%
+                add(multiply(ConstGetter.getMaxPublicMoney().toString(), publicMoneyPercent, 2), multiply(salaryVal, socialSafetyPercent, 2), missCount)
+            in ConstGetter.getMaxSocialSafety()..Int.MAX_VALUE -> {//公积金上限,社保上限
+                add(multiply(ConstGetter.getMaxPublicMoney().toString(), publicMoneyPercent, 2), multiply(ConstGetter.getMaxSocialSafety().toString(), socialSafetyPercent, 2), missCount)
+            }
+            else -> "0"
         }
-        else -> "0"
+    } catch (e: Exception) {
+        return "0"
     }
 }
 

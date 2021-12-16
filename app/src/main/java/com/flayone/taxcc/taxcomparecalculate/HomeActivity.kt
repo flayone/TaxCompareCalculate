@@ -5,9 +5,11 @@ import android.text.Html.fromHtml
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_home.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
+//jarsigner -verbose -keystore liyayu.jks -signedjar ./mssp-verify-signed.apk mssp-verify-e6eb5661.apk release
+
 
 /**
- * 功能选择页：可选2019个税年累计算法、2018个税月均算法(税改收入对比)
+ * 说明页
  */
 class HomeActivity : BaseActivity() {
     private val FORMAT_LINE = "<font color=\"#333333\">&#12288;&#12288;%s</span>"

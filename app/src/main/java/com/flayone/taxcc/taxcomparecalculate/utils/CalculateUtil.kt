@@ -188,41 +188,53 @@ fun div(v1: String, v2: String, scale: Int): String {
 }
 
 fun shortMoney(ori: String): String {
-    if (ori.isEmpty()){
+    if (ori.isEmpty()) {
         return "0"
     }
-    if (ori.toDouble() <= 999.99) {
-        return ori
-    }
-    if (ori.toDouble() <= 999999.99) {
-        return "${div(ori, "1000", 1)}K"
+    try {
+        if (ori.toDouble() <= 999.99) {
+            return ori
+        }
+        if (ori.toDouble() <= 999999.99) {
+            return "${div(ori, "1000", 1)}K"
+        }
+    } catch (e: Exception) {
     }
     return "${div(ori, "1000000", 1)}M"
 }
 
 fun shortYearMoney(ori: String): String {
-    if (ori.isEmpty()){
+    if (ori.isEmpty()) {
         return "0"
     }
-    if (ori.toDouble() <= 9999.99) {
-        return ori
-    }
-    if (ori.toDouble() <= 999999.99) {
-        return "${div(ori, "10000", 1)}W"
+    try {
+        if (ori.toDouble() <= 9999.99) {
+            return ori
+        }
+        if (ori.toDouble() <= 999999.99) {
+            return "${div(ori, "10000", 1)}W"
+        }
+    } catch (e: Exception) {
     }
     return "${div(ori, "1000000", 1)}M"
 }
 
-fun calculateYearTaxPosition(s: String): Int? = when (s.toDouble()) {
-    in yearLevelList[0] until yearLevelList[1] -> 0
-    in yearLevelList[1] until yearLevelList[2] -> 1
-    in yearLevelList[2] until yearLevelList[3] -> 2
-    in yearLevelList[3] until yearLevelList[4] -> 3
-    in yearLevelList[4] until yearLevelList[5] -> 4
-    in yearLevelList[5] until yearLevelList[6] -> 5
-    in yearLevelList[6] until Int.MAX_VALUE -> 6
-    else -> {
-        null
+fun calculateYearTaxPosition(s: String): Int? {
+    try {
+        return when (s.toDouble()) {
+            in yearLevelList[0] until yearLevelList[1] -> 0
+            in yearLevelList[1] until yearLevelList[2] -> 1
+            in yearLevelList[2] until yearLevelList[3] -> 2
+            in yearLevelList[3] until yearLevelList[4] -> 3
+            in yearLevelList[4] until yearLevelList[5] -> 4
+            in yearLevelList[5] until yearLevelList[6] -> 5
+            in yearLevelList[6] until Int.MAX_VALUE -> 6
+            else -> {
+                null
+            }
+        }
+    } catch (e: Exception) {
+        return null
     }
 }
 
@@ -237,16 +249,22 @@ fun calculateYearTaxRate(s: String): String {
 private val quickDeductionList = getQuickDeductionList(yearLevelList, taxRateList)
 
 // 根据当月年化累计预扣预缴税额来计算个税数：
-fun calculateTax(s: String): String = when (s.toDouble()) {
-    in yearLevelList[0] until yearLevelList[1] -> calculateTax(s, taxRateList[0], quickDeductionList[0])
-    in yearLevelList[1] until yearLevelList[2] -> calculateTax(s, taxRateList[1], quickDeductionList[1])
-    in yearLevelList[2] until yearLevelList[3] -> calculateTax(s, taxRateList[2], quickDeductionList[2])
-    in yearLevelList[3] until yearLevelList[4] -> calculateTax(s, taxRateList[3], quickDeductionList[3])
-    in yearLevelList[4] until yearLevelList[5] -> calculateTax(s, taxRateList[4], quickDeductionList[4])
-    in yearLevelList[5] until yearLevelList[6] -> calculateTax(s, taxRateList[5], quickDeductionList[5])
-    in yearLevelList[6] until Int.MAX_VALUE -> calculateTax(s, taxRateList[6], quickDeductionList[6])
-    else -> {
-        "0"
+fun calculateTax(s: String): String {
+    try {
+        return when (s.toDouble()) {
+            in yearLevelList[0] until yearLevelList[1] -> calculateTax(s, taxRateList[0], quickDeductionList[0])
+            in yearLevelList[1] until yearLevelList[2] -> calculateTax(s, taxRateList[1], quickDeductionList[1])
+            in yearLevelList[2] until yearLevelList[3] -> calculateTax(s, taxRateList[2], quickDeductionList[2])
+            in yearLevelList[3] until yearLevelList[4] -> calculateTax(s, taxRateList[3], quickDeductionList[3])
+            in yearLevelList[4] until yearLevelList[5] -> calculateTax(s, taxRateList[4], quickDeductionList[4])
+            in yearLevelList[5] until yearLevelList[6] -> calculateTax(s, taxRateList[5], quickDeductionList[5])
+            in yearLevelList[6] until Int.MAX_VALUE -> calculateTax(s, taxRateList[6], quickDeductionList[6])
+            else -> {
+                "0"
+            }
+        }
+    } catch (e: Exception) {
+        return "0"
     }
 }
 

@@ -61,7 +61,6 @@
                             android:drawablePadding="4dp"
                             android:gravity="center_vertical"
                             android:hint="@string/hint_c1"
-                            android:inputType="number"
                             android:maxLength="10"
                             android:text=""
                             android:textSize="26sp"
