@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.transition.Fade
 import android.view.View
 import android.widget.AdapterView
+import com.flayone.taxcc.taxcomparecalculate.ad.AdvanceAD
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import com.flayone.taxcc.taxcomparecalculate.dialog.RateHelpDialog
 import com.flayone.taxcc.taxcomparecalculate.utils.*
 import kotlinx.android.synthetic.main.activity_year_tax.*
+import kotlinx.android.synthetic.main.activity_year_tax.et_salary
 
 /**
  * Created by liyayu on 2019/4/23.
@@ -59,6 +61,9 @@ class YearTaxActivity : BaseActivity() {
         v_ayt_01.setOnClickListener {
             RateHelpDialog(this).show()
         }
+
+        //加载底部信息流广告
+        AdvanceAD(this).loadNativeExpress(fl_ayt_ad,"10005845")
 
         acs_rate.setSelection(0)
         acs_rate.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

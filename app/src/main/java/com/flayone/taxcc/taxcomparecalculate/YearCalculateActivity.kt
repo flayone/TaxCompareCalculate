@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.advance.utils.AdvanceSplashPlusManager
+import com.flayone.taxcc.taxcomparecalculate.ad.AdvanceAD
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
 import com.flayone.taxcc.taxcomparecalculate.dialog.CustomParametersDialog
@@ -55,6 +56,9 @@ class YearCalculateActivity : BaseActivity() {
         initDrawLayout()
 
         initLayout()
+
+        //加载底部信息流广告
+        AdvanceAD(this).loadNativeExpress(fl_ad,"10005780")
         salaryList = arrayListOf()
         resultData.list = arrayListOf()
         et_salary.addTextChangedListener(MyTextWatcher(object : BaseEnsureListener {

@@ -155,6 +155,12 @@
         </com.flayone.taxcc.taxcomparecalculate.widget.XDrawerLayout>
     </LinearLayout>
 
+    <FrameLayout
+        android:id="@+id/fl_ad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"/>
+
     <TextView
         android:id="@+id/tv_pop_bg"
         android:layout_width="match_parent"

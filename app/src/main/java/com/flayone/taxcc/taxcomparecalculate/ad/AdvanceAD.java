@@ -475,7 +475,7 @@ public class AdvanceAD {
      *
      * @param adContainer 广告的承载布局
      */
-    public void loadNativeExpress(final ViewGroup adContainer) {
+    public void loadNativeExpress(final ViewGroup adContainer,String id) {
         if (hasNativeShow) {
             LogUtil.d("loadNativeExpress hasNativeShow");
             return;
@@ -498,7 +498,7 @@ public class AdvanceAD {
         AdvanceBDManager.getInstance().nativeExpressContainer = adContainer;
 
         //初始化
-        final AdvanceNativeExpress advanceNativeExpress = new AdvanceNativeExpress(mActivity, "");
+        final AdvanceNativeExpress advanceNativeExpress = new AdvanceNativeExpress(mActivity, id);
         baseAD = advanceNativeExpress;
         //必须：设置广告父布局
         advanceNativeExpress.setAdContainer(adContainer);
