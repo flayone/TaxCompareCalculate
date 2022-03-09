@@ -238,7 +238,7 @@ open class MainActivity : BaseActivity() {
             levelList.addAll(levelListNew)
             taxRateList.addAll(taxRateListNew)
         }
-        quickDeductionList = getQuickDeductionList(levelList,taxRateList)
+        quickDeductionList = getQuickDeductionList(levelList, taxRateList)
         //计算收入在不同区间的税额
         return when (calculateVal) {
             in levelList[0] until levelList[1] -> calculateTax(taxRateList[0], quickDeductionList[0], flag)
@@ -260,6 +260,4 @@ open class MainActivity : BaseActivity() {
             else -> ""
         }
     }
-
-
 }

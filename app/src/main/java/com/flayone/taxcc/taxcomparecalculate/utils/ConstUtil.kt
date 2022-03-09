@@ -30,7 +30,7 @@ const val sp_permission_denied_time = "sp_permission_denied_time"
 const val limit_ad_time = 89400000 //1天后，用户才可以看到广告
 //const val limit_ad_time = 0 //0天后，用户才可以看到广告
 
-const val limit_permission_time = 259200000 //询问权限冷却期
+const val limit_permission_time = 89400000 //询问权限冷却期,1天
 
 
 const val AGKEY_MINSS = "minSocialSafety"

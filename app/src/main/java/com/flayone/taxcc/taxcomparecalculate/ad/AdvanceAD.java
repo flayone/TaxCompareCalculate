@@ -33,6 +33,7 @@ import com.advance.model.CacheMode;
 import com.advance.supplier.baidu.AdvanceBDManager;
 import com.advance.utils.LogUtil;
 import com.advance.utils.ScreenUtil;
+import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.flayone.taxcc.taxcomparecalculate.BuildConfig;
 import com.flayone.taxcc.taxcomparecalculate.R;
 import com.mercury.sdk.core.config.LargeADCutType;
@@ -90,6 +91,8 @@ public class AdvanceAD {
         MercuryAD.needPreLoadMaterial(true);
         //策略缓存时长配置
         AdvanceConfig.getInstance().setDefaultStrategyCacheTime(CacheMode.WEEK);
+        //设置下载确认
+        AdvanceSDK.setCSJDownloadType(TTAdConstant.DOWNLOAD_TYPE_POPUP);
     }
 
     /**
@@ -475,7 +478,7 @@ public class AdvanceAD {
      *
      * @param adContainer 广告的承载布局
      */
-    public void loadNativeExpress(final ViewGroup adContainer,String id) {
+    public void loadNativeExpress(final ViewGroup adContainer, String id) {
         if (hasNativeShow) {
             LogUtil.d("loadNativeExpress hasNativeShow");
             return;
