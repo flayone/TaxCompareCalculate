@@ -92,7 +92,7 @@ public class AdvanceAD {
         //策略缓存时长配置
         AdvanceConfig.getInstance().setDefaultStrategyCacheTime(CacheMode.WEEK);
         //设置下载确认
-        AdvanceSDK.setCSJDownloadType(TTAdConstant.DOWNLOAD_TYPE_POPUP);
+//        AdvanceSDK.setCSJDownloadType(TTAdConstant.DOWNLOAD_TYPE_POPUP);
     }
 
     /**
