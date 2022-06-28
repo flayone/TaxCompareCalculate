@@ -57,6 +57,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_imdl_update" />
 
+    <TextView
+        android:id="@+id/tv_imdl_test"
+        style="@style/DrawItem"
+        android:text="测试"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_imdl_about" />
+
     <View
         android:id="@+id/tv_imdl_line_b"
         android:layout_width="1dp"

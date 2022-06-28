@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.Window
 import android.view.WindowManager
 import com.flayone.taxcc.taxcomparecalculate.ad.AdvanceAD
+import com.flayone.taxcc.taxcomparecalculate.ad.GroMoreAD
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
 import com.flayone.taxcc.taxcomparecalculate.dialog.UserPrivacyDialog
@@ -88,7 +89,7 @@ class WelcomeActivity : BaseActivity() {
 
     private fun getSplashAD() {
         //请求开屏广告
-        AdvanceAD(this).loadSplash(fl_ad, null, null, object : AdvanceAD.SplashCallBack {
+        val callBack = object : AdvanceAD.SplashCallBack {
             override fun adEnd() {
 //                提前初始化变量信息
                 initAGConfig()
@@ -98,7 +99,9 @@ class WelcomeActivity : BaseActivity() {
                 goMain()
             }
 
-        })
+        }
+//        AdvanceAD(this).loadSplash(fl_ad, null, null, callBack)
+        GroMoreAD().loadSplashAD(this, fl_ad, callBack)
     }
 
     private fun initAGConfig() {

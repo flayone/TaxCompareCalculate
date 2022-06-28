@@ -23,5 +23,7 @@
     <string name="December">&#xe771;&#xe76c;</string>
     <string name="month">&#xe775;</string>
 
+    <!--    信息输出    -->
+    <string name="show_info">展示的广告信息 ：代码位id = %1$s adnName = %2$s ecpm = %3$s </string>
 
 </resources>

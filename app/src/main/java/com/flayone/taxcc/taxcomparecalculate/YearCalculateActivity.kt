@@ -4,8 +4,10 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import com.advance.utils.AdvanceSplashPlusManager
+import com.bytedance.mtesttools.api.TTMediationTestTool
 import com.flayone.taxcc.taxcomparecalculate.ad.AdvanceAD
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
@@ -13,6 +15,7 @@ import com.flayone.taxcc.taxcomparecalculate.dialog.CustomParametersDialog
 import com.flayone.taxcc.taxcomparecalculate.items.YearHistoryItem
 import com.flayone.taxcc.taxcomparecalculate.items.YearResultItem
 import com.flayone.taxcc.taxcomparecalculate.utils.*
+import com.mercury.sdk.thirdParty.glide.Glide
 import com.orhanobut.logger.Logger
 import com.tencent.bugly.beta.Beta
 import kotlinx.android.synthetic.main.activity_year_calculate.*
@@ -58,7 +61,7 @@ class YearCalculateActivity : BaseActivity() {
         initLayout()
 
         //加载底部信息流广告
-        AdvanceAD(this).loadNativeExpress(fl_ad,"10005780")
+        AdvanceAD(this).loadNativeExpress(fl_ad, "10005780")
         salaryList = arrayListOf()
         resultData.list = arrayListOf()
         et_salary.addTextChangedListener(MyTextWatcher(object : BaseEnsureListener {
@@ -153,6 +156,10 @@ class YearCalculateActivity : BaseActivity() {
         tv_imdl_about.setOnClickListener {
             startAct(AboutActivity::class.java)
 
+        }
+
+        tv_imdl_test.setOnClickListener {
+            TTMediationTestTool.launchTestTools(this) { p0, p1 -> Glide.with(this@YearCalculateActivity).load(p1).into(p0) }
         }
     }
 
