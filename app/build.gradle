@@ -14,8 +14,8 @@ android {
         applicationId "com.flayone.taxcc.taxcomparecalculate"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 13
-        versionName "2.1.9"
+        versionCode 14
+        versionName "2.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -63,7 +63,7 @@ repositories {
 def dbflow_version = "5.0.0-alpha1" // reference the releases tab on Github for latest versions
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation fileTree(include: ['*.aar'], dir: 'libs')
+//    implementation fileTree(include: ['*.aar'], dir: 'libs')
     implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation 'androidx.cardview:cardview:1.0.0'

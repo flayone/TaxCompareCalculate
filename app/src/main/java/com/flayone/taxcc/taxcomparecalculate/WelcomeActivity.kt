@@ -7,7 +7,6 @@ import android.os.Looper
 import android.view.Window
 import android.view.WindowManager
 import com.flayone.taxcc.taxcomparecalculate.ad.AdvanceAD
-import com.flayone.taxcc.taxcomparecalculate.ad.GroMoreAD
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
 import com.flayone.taxcc.taxcomparecalculate.dialog.UserPrivacyDialog
@@ -56,8 +55,8 @@ class WelcomeActivity : BaseActivity() {
                     startSDK()
                 }
             }
-            val canRequestPerm = System.currentTimeMillis() - getLong(sp_permission_denied_time) > limit_permission_time
-            if (canRequestPerm) {
+
+            if (canRequestPerm()) {
                 XXPermissions.with(this).permission(Permission.READ_PHONE_STATE)?.request(cal)
             } else {
                 startSDK()
@@ -100,8 +99,8 @@ class WelcomeActivity : BaseActivity() {
             }
 
         }
-//        AdvanceAD(this).loadSplash(fl_ad, null, null, callBack)
-        GroMoreAD().loadSplashAD(this, fl_ad, callBack)
+        AdvanceAD(this).loadSplash(fl_ad, null, null, callBack)
+//        GroMoreAD().loadSplashAD(this, fl_ad, callBack)
     }
 
     private fun initAGConfig() {

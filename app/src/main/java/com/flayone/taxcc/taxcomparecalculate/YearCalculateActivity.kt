@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
+import com.advance.AdvanceSDK
 import com.advance.utils.AdvanceSplashPlusManager
-import com.bytedance.mtesttools.api.TTMediationTestTool
 import com.flayone.taxcc.taxcomparecalculate.ad.AdvanceAD
 import com.flayone.taxcc.taxcomparecalculate.base.BaseActivity
 import com.flayone.taxcc.taxcomparecalculate.base.BaseApp
@@ -15,6 +15,9 @@ import com.flayone.taxcc.taxcomparecalculate.dialog.CustomParametersDialog
 import com.flayone.taxcc.taxcomparecalculate.items.YearHistoryItem
 import com.flayone.taxcc.taxcomparecalculate.items.YearResultItem
 import com.flayone.taxcc.taxcomparecalculate.utils.*
+import com.hjq.permissions.OnPermissionCallback
+import com.hjq.permissions.Permission
+import com.hjq.permissions.XXPermissions
 import com.mercury.sdk.thirdParty.glide.Glide
 import com.orhanobut.logger.Logger
 import com.tencent.bugly.beta.Beta
@@ -45,6 +48,22 @@ class YearCalculateActivity : BaseActivity() {
         //开屏v+、点睛广告后续效果启动。当开屏页和首页为不同activity时，需要调用该方法以唤起开屏效果。
         AdvanceSplashPlusManager.startZoom(this)
         initDraw()
+        //权限处理
+        if (Build.VERSION.SDK_INT in 23..28) {
+            val cal = object : OnPermissionCallback {
+                override fun onGranted(permissions: MutableList<String>, all: Boolean) {
+                    d("[checkPermission] onGranted")
+                }
+
+                override fun onDenied(permissions: MutableList<String>, never: Boolean) {
+                    d("[checkPermission] onDenied")
+                    saveLong(sp_permission_denied_time, System.currentTimeMillis())
+                }
+            }
+            if (canRequestPerm()) {
+                XXPermissions.with(this).permission(Permission.READ_PHONE_STATE)?.request(cal)
+            }
+        }
     }
 
     override fun initView() {
@@ -157,9 +176,13 @@ class YearCalculateActivity : BaseActivity() {
             startAct(AboutActivity::class.java)
 
         }
-
+        cb_imdl_personal_ad.visibility = View.VISIBLE
+        cb_imdl_personal_ad.isChecked = getBoole(sp_personal_ad)
+        cb_imdl_personal_ad.setOnCheckedChangeListener{ _,checked ->
+            saveBoole(sp_personal_ad,checked)
+            AdvanceSDK.enableTrackAD(!checked)}
         tv_imdl_test.setOnClickListener {
-            TTMediationTestTool.launchTestTools(this) { p0, p1 -> Glide.with(this@YearCalculateActivity).load(p1).into(p0) }
+//            TTMediationTestTool.launchTestTools(this) { p0, p1 -> Glide.with(this@YearCalculateActivity).load(p1).into(p0) }
         }
     }
 

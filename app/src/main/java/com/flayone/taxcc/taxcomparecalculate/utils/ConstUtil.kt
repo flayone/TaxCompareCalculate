@@ -25,12 +25,15 @@ const val sp_setting = "tax_setting"
 const val sp_user_privacy = "tax_user_privacy"
 const val sp_user_first_start_time = "sp_user_first_start_time"
 const val sp_permission_denied_time = "sp_permission_denied_time"
+const val sp_permission_ice_time = "sp_permission_ice_time" //开启app后不立即进行权限申请，冷却一段时间后再申请
+const val sp_personal_ad = "sp_personal_ad" //个性化广告推荐开关
 
 //const val limit_ad_time = 259200000 //三天后，用户才可以看到广告
 const val limit_ad_time = 89400000 //1天后，用户才可以看到广告
 //const val limit_ad_time = 0 //0天后，用户才可以看到广告
 
 const val limit_permission_time = 89400000 //询问权限冷却期,1天
+const val limit_permission_open = 7200000 //询问权限冷却期,2小时 ，单位ms
 
 
 const val AGKEY_MINSS = "minSocialSafety"

@@ -57,10 +57,32 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_imdl_update" />
 
+    <CheckBox
+        android:id="@+id/cb_imdl_personal_ad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/DrawItem"
+        android:paddingLeft="0dp"
+        android:text="不进行个性化广告推荐"
+        android:visibility="visible"
+        android:layout_marginTop="26dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_imdl_about"/>
+    <TextView
+        android:id="@+id/tv_imdl_pad_ext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:layout_marginLeft="10dp"
+        android:text="如果您使用此功能，您看到的广告数量将保持不变，但是展示广告的相关度会降低"
+        app:layout_constraintLeft_toLeftOf="@id/cb_imdl_personal_ad"
+        app:layout_constraintTop_toBottomOf="@id/cb_imdl_personal_ad"
+        app:layout_constraintRight_toRightOf="parent"/>
     <TextView
         android:id="@+id/tv_imdl_test"
         style="@style/DrawItem"
         android:text="测试"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_imdl_about" />
 

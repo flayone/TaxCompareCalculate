@@ -294,3 +294,19 @@ fun startWebPage(url: String) {
     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
     BaseApp.instance.startActivity(intent)
 }
+
+fun canRequestPerm():Boolean{
+    val isDeniedLimitDisable = System.currentTimeMillis() - getLong(sp_permission_denied_time) > limit_permission_time
+    //默认无值是不进行权限申请的
+    val savedIceTime = getLong(sp_permission_ice_time)
+    if (savedIceTime <= 0){
+        saveLong(sp_permission_ice_time, System.currentTimeMillis())
+        return false
+    }
+    //冷却无效,超过了设定时间,代表需要重新进行权限申请了
+    val isIceLimitDisable = System.currentTimeMillis() - getLong(sp_permission_ice_time) > limit_permission_open
+    if (isIceLimitDisable){//刷新冷却时间
+        saveLong(sp_permission_ice_time, System.currentTimeMillis())
+    }
+    return isDeniedLimitDisable && isIceLimitDisable
+}
