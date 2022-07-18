@@ -84,7 +84,7 @@ public class GroMoreAD {
 
             @Override
             public void onSplashAdLoadSuccess() {
-                TToast.show(activity, "广告加载成功");
+//                TToast.show(activity, "广告加载成功");
                 Log.e(TAG, "load splash ad success ");
                 mAdSplashManager.printInfo();
                 // 根据需要选择调用isReady()

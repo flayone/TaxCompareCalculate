@@ -15,6 +15,9 @@ import com.bytedance.msdk.api.v2.ad.splash.GMSplashAdLoadCallback;
 import com.bytedance.msdk.api.v2.slot.GMAdSlotSplash;
 import com.flayone.taxcc.taxcomparecalculate.R;
 import com.flayone.taxcc.taxcomparecalculate.base.BaseApp;
+import com.flayone.taxcc.taxcomparecalculate.utils.ToastUtil;
+
+import org.jetbrains.anko.ToastsKt;
 
 import java.util.List;
 
@@ -179,6 +182,7 @@ public class AdSplashManager {
                         showGMAdEcpmInfo.getAdNetworkRitId(),
                         showGMAdEcpmInfo.getAdnName(),
                         showGMAdEcpmInfo.getPreEcpm());
+                ToastsKt.longToast(BaseApp.instance.getBaseContext(),s);
                 Logger.e(TAG, s);
             } else {
                 Log.e(TAG, "showGMAdEcpmInfo null");
