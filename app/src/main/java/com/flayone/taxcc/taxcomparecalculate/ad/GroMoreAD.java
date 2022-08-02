@@ -103,6 +103,8 @@ public class GroMoreAD {
         }, mSplashAdListener);
         //加载开屏广告
         if(mAdSplashManager != null){
+            Log.d(TAG, "start splash");
+
             mAdSplashManager.loadSplashAd(GM_SPLASH_ADID);
         }
 

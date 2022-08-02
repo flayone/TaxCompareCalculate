@@ -184,6 +184,7 @@ public class AdSplashManager {
                         showGMAdEcpmInfo.getPreEcpm());
                 ToastsKt.longToast(BaseApp.instance.getBaseContext(),s);
                 Logger.e(TAG, s);
+                Logger.e(TAG, "showGMAdEcpmInfo = "+ showGMAdEcpmInfo.toString());
             } else {
                 Log.e(TAG, "showGMAdEcpmInfo null");
 

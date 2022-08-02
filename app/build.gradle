@@ -40,10 +40,10 @@ android {
             signingConfig signingConfigs.liyayu
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            shrinkResources true // 移除无用的resource文件
-            zipAlignEnabled true // Zipalign优化
+//            shrinkResources true // 移除无用的resource文件
+//            zipAlignEnabled true // Zipalign优化
             signingConfig signingConfigs.liyayu
         }
     }

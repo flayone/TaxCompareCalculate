@@ -81,6 +81,8 @@ class WelcomeActivity : BaseActivity() {
         if (isUserTimeEnough()) {
             getSplashAD()
         } else {
+            d("[goMain]")
+
             Handler(Looper.getMainLooper()).postDelayed({
                 goMain()
             }, 1200)
@@ -100,6 +102,8 @@ class WelcomeActivity : BaseActivity() {
             }
 
         }
+        d("[loadSplashAD]")
+
 //        AdvanceAD(this).loadSplash(fl_ad, null, null, callBack)
         GroMoreAD().loadSplashAD(this, fl_ad, callBack)
     }

@@ -159,7 +159,8 @@ class YearCalculateActivity : BaseActivity() {
         }
 
         tv_imdl_test.setOnClickListener {
-            TTMediationTestTool.launchTestTools(this) { p0, p1 -> Glide.with(this@YearCalculateActivity).load(p1).into(p0) }
+            startAct(WelcomeActivity::class.java)
+//            TTMediationTestTool.launchTestTools(this) { p0, p1 -> Glide.with(this@YearCalculateActivity).load(p1).into(p0) }
         }
     }
 
