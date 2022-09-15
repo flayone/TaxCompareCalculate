@@ -43,24 +43,24 @@ class WelcomeActivity : BaseActivity() {
      */
     private fun checkPermission() {
         if (Build.VERSION.SDK_INT in 23..28) {
-            val cal = object : OnPermissionCallback {
-                override fun onGranted(permissions: MutableList<String>, all: Boolean) {
-                    d("[checkPermission] onGranted")
-                    startSDK()
-                }
-
-                override fun onDenied(permissions: MutableList<String>, never: Boolean) {
-                    d("[checkPermission] onDenied")
-                    saveLong(sp_permission_denied_time, System.currentTimeMillis())
-                    startSDK()
-                }
-            }
-
-            if (canRequestPerm()) {
-                XXPermissions.with(this).permission(Permission.READ_PHONE_STATE)?.request(cal)
-            } else {
+//            val cal = object : OnPermissionCallback {
+//                override fun onGranted(permissions: MutableList<String>, all: Boolean) {
+//                    d("[checkPermission] onGranted")
+//                    startSDK()
+//                }
+//
+//                override fun onDenied(permissions: MutableList<String>, never: Boolean) {
+//                    d("[checkPermission] onDenied")
+//                    saveLong(sp_permission_denied_time, System.currentTimeMillis())
+//                    startSDK()
+//                }
+//            }
+//
+//            if (canRequestPerm()) {
+//                XXPermissions.with(this).permission(Permission.READ_PHONE_STATE)?.request(cal)
+//            } else {
                 startSDK()
-            }
+//            }
         } else {
             d("[checkPermission] no need")
             startSDK()
@@ -99,8 +99,7 @@ class WelcomeActivity : BaseActivity() {
             }
 
         }
-        AdvanceAD(this).loadSplash(fl_ad, null, null, callBack)
-//        GroMoreAD().loadSplashAD(this, fl_ad, callBack)
+        AdvanceAD(this).loadSplash(fl_ad,  callBack)
     }
 
     private fun initAGConfig() {
@@ -158,12 +157,14 @@ class WelcomeActivity : BaseActivity() {
      * 目前逻辑为：用户第一次打开时可能还未获取到服务端远程配置信息，且默认值未初始化，此时getADWait获取的值为0，导致第一次一定会出广告
      */
     private fun isUserTimeEnough(): Boolean {
-        return if (getLong(sp_user_first_start_time) < 0) {
+        val result=  if (getLong(sp_user_first_start_time) < 0) {
             saveLong(sp_user_first_start_time, System.currentTimeMillis())
             false
         } else {
             System.currentTimeMillis() - getLong(sp_user_first_start_time) > getADWait()//指定时间以上才用加载广告
         }
+        d("isUserTimeEnough = $result")
+        return true
     }
 
 }

@@ -14,8 +14,8 @@ android {
         applicationId "com.flayone.taxcc.taxcomparecalculate"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 14
-        versionName "2.2.0"
+        versionCode 15
+        versionName "2.2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -98,26 +98,29 @@ dependencies {
 //    华为远程配置SDK
     implementation 'com.huawei.agconnect:agconnect-remoteconfig:1.5.2.300'
 
-    //引入Advance SDK
-    def advanceVersion = "3.6.3"
-//    def ext = "-SNAPSHOT"
-    def ext = ""
-    //必须，Advance聚合SDK 引入。如果gradle引入异常，请参考根目录gradle进行配置，如果依然无法引入，请联系我们使用本地aar引入。
-    api "io.github.flayone:advance-core:${advanceVersion}$ext"
+
+    //引入Advance SDK --------start--------
+    def advanceVersion = "4.0.2"
+    //必须，Advance聚合SDK 引入。如果gradle引入异常，请参考根目录gradle配置（确保maven依赖在最前面）然后重试
+    api "io.github.flayone:advance-core:${advanceVersion}"
     //必须，mercury SDK 引入 包含了广告aar以及渠道处理逻辑
-    api "io.github.flayone:advance-mry:${advanceVersion}_362$ext"
-    //穿山甲、广点通、百度、快手SDK 引入，包含了广告aar以及渠道处理逻辑(如果APP本地引入了平台SDK的aar，不希望使用带aar引入的advance渠道库，可以在最后面加上 _core 标识，这样就不会产生aar引入冲突了，但是请注意，非advance推荐版本可能会出现广告加载异常，一定要充分测试)
-    api "io.github.flayone:advance-gdt:${advanceVersion}_4470$ext"
-    api "io.github.flayone:advance-csj:${advanceVersion}_4511$ext"
-    implementation "io.github.flayone:advance-bd:${advanceVersion}_9202$ext"
-//    implementation "io.github.flayone:advance-ks:${advanceVersion}_3323"
+    api "io.github.flayone:advance-mry:${advanceVersion}_364"
+    //(可选)穿山甲、广点通、百度、快手SDK 引入，包含了广告aar以及渠道处理逻辑
+    api "io.github.flayone:advance-gdt:${advanceVersion}_4482"
+    api "io.github.flayone:advance-csj:${advanceVersion}_4607"
+//    api "io.github.flayone:advance-bd:${advanceVersion}_923"
+    api "io.github.flayone:advance-ks:${advanceVersion}_3328"
+    //必须，admore插件 引入
+    api "io.github.flayone:admore:${advanceVersion}_3"
+
+    //引入Advance SDK --------end--------
 
     implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
 
     //gromore
     //GroMore_sdk
-    implementation "com.gromore.cn:gromore-sdk:3.4.0.4"  //groMore sdk
-    implementation "com.gromore.cn:pangle-adapter:4.5.1.1.0" //穿山甲 adapter
+//    implementation "com.gromore.cn:gromore-sdk:3.4.0.4"  //groMore sdk
+//    implementation "com.gromore.cn:pangle-adapter:4.5.1.1.0" //穿山甲 adapter
 
 
 // 下面各SDK根据宿主App是否使用相关业务按需引入。

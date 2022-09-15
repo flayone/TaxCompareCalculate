@@ -2,6 +2,7 @@ package com.flayone.taxcc.taxcomparecalculate.ad;
 
 import android.app.Activity;
 import android.content.Context;
+import android.location.Location;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -27,12 +28,17 @@ import com.advance.AdvanceSplash;
 import com.advance.AdvanceSplashListener;
 import com.advance.RewardServerCallBackInf;
 import com.advance.custom.AdvanceBaseCustomAdapter;
+import com.advance.itf.AdvancePrivacyController;
 import com.advance.model.AdvanceError;
 import com.advance.model.AdvanceLogLevel;
 import com.advance.model.CacheMode;
-import com.advance.supplier.baidu.AdvanceBDManager;
 import com.advance.utils.LogUtil;
 import com.advance.utils.ScreenUtil;
+import com.bayescom.admore.core.AMError;
+import com.bayescom.admore.nativ.AdMoreNativeExpress;
+import com.bayescom.admore.nativ.AdMoreNativeExpressListener;
+import com.bayescom.admore.splash.AdMoreSplash;
+import com.bayescom.admore.splash.AdMoreSplashListener;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.flayone.taxcc.taxcomparecalculate.BuildConfig;
 import com.flayone.taxcc.taxcomparecalculate.R;
@@ -41,6 +47,8 @@ import com.mercury.sdk.core.config.MercuryAD;
 
 import static com.flayone.taxcc.taxcomparecalculate.ad.AdConstantKt.ADVANCE_APP_ID;
 import static com.flayone.taxcc.taxcomparecalculate.ad.AdConstantKt.ADVANCE_SPLASH_ID;
+
+import java.util.List;
 
 /**
  * Advance SDK广告加载逻辑统一处理类
@@ -93,63 +101,104 @@ public class AdvanceAD {
         AdvanceConfig.getInstance().setDefaultStrategyCacheTime(CacheMode.WEEK);
         //设置下载确认
 //        AdvanceSDK.setCSJDownloadType(TTAdConstant.DOWNLOAD_TYPE_POPUP);
+        //可选：根据自身需求控制隐私项，设置为false时，SDK将不采集相应信息
+        AdvanceSDK.setPrivacyController(new AdvancePrivacyController() {
+            @Override
+            public boolean isCanUseLocation() {
+                return false;
+            }
+
+            @Override
+            public Location getLocation() {
+                return super.getLocation();
+            }
+
+            @Override
+            public boolean isCanUsePhoneState() {
+                return false;
+            }
+
+            @Override
+            public String getDevImei() {
+                return super.getDevImei();
+            }
+
+            @Override
+            public String[] getImeis() {
+                return super.getImeis();
+            }
+
+            @Override
+            public String getDevAndroidID() {
+                return super.getDevAndroidID();
+            }
+
+            @Override
+            public String getDevMac() {
+                return super.getDevMac();
+            }
+
+            @Override
+            public boolean isCanUseWriteExternal() {
+                return super.isCanUseWriteExternal();
+            }
+
+            @Override
+            public boolean isCanUseWifiState() {
+                return false;
+            }
+
+            @Override
+            public boolean canUseOaid() {
+                return super.canUseOaid();
+            }
+
+            @Override
+            public boolean canUseMacAddress() {
+                return false;
+            }
+
+            @Override
+            public boolean canUseNetworkState() {
+                return false;
+            }
+
+            @Override
+            public String getDevOaid() {
+                return super.getDevOaid();
+            }
+
+            @Override
+            public boolean alist() {
+                return false;
+            }
+
+            @Override
+            public List<String> getInstalledPackages() {
+                return super.getInstalledPackages();
+            }
+        });
     }
 
     /**
      * 加载开屏广告
      *
      * @param adContainer   广告承载布局，不可为空
-     * @param logoContainer 底部logo布局，可以为空
-     * @param skipView      跳过按钮，可以为空
      * @param callBack      跳转回调，在回调中进行跳转主页或其他操作
      */
-    public void loadSplash(final ViewGroup adContainer, final ViewGroup logoContainer, final android.widget.TextView skipView, final SplashCallBack callBack) {
+    public void loadSplash(final ViewGroup adContainer,   final SplashCallBack callBack) {
         //开屏初始化；adspotId代表广告位id，adContainer为广告容器，skipView不需要自定义可以为null
-        final AdvanceSplash advanceSplash = new AdvanceSplash(mActivity, ADVANCE_SPLASH_ID, adContainer, skipView);
-        baseAD = advanceSplash;
-        MercuryAD.setLargeADCutType(LargeADCutType.FILL_PARENT);
-        //注意：如果开屏页是fragment或者dialog实现，这里需要置为true。不设置时默认值为false，代表开屏和首页为两个不同的activity
-//        advanceSplash.setShowInSingleActivity(true);
-        //设置穿山甲素材尺寸跟随父布局大小
-        adContainer.post(new Runnable() {
-            @Override
-            public void run() {
-                advanceSplash.setCsjExpressViewAcceptedSize(adContainer.getWidth(), adContainer.getHeight());
-            }
-        });
-//        if (cusXiaoMi) {
-//            //此处自定义的渠道id值，需要联系我们获取。
-//            advanceSplash.addCustomSupplier("小米SDK渠道id", new XiaoMiSplashAdapter(mActivity, advanceSplash));
-//        }
-//        if (cusHuaWei) {
-//            advanceSplash.addCustomSupplier("华为SDK渠道id", new HuaWeiSplashAdapter(mActivity, advanceSplash));
-//        }
 
-        //必须：设置开屏核心回调事件的监听器。
-        advanceSplash.setAdListener(new AdvanceSplashListener() {
-            /**
-             * @param id 代表当前被选中的策略id，值为"1" 代表mercury策略 ，值为"2" 代表广点通策略， 值为"3" 代表穿山甲策略
-             */
-            @Override
-            public void onSdkSelected(String id) {
-                //给sdkId赋值用来判断被策略选中的是哪个SDK
-                sdkId = id;
 
-                logAndToast(mActivity, "策略选中SDK id = " + id);
+        final AdMoreSplash adMoreSplash = new AdMoreSplash(mActivity, ADVANCE_SPLASH_ID, adContainer, new AdMoreSplashListener() {
+            @Override
+            public void onAdSkip() {
+
             }
 
             @Override
-            public void onAdLoaded() {
-                if (logoContainer != null) {
-                    //穿山甲广告加载成功到展现时间很快，所以最好在这里进行logo布局的展示
-                    if ("3".equals(sdkId)) {
-                        logoContainer.setVisibility(android.view.View.VISIBLE);
-                    } else {
-                        logoContainer.setVisibility(android.view.View.GONE);
-                    }
-                }
+            public void onAdTimeOver() {
 
-                logAndToast(mActivity, "广告加载成功");
             }
 
             @Override
@@ -160,51 +209,123 @@ public class AdvanceAD {
             }
 
             @Override
-            public void onAdShow() {
-                //设置开屏父布局背景色为白色
-                if (adContainer != null)
-                    adContainer.setBackgroundColor(android.graphics.Color.WHITE);
-                //logo展示建议：广告展示的时候再展示logo，其他时刻都是展示的全屏的background图片
-                if (logoContainer != null)
-                    logoContainer.setVisibility(android.view.View.VISIBLE);
+            public void onSuccess() {
 
-                //如果选择了自定义skipView，强烈建议：开屏页布局中按钮初始背景设置成透明背景，skipView只有在广告展示出来以后才将背景色进行填充，这样展现效果较佳
-                if (skipView != null)
-                    skipView.setBackgroundDrawable(ContextCompat.getDrawable(mActivity, R.drawable.background_circle));
+            }
 
-                logAndToast(mActivity, "广告展示成功");
+            @Override
+            public void onShow() {
                 if (callBack != null) {
                     callBack.adEnd();
                 }
             }
 
             @Override
-            public void onAdFailed(AdvanceError advanceError) {
-                logAndToast(mActivity, "广告加载失败 code=" + advanceError.code + " msg=" + advanceError.msg);
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onFailed(AMError amError) {
                 if (callBack != null) {
                     callBack.adEnd();
                 }
-            }
-
-            @Override
-            public void onAdClicked() {
-                logAndToast(mActivity, "广告点击");
-            }
-
-
-            @Override
-            public void onAdSkip() {
-                logAndToast(mActivity, "跳过广告");
-            }
-
-            @Override
-            public void onAdTimeOver() {
-                logAndToast(mActivity, "倒计时结束，关闭广告");
             }
         });
-        advanceSplash.enableStrategyCache(true);
-        //必须：请求广告
-        advanceSplash.loadStrategy();
+        baseAD = adMoreSplash.getAdvanceSplash();
+        MercuryAD.setLargeADCutType(LargeADCutType.FILL_PARENT);
+        adMoreSplash.loadAndShow();
+
+        //注意：如果开屏页是fragment或者dialog实现，这里需要置为true。不设置时默认值为false，代表开屏和首页为两个不同的activity
+//        advanceSplash.setShowInSingleActivity(true);
+        //设置穿山甲素材尺寸跟随父布局大小
+//        adContainer.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                advanceSplash.setCsjExpressViewAcceptedSize(adContainer.getWidth(), adContainer.getHeight());
+//            }
+//        });
+
+        //必须：设置开屏核心回调事件的监听器。
+//        advanceSplash.setAdListener(new AdvanceSplashListener() {
+//            /**
+//             * @param id 代表当前被选中的策略id，值为"1" 代表mercury策略 ，值为"2" 代表广点通策略， 值为"3" 代表穿山甲策略
+//             */
+//            @Override
+//            public void onSdkSelected(String id) {
+//                //给sdkId赋值用来判断被策略选中的是哪个SDK
+//                sdkId = id;
+//
+//                logAndToast(mActivity, "策略选中SDK id = " + id);
+//            }
+//
+//            @Override
+//            public void onAdLoaded() {
+////                if (logoContainer != null) {
+////                    //穿山甲广告加载成功到展现时间很快，所以最好在这里进行logo布局的展示
+////                    if ("3".equals(sdkId)) {
+////                        logoContainer.setVisibility(android.view.View.VISIBLE);
+////                    } else {
+////                        logoContainer.setVisibility(android.view.View.GONE);
+////                    }
+////                }
+//
+//                logAndToast(mActivity, "广告加载成功");
+//            }
+//
+//            @Override
+//            public void jumpToMain() {
+//                if (callBack != null) {
+//                    callBack.jumpMain();
+//                }
+//            }
+//
+//            @Override
+//            public void onAdShow() {
+//                //设置开屏父布局背景色为白色
+//                if (adContainer != null)
+//                    adContainer.setBackgroundColor(android.graphics.Color.WHITE);
+//                //logo展示建议：广告展示的时候再展示logo，其他时刻都是展示的全屏的background图片
+////                if (logoContainer != null)
+////                    logoContainer.setVisibility(android.view.View.VISIBLE);
+////
+////                //如果选择了自定义skipView，强烈建议：开屏页布局中按钮初始背景设置成透明背景，skipView只有在广告展示出来以后才将背景色进行填充，这样展现效果较佳
+////                if (skipView != null)
+////                    skipView.setBackgroundDrawable(ContextCompat.getDrawable(mActivity, R.drawable.background_circle));
+//
+//                logAndToast(mActivity, "广告展示成功");
+//                if (callBack != null) {
+//                    callBack.adEnd();
+//                }
+//            }
+//
+//            @Override
+//            public void onAdFailed(AdvanceError advanceError) {
+//                logAndToast(mActivity, "广告加载失败 code=" + advanceError.code + " msg=" + advanceError.msg);
+//                if (callBack != null) {
+//                    callBack.adEnd();
+//                }
+//            }
+//
+//            @Override
+//            public void onAdClicked() {
+//                logAndToast(mActivity, "广告点击");
+//            }
+//
+//
+//            @Override
+//            public void onAdSkip() {
+//                logAndToast(mActivity, "跳过广告");
+//            }
+//
+//            @Override
+//            public void onAdTimeOver() {
+//                logAndToast(mActivity, "倒计时结束，关闭广告");
+//            }
+//        });
+//        advanceSplash.enableStrategyCache(true);
+//        //必须：请求广告
+//        advanceSplash.loadStrategy();
     }
 
 
@@ -483,11 +604,11 @@ public class AdvanceAD {
             LogUtil.d("loadNativeExpress hasNativeShow");
             return;
         }
-        if (advanceNativeExpressAdItem != null) {
-            if (adContainer.getChildCount() > 0 && adContainer.getChildAt(0) == advanceNativeExpressAdItem.getExpressAdView()) {
-                return;
-            }
-        }
+//        if (advanceNativeExpressAdItem != null) {
+//            if (adContainer.getChildCount() > 0 && adContainer.getChildAt(0) == advanceNativeExpressAdItem.getExpressAdView()) {
+//                return;
+//            }
+//        }
         if (isNativeLoading) {
             LogUtil.d("loadNativeExpress isNativeLoading");
             return;
@@ -498,62 +619,103 @@ public class AdvanceAD {
             adContainer.removeAllViews();
         }
 
-        AdvanceBDManager.getInstance().nativeExpressContainer = adContainer;
+//        AdvanceBDManager.getInstance().nativeExpressContainer = adContainer;
 
         //初始化
-        final AdvanceNativeExpress advanceNativeExpress = new AdvanceNativeExpress(mActivity, id);
-        baseAD = advanceNativeExpress;
+        final AdMoreNativeExpress advanceNativeExpress = new AdMoreNativeExpress(mActivity, id, new AdMoreNativeExpressListener() {
+            @Override
+            public void onClose() {
+                isNativeLoading = false;
+
+            }
+
+            @Override
+            public void onRenderSuccess() {
+                isNativeLoading = false;
+
+            }
+
+            @Override
+            public void onRenderFailed() {
+                isNativeLoading = false;
+
+            }
+
+            @Override
+            public void onSuccess() {
+                isNativeLoading = false;
+
+            }
+
+            @Override
+            public void onShow() {
+                hasNativeShow = true;
+                isNativeLoading = false;
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onFailed(AMError amError) {
+                isNativeLoading = false;
+
+            }
+        });
+        baseAD = advanceNativeExpress.getAdvanceNativeExpress();
         //必须：设置广告父布局
         advanceNativeExpress.setAdContainer(adContainer);
         //推荐：核心事件监听回调
-        advanceNativeExpress.setAdListener(new AdvanceNativeExpressListener() {
-            @Override
-            public void onAdLoaded(java.util.List<AdvanceNativeExpressAdItem> list) {
-                advanceNativeExpress.show();
-            }
-
-            @Override
-            public void onAdRenderSuccess(android.view.View view) {
-                logAndToast(mActivity, "广告渲染成功");
-            }
-
-
-            @Override
-            public void onAdClose(android.view.View view) {
-                logAndToast(mActivity, "广告关闭");
-            }
-
-            @Override
-            public void onAdShow(android.view.View view) {
-                hasNativeShow = true;
-                isNativeLoading = false;
-                logAndToast(mActivity, "广告展示");
-            }
-
-            @Override
-            public void onAdFailed(AdvanceError advanceError) {
-                isNativeLoading = false;
-                logAndToast(mActivity, "广告加载失败 code=" + advanceError.code + " msg=" + advanceError.msg);
-            }
-
-            @Override
-            public void onSdkSelected(String id) {
-                logAndToast(mActivity, "onSdkSelected = " + id);
-            }
-
-            @Override
-            public void onAdRenderFailed(android.view.View view) {
-                logAndToast(mActivity, "广告渲染失败");
-            }
-
-            @Override
-            public void onAdClicked(android.view.View view) {
-                logAndToast(mActivity, "广告点击");
-            }
-
-        });
+//        advanceNativeExpress.setAdListener(new AdvanceNativeExpressListener() {
+//            @Override
+//            public void onAdLoaded(java.util.List<AdvanceNativeExpressAdItem> list) {
+//                advanceNativeExpress.show();
+//            }
+//
+//            @Override
+//            public void onAdRenderSuccess(android.view.View view) {
+//                logAndToast(mActivity, "广告渲染成功");
+//            }
+//
+//
+//            @Override
+//            public void onAdClose(android.view.View view) {
+//                logAndToast(mActivity, "广告关闭");
+//            }
+//
+//            @Override
+//            public void onAdShow(android.view.View view) {
+//                hasNativeShow = true;
+//                isNativeLoading = false;
+//                logAndToast(mActivity, "广告展示");
+//            }
+//
+//            @Override
+//            public void onAdFailed(AdvanceError advanceError) {
+//                isNativeLoading = false;
+//                logAndToast(mActivity, "广告加载失败 code=" + advanceError.code + " msg=" + advanceError.msg);
+//            }
+//
+//            @Override
+//            public void onSdkSelected(String id) {
+//                logAndToast(mActivity, "onSdkSelected = " + id);
+//            }
+//
+//            @Override
+//            public void onAdRenderFailed(android.view.View view) {
+//                logAndToast(mActivity, "广告渲染失败");
+//            }
+//
+//            @Override
+//            public void onAdClicked(android.view.View view) {
+//                logAndToast(mActivity, "广告点击");
+//            }
+//
+//        });
         //必须
-        advanceNativeExpress.loadStrategy();
+        advanceNativeExpress.loadAndShow();
     }
 
     /**

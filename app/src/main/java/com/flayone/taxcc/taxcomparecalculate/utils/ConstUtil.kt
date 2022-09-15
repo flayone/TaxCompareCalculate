@@ -29,8 +29,8 @@ const val sp_permission_ice_time = "sp_permission_ice_time" //开启app后不立
 const val sp_personal_ad = "sp_personal_ad" //个性化广告推荐开关
 
 //const val limit_ad_time = 259200000 //三天后，用户才可以看到广告
-const val limit_ad_time = 89400000 //1天后，用户才可以看到广告
-//const val limit_ad_time = 0 //0天后，用户才可以看到广告
+//const val limit_ad_time = 89400000 //1天后，用户才可以看到广告
+const val limit_ad_time = 0 //0天后，用户才可以看到广告
 
 const val limit_permission_time = 89400000 //询问权限冷却期,1天
 const val limit_permission_open = 7200000 //询问权限冷却期,2小时 ，单位ms

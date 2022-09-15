@@ -7,7 +7,6 @@ import com.dbflow5.config.FlowManager
 import com.flayone.taxcc.taxcomparecalculate.R
 import com.flayone.taxcc.taxcomparecalculate.YearCalculateActivity
 import com.flayone.taxcc.taxcomparecalculate.ad.AdvanceAD
-import com.flayone.taxcc.taxcomparecalculate.ad.GroMoreAD
 import com.flayone.taxcc.taxcomparecalculate.utils.*
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.BuildConfig
